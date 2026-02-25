@@ -1,0 +1,44 @@
+{
+    "item.in_cooldown": {
+        "sounds": [
+            {
+                "name": "csc:item/in_cooldown"
+            }
+        ]
+    },
+    "item.midas.use": {
+        "sounds": [
+            {
+                "name": "csc:item/midas"
+            }
+        ]
+    },
+    "item.phoenix_feather.use": {
+        "sounds": [
+            {
+                "name": "csc:item/phoenix_feather"
+            }
+        ]
+    },
+    "item.thorns.use": {
+        "sounds": [
+            {
+                "name": "csc:item/thorns"
+            }
+        ]
+    },
+    "item.dark_gauntlet.activate": {
+        "sounds": [
+            {
+                "name": "csc:item/dark_gauntlet/activate"
+            }
+        ]
+    },
+    "item.dark_gauntlet.deactivate": {
+        "sounds": [
+            {
+                "name": "csc:item/dark_gauntlet/deactivate"
+            }
+        ]
+    }
+}

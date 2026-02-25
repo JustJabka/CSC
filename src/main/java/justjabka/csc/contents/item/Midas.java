@@ -1,0 +1,62 @@
+package justjabka.csc.contents.item;
+
+import justjabka.csc.contents.attachement.PlayerData;
+import justjabka.csc.contents.item.generic.BaseActiveItem;
+import justjabka.csc.data.CSCEntityTypeTagProvider;
+import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.registries.CSCSounds;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import org.jspecify.annotations.NonNull;
+
+import java.util.function.Consumer;
+
+public class Midas extends BaseActiveItem {
+    public Midas(Properties properties) {
+        super(properties.rarity(Rarity.UNCOMMON));
+    }
+
+    @Override
+    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
+        textConsumer.accept(Component.translatable("item.csc.midas.description").withStyle(ChatFormatting.GRAY));
+    }
+
+    @Override
+    public InteractionResult interactLivingEntity(
+            ItemStack stack,
+            Player player,
+            LivingEntity target,
+            InteractionHand hand
+    ) {
+        int cooldown = 100;
+        boolean canBeTurnedIntoGold = target.getType().is(CSCEntityTypeTagProvider.CAN_BE_TURNED_INTO_GOLD);
+
+        if (isClientSide(player)) return InteractionResult.PASS;
+        if (isOnCooldown(player, stack)) return InteractionResult.FAIL;
+        if (!(canBeTurnedIntoGold)) return InteractionResult.FAIL;
+
+        // Set Cooldown
+        player.getCooldowns().addCooldown(stack, getCooldownInTicks(cooldown));
+
+        // Turn target into gold
+        target.hurt(target.damageSources().magic(), Float.MAX_VALUE);
+
+        // Add Gold
+        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
+        data.addGold(250);
+
+        // Play Sound
+        player.level().playSound(null, target.blockPosition(), CSCSounds.ITEM_MIDAS, SoundSource.PLAYERS, 1f, 1f);
+
+        return InteractionResult.SUCCESS;
+    }
+}

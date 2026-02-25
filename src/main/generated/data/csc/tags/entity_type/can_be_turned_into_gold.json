@@ -1,0 +1,19 @@
+{
+  "replace": true,
+  "values": [
+    "minecraft:zombie",
+    "minecraft:skeleton",
+    "minecraft:wither_skeleton",
+    "minecraft:spider",
+    "minecraft:cave_spider",
+    "minecraft:creeper",
+    "minecraft:wolf",
+    "minecraft:silverfish",
+    "minecraft:endermite",
+    "minecraft:witch",
+    "minecraft:vindicator",
+    "minecraft:evoker",
+    "minecraft:vex",
+    "minecraft:blaze"
+  ]
+}
