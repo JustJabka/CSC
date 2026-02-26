@@ -8,7 +8,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
+import static justjabka.csc.registries.CSCItems.MOD_ITEMS;
 
 public class CSCItemGroups {
     public static void initialize() {
@@ -21,8 +24,9 @@ public class CSCItemGroups {
             .icon(() -> new ItemStack(CSCItems.MIDAS))
             .title(Component.translatable("itemGroup.csc"))
             .displayItems((params, output) -> {
-                output.accept(CSCItems.MIDAS);
-                output.accept(CSCItems.PHOENIX_FEATHER);
+                for (Item item : MOD_ITEMS) {
+                    output.accept(item);
+                }
             })
             .build();
 }

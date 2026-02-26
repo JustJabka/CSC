@@ -31,6 +31,7 @@ public class PlayerData {
         this.gold = gold;
     }
 
+    // Gold
     public int getGold() {
         return gold;
     }

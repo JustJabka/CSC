@@ -7,13 +7,10 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
 public class CSCSounds {
-    private void CustomSounds() {
-        // private empty constructor to avoid accidental instantiation
-    }
-
     public static final SoundEvent ITEM_IN_COOLDOWN = registerSound("item.in_cooldown");
     public static final SoundEvent ITEM_MIDAS = registerSound("item.midas.use");
     public static final SoundEvent ITEM_PHOENIX_FEATHER = registerSound("item.phoenix_feather.use");
+    public static final SoundEvent ITEM_THORNS = registerSound("item.thorns.use");
 
     private static SoundEvent registerSound(String id) {
         Identifier identifier = Identifier.fromNamespaceAndPath(CSC.MOD_ID, id);

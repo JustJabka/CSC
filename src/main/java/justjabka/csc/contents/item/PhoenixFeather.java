@@ -46,7 +46,7 @@ public class PhoenixFeather extends BaseActiveItem {
         if (isOnCooldown(player, stack)) return InteractionResult.FAIL;
 
         // Set Cooldown
-        player.getCooldowns().addCooldown(stack, getCooldownInTicks(cooldown));
+        player.getCooldowns().addCooldown(stack, getTicksToSeconds(cooldown));
 
         // Server-side logic
         if (player instanceof ServerPlayer serverPlayer) {

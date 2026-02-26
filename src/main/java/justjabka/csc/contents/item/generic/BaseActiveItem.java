@@ -9,8 +9,8 @@ public abstract class BaseActiveItem extends Item {
         super(properties.stacksTo(1));
     }
 
-    protected int getCooldownInTicks(int cooldown) {
-        return cooldown * 20;
+    protected int getTicksToSeconds(int ticks) {
+        return ticks * 20;
     }
 
     protected boolean isClientSide(Player player) {
