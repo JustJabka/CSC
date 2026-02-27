@@ -34,7 +34,6 @@ public class CSCEntityTypeTagProvider extends FabricTagProvider.EntityTypeTagPro
                 .add(EntityType.VINDICATOR)
                 .add(EntityType.EVOKER)
                 .add(EntityType.VEX)
-                .add(EntityType.BLAZE)
-                .setReplace(true);
+                .add(EntityType.BLAZE);
     }
 }

@@ -32,7 +32,14 @@ public class CSCDamageTypeTagProvider extends FabricTagProvider<DamageType> {
                 .add(DamageTypes.IN_WALL)
                 .add(DamageTypes.OUTSIDE_BORDER)
                 .add(DamageTypes.STARVE)
-                .add(DamageTypes.WITHER)
-                .setReplace(true);
+                .add(DamageTypes.WITHER);
+
+        builder(DamageTypeTags.NO_KNOCKBACK)
+                .add(DamageTypes.MAGIC)
+                .add(DamageTypes.INDIRECT_MAGIC);
+
+        builder(DamageTypeTags.BYPASSES_ENCHANTMENTS)
+                .add(DamageTypes.MAGIC)
+                .add(DamageTypes.INDIRECT_MAGIC);
     }
 }
