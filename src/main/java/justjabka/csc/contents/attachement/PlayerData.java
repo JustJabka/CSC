@@ -2,6 +2,7 @@ package justjabka.csc.contents.attachement;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import justjabka.csc.handlers.AbilityHandler;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -22,6 +23,7 @@ public class PlayerData {
             );
 
     private int gold;
+    private final AbilityHandler abilityHandler = new AbilityHandler();
 
     public PlayerData() {
         this(0);
@@ -43,4 +45,7 @@ public class PlayerData {
     public void setGold(int amount) {
         this.gold = amount;
     }
+
+    // Ability Handler
+    public AbilityHandler getAbilityHandler() { return abilityHandler; }
 }

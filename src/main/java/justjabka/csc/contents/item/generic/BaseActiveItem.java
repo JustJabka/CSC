@@ -9,6 +9,7 @@ public abstract class BaseActiveItem extends Item {
         super(properties.stacksTo(1));
     }
 
+    // Utils
     protected int getSecondsToTicks(int seconds) {
         return seconds * 20;
     }

@@ -25,6 +25,10 @@ public class Midas extends BaseActiveItem {
         super(properties.rarity(Rarity.UNCOMMON));
     }
 
+    // Consts
+    private static final int cooldown = 100;
+    private static final int goldReward = 250;
+
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         textConsumer.accept(Component.translatable("item.csc.midas.description").withStyle(ChatFormatting.GRAY));
@@ -37,7 +41,6 @@ public class Midas extends BaseActiveItem {
             LivingEntity target,
             InteractionHand hand
     ) {
-        int cooldown = 100;
         boolean canBeTurnedIntoGold = target.getType().is(CSCEntityTypeTagProvider.CAN_BE_TURNED_INTO_GOLD);
 
         if (isClientSide(player)) return InteractionResult.PASS;
@@ -52,7 +55,7 @@ public class Midas extends BaseActiveItem {
 
         // Add Gold
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-        data.addGold(250);
+        data.addGold(goldReward);
 
         // Play Sound
         player.level().playSound(null, target.blockPosition(), CSCSounds.ITEM_MIDAS, SoundSource.PLAYERS, 1f, 1f);

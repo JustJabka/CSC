@@ -25,6 +25,11 @@ public class PhoenixFeather extends BaseActiveItem {
         super(properties.rarity(Rarity.UNCOMMON));
     }
 
+    // Consts
+    private static final int cooldown = 35;
+    private static final double horizontalStrength = 1.6d;
+    private static final double verticalStrength = 0.6d;
+
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         textConsumer.accept(Component.translatable("item.csc.phoenix_feather.description").withStyle(ChatFormatting.GRAY));
@@ -36,10 +41,6 @@ public class PhoenixFeather extends BaseActiveItem {
             Player player,
             InteractionHand hand
     ) {
-        int cooldown = 35;
-        double horizontalStrength = 1.6d;
-        double verticalStrength = 0.6d;
-
         ItemStack stack = player.getItemInHand(hand);
 
         if (isClientSide(player)) return InteractionResult.PASS;
