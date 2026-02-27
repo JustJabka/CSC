@@ -3,13 +3,12 @@
 	"id": "csc",
 	"version": "${version}",
 	"name": "CSC",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Better Than CSC",
 	"authors": [
-		"Me!"
+		"JustJabka"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/JustJabka/CSC"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/csc/icon.png",
@@ -19,7 +18,7 @@
 			"justjabka.csc.CSC"
 		],
 		"fabric-datagen": [
-			"justjabka.csc.datagen.CSCDataGenerator"
+			"justjabka.csc.data.CSCDataGenerator"
 		]
 	},
 	"mixins": [

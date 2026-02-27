@@ -11,6 +11,7 @@ public class CSCSounds {
     public static final SoundEvent ITEM_MIDAS = registerSound("item.midas.use");
     public static final SoundEvent ITEM_PHOENIX_FEATHER = registerSound("item.phoenix_feather.use");
     public static final SoundEvent ITEM_THORNS = registerSound("item.thorns.use");
+    public static final SoundEvent PLAYER_DODGE = registerSound("entity.player.dodge");
 
     private static SoundEvent registerSound(String id) {
         Identifier identifier = Identifier.fromNamespaceAndPath(CSC.MOD_ID, id);

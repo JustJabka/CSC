@@ -40,5 +40,12 @@
                 "name": "csc:item/dark_gauntlet/deactivate"
             }
         ]
+    },
+    "entity.player.dodge": {
+        "sounds": [
+            {
+                "name": "csc:entity/player/dodge"
+            }
+        ]
     }
 }

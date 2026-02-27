@@ -1,0 +1,14 @@
+{
+  "replace": true,
+  "values": [
+    "#minecraft:bypasses_invulnerability",
+    "minecraft:cramming",
+    "minecraft:drown",
+    "minecraft:dry_out",
+    "minecraft:freeze",
+    "minecraft:in_wall",
+    "minecraft:outside_border",
+    "minecraft:starve",
+    "minecraft:wither"
+  ]
+}

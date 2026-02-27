@@ -9,8 +9,8 @@ public abstract class BaseActiveItem extends Item {
         super(properties.stacksTo(1));
     }
 
-    protected int getTicksToSeconds(int ticks) {
-        return ticks * 20;
+    protected int getSecondsToTicks(int seconds) {
+        return seconds * 20;
     }
 
     protected boolean isClientSide(Player player) {

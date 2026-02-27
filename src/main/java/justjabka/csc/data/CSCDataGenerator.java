@@ -8,5 +8,6 @@ public class CSCDataGenerator implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(CSCEntityTypeTagProvider::new);
+        pack.addProvider(CSCDamageTypeTagProvider::new);
     }
 }

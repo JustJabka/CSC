@@ -39,7 +39,7 @@ public class Thorns extends BaseActiveItem {
         if (isOnCooldown(player, stack)) return InteractionResult.FAIL;
 
         // Set Cooldown
-        player.getCooldowns().addCooldown(stack, getTicksToSeconds(cooldown));
+        player.getCooldowns().addCooldown(stack, getSecondsToTicks(cooldown));
 
         // Activate
 

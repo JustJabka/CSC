@@ -45,7 +45,7 @@ public class Midas extends BaseActiveItem {
         if (!(canBeTurnedIntoGold)) return InteractionResult.FAIL;
 
         // Set Cooldown
-        player.getCooldowns().addCooldown(stack, getTicksToSeconds(cooldown));
+        player.getCooldowns().addCooldown(stack, getSecondsToTicks(cooldown));
 
         // Turn target into gold
         target.hurt(target.damageSources().magic(), Float.MAX_VALUE);
