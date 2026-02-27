@@ -34,7 +34,8 @@ public class Thorns extends BaseActiveItem {
 
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        textConsumer.accept(Component.translatable("item.csc.thorns.description").withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("other.csc.cooldown", cooldown).withStyle(ChatFormatting.YELLOW));
+        textConsumer.accept(Component.translatable("item.csc.thorns.description", duration, (damageReflection * 100 + "%")).withStyle(ChatFormatting.GRAY));
     }
 
     @Override

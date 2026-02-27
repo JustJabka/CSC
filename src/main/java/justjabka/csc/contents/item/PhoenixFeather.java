@@ -32,6 +32,7 @@ public class PhoenixFeather extends BaseActiveItem {
 
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
+        textConsumer.accept(Component.translatable("other.csc.cooldown", cooldown).withStyle(ChatFormatting.YELLOW));
         textConsumer.accept(Component.translatable("item.csc.phoenix_feather.description").withStyle(ChatFormatting.GRAY));
     }
 
