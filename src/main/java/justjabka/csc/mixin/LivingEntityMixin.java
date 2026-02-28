@@ -47,6 +47,7 @@ public class LivingEntityMixin {
 			float damageReflectionPercent = (float) attributeDamageReflectionPercentInstance.getValue();
 			Entity attacker = damageSource.getEntity();
 
+			// Damage Attacker
 			if (attacker instanceof LivingEntity livingAttacker && attacker != self) {
 				DamageSources damageSources = serverLevel.damageSources();
 				DamageSource reflectedDamage = damageSources.magic();

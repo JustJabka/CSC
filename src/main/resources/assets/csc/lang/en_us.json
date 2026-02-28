@@ -23,7 +23,7 @@
     "item.csc.healing_stew": "Healing Stew",
     "item.csc.healing_stew.description": "When consumed, heals %s of maximum HP",
 
-    "other.csc.cooldown": "⚡ Cooldown: %s sec.",
+    "other.csc.cooldown": "⌛ Cooldown: %s sec.",
     "other.csc.duration": "⌚ Duration: %s sec.",
 
     "ui.csc.wave": "Wave: %s - %s",
