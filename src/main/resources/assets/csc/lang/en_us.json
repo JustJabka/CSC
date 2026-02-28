@@ -1,4 +1,6 @@
 {
+    "itemGroup.csc": "Custom Steve Chaos",
+
     "item.csc.midas": "Midas",
     "item.csc.midas.description": "When interacting with a mob, it turns into gold",
 
@@ -6,21 +8,24 @@
     "item.csc.phoenix_feather.description": "Launches forward for a long distance",
 
     "item.csc.thorns": "Thorns",
-    "item.csc.thorns.description": "The next %s seconds you reflect %s of the damage received back to the attacker",
-    
+    "item.csc.thorns.description": "You reflect %s of the damage received back to the attacker",
+
     "item.csc.shard": "Shard",
     "item.csc.shard.description": "Upgrades character",
-    
+
     "item.csc.dark_gauntlet": "Dark Gauntlet",
     "item.csc.dark_gauntlet.description.1": "When used, increases physical damage by %s",
     "item.csc.dark_gauntlet.description.2": "incoming damage by %s, and deals %s magical damage of maximum HP to the user every second",
 
     "item.csc.vampiric_cape": "Vampiric Cape",
     "item.csc.vampiric_cape.description": "With a %s chance, heals %s of the damage dealt",
-    
+
     "item.csc.healing_stew": "Healing Stew",
     "item.csc.healing_stew.description": "When consumed, heals %s of maximum HP",
-    
+
+    "other.csc.cooldown": "⚡ Cooldown: %s sec.",
+    "other.csc.duration": "⌚ Duration: %s sec.",
+
     "ui.csc.wave": "Wave: %s - %s",
     "ui.csc.wave.zombies": "Zombies",
     "ui.csc.wave.spiders": "Spiders",
@@ -37,8 +42,5 @@
     "ui.csc.wave.mix": "Mix",
     "ui.csc.wave.slimes": "Slimes",
 
-    "other.csc.cooldown": "Cooldown: %s",
-
-    "itemGroup.csc": "Custom Steve Chaos",
     "message.csc.command.setGold": "Set %s gold for %s"
 }

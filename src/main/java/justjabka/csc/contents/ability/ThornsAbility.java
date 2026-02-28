@@ -2,12 +2,18 @@ package justjabka.csc.contents.ability;
 
 import justjabka.csc.CSC;
 import justjabka.csc.handlers.TimedAbility;
+import justjabka.csc.registries.CSCAttributes;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 
 public class ThornsAbility extends TimedAbility {
     private final double damageReflection;
+    AttributeInstance attribute = player.getAttribute(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
+    Identifier attributeIdentifier = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "thorns_ability");
 
     public ThornsAbility(Player player, int durationTicks, double damageReflection) {
         super(player, durationTicks);
@@ -16,14 +22,17 @@ public class ThornsAbility extends TimedAbility {
 
     @Override
     protected void onStart() {
-        CSC.LOGGER.info("Thorns Start");
+        attribute.addTransientModifier(
+                new AttributeModifier(
+                        attributeIdentifier,
+                        damageReflection,
+                        AttributeModifier.Operation.ADD_VALUE
+                ));
     }
 
     @Override
     protected void onTick() {
         if (!(player instanceof ServerPlayer serverPlayer)) return;
-
-
 
         // Particles
         serverPlayer.level().sendParticles (
@@ -39,6 +48,6 @@ public class ThornsAbility extends TimedAbility {
 
     @Override
     protected void onEnd() {
-        CSC.LOGGER.info("Thorns End");
+        attribute.removeModifier(attributeIdentifier);
     }
 }

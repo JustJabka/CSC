@@ -17,6 +17,14 @@ public class CSCAttributes {
             true
     );
 
+    public static final Holder<Attribute> DAMAGE_REFLECTION_PERCENT = register(
+            "damage_reflection_percent",
+            0.0,
+            0.0,
+            1.0,
+            true
+    );
+
     private static Holder<Attribute> register(
             String name, double defaultValue, double minValue, double maxValue, boolean syncedWithClient
     ) {

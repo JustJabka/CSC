@@ -11,8 +11,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Player.class)
 public abstract class PlayerMixin {
     @Inject(method = "createAttributes", at = @At("RETURN"))
-    private static void addCustomAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+    private static void createAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.getReturnValue()
-                .add(CSCAttributes.DODGE_CHANCE);
+                .add(CSCAttributes.DODGE_CHANCE)
+                .add(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
     }
 }

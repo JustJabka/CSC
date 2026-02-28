@@ -1,6 +1,5 @@
 package justjabka.csc.contents.item;
 
-import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.ThornsAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
@@ -35,7 +34,8 @@ public class Thorns extends BaseActiveItem {
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         textConsumer.accept(Component.translatable("other.csc.cooldown", cooldown).withStyle(ChatFormatting.YELLOW));
-        textConsumer.accept(Component.translatable("item.csc.thorns.description", duration, (damageReflection * 100 + "%")).withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("other.csc.duration", duration).withStyle(ChatFormatting.GREEN));
+        textConsumer.accept(Component.translatable("item.csc.thorns.description", (damageReflection * 100 + "%")).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
