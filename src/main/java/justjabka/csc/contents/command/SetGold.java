@@ -35,9 +35,13 @@ public class SetGold {
 
     private static int setGold(CommandSourceStack source, ServerPlayer player, int gold) {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-        data.setGold(gold);
+        player.setAttached(
+                CSCAttachments.PLAYER_DATA,
+                data.setGold(gold)
+        );
+
         source.sendSuccess(() -> Component.translatable("message.csc.command.setGold",
-                data.getGold(),
+                gold,
                 player.getDisplayName()
         ), true);
         return Command.SINGLE_SUCCESS;

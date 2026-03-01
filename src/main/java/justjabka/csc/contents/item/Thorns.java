@@ -1,7 +1,6 @@
 package justjabka.csc.contents.item;
 
 import justjabka.csc.contents.ability.ThornsAbility;
-import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.registries.CSCAttachments;
@@ -53,9 +52,7 @@ public class Thorns extends BaseActiveItem {
         player.getCooldowns().addCooldown(stack, getSecondsToTicks(cooldown));
 
         // Activate
-        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-        AbilityHandler handler = data.getAbilityHandler();
-
+        AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
         handler.addAbility(new ThornsAbility(player, getSecondsToTicks(duration), damageReflection));
 
         // Play Sound

@@ -2,50 +2,37 @@ package justjabka.csc.contents.attachement;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import justjabka.csc.handlers.AbilityHandler;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
-public class PlayerData {
+public record PlayerData(
+        int gold
+) {
 
-    public static final Codec<PlayerData> CODEC = RecordCodecBuilder.create(instance ->
-            instance.group(
-                    Codec.INT.fieldOf("gold").forGetter(PlayerData::getGold)
-            ).apply(instance, PlayerData::new)
-    );
+    // Default
+    public static final PlayerData DEFAULT =
+            new PlayerData(0);
 
+    // Codec
+    public static final Codec<PlayerData> CODEC =
+            RecordCodecBuilder.create(instance -> instance.group(
+                    Codec.INT.fieldOf("gold").forGetter(PlayerData::gold)
+            ).apply(instance, PlayerData::new));
+
+    // Packet Codec
     public static final StreamCodec<RegistryFriendlyByteBuf, PlayerData> PACKET_CODEC =
             StreamCodec.composite(
-                    ByteBufCodecs.INT,
-                    PlayerData::getGold,
+                    ByteBufCodecs.INT,PlayerData::gold,
                     PlayerData::new
             );
 
-    private int gold;
-    private final AbilityHandler abilityHandler = new AbilityHandler();
-
-    public PlayerData() {
-        this(0);
+    // Logic
+    public PlayerData addGold(int amount) {
+        return new PlayerData(this.gold + amount);
     }
 
-    public PlayerData(int gold) {
-        this.gold = gold;
+    public PlayerData setGold(int value) {
+        return new PlayerData(value);
     }
-
-    // Gold
-    public int getGold() {
-        return gold;
-    }
-
-    public void addGold(int amount) {
-        this.gold += amount;
-    }
-
-    public void setGold(int amount) {
-        this.gold = amount;
-    }
-
-    // Ability Handler
-    public AbilityHandler getAbilityHandler() { return abilityHandler; }
 }

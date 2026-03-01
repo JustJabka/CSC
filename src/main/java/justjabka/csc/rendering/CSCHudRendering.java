@@ -45,7 +45,7 @@ public class CSCHudRendering {
 
         renderHealth(graphics, minecraft, player, sw, sh);
         renderArmor(graphics, minecraft, player, sw, sh);
-        renderCurrentGold(graphics, minecraft, player, sw, sh);
+        renderGold(graphics, minecraft, player, sw, sh);
     }
 
     private static void renderHealth(GuiGraphics graphics, Minecraft minecraft, Player player, int sw, int sh) {
@@ -64,11 +64,12 @@ public class CSCHudRendering {
         Component armorBarText = Component.translatable("ui.csc.armorBar", armorPercent).withStyle(ChatFormatting.WHITE);
         graphics.drawString(minecraft.font, armorBarText, sw / 2 + 100, sh / 2, 0xFFFFFFFF);
     }
-    private static void renderCurrentGold(GuiGraphics graphics, Minecraft minecraft, Player player, int sw, int sh) {
-        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-        int currentGold = data.getGold();
 
-        Component currentGoldText = Component.translatable("ui.csc.currentGold", currentGold).withStyle(ChatFormatting.WHITE);
-        graphics.drawString(minecraft.font, currentGoldText, sw / 2 + 200, sh / 2, 0xFFFFFFFF);
+    private static void renderGold(GuiGraphics graphics, Minecraft minecraft, Player player, int sw, int sh) {
+        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
+        int gold = data.gold();
+
+        Component goldText = Component.translatable("ui.csc.goldBar", gold).withStyle(ChatFormatting.WHITE);
+        graphics.drawString(minecraft.font, goldText, sw / 2 + 200, sh / 2, 0xFFFFFFFF);
     }
 }

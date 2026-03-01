@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class AbilityHandler {
-
     private final List<TimedAbility> activeAbilities = new ArrayList<>();
 
     public void addAbility(TimedAbility ability) {

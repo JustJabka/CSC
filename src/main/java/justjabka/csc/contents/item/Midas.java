@@ -56,7 +56,11 @@ public class Midas extends BaseActiveItem {
 
         // Add Gold
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-        data.addGold(goldReward);
+        player.setAttached(
+                CSCAttachments.PLAYER_DATA,
+                data.addGold(goldReward)
+        );
+
 
         // Play Sound
         player.level().playSound(null, target.blockPosition(), CSCSounds.ITEM_MIDAS, SoundSource.PLAYERS, 1f, 1f);

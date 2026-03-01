@@ -28,7 +28,7 @@
 
     "ui.csc.healthBar": "❤ %s/%s",
     "ui.csc.armorBar": "\uD83D\uDEE1 %s%%",
-    "ui.csc.currentGold": "♦ %s",
+    "ui.csc.goldBar": "♦ %s",
 
     "ui.csc.wave": "Wave: %s - %s",
     "ui.csc.wave.zombies": "Zombies",
