@@ -14,7 +14,8 @@ public class CSCAttachments {
                     builder -> builder
                             .initializer(PlayerData::new)
                             .persistent(PlayerData.CODEC)
-                            .syncWith(PlayerData.PACKET_CODEC, AttachmentSyncPredicate.all())
+                            .syncWith(PlayerData.PACKET_CODEC, AttachmentSyncPredicate.targetOnly())
+                            .copyOnDeath()
             );
 
     public static void initialize() {

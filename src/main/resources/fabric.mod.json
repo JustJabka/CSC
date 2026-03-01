@@ -17,6 +17,9 @@
 		"main": [
 			"justjabka.csc.CSC"
 		],
+		"client": [
+			"justjabka.csc.CSCClient"
+		],
 		"fabric-datagen": [
 			"justjabka.csc.data.CSCDataGenerator"
 		]

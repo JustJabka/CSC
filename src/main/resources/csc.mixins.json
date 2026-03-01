@@ -1,15 +1,16 @@
 {
-	"required": true,
-	"package": "justjabka.csc.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"LivingEntityMixin",
-		"PlayerMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
-	}
+  "required": true,
+  "package": "justjabka.csc.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "LivingEntityMixin",
+    "PlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  },
+  "client": []
 }
