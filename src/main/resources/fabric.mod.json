@@ -8,6 +8,7 @@
 		"JustJabka"
 	],
 	"contact": {
+		"issues": "https://github.com/JustJabka/CSC/issues",
 		"sources": "https://github.com/JustJabka/CSC"
 	},
 	"license": "CC0-1.0",
