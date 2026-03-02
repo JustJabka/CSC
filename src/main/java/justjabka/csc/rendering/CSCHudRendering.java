@@ -8,17 +8,13 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 
 public class CSCHudRendering {
-    // Define Textures
-    private static final Identifier HEALTH_BAR_BACKGROUND = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/health_bar_background");
-    private static final Identifier HEALTH_BAR_PROGRESS = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/health_bar_progress");
-
     public static void removeVanillaHudElements() {
         // Base Stats
         HudElementRegistry.removeElement(VanillaHudElements.AIR_BAR);
@@ -44,51 +40,17 @@ public class CSCHudRendering {
     private static void render(GuiGraphics graphics, DeltaTracker tickCounter) {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
+        Font font = minecraft.font;
 
         if (player == null) return;
 
         int sw = minecraft.getWindow().getGuiScaledWidth();
         int sh = minecraft.getWindow().getGuiScaledHeight();
 
-        renderHealth(graphics, minecraft, player, sw, sh);
+        CSCHealthRendering.render(graphics, font, player, sw, sh);
         renderGoldFromInterest(graphics, minecraft, player, sw, sh);
         renderGold(graphics, minecraft, player, sw, sh);
         renderArmor(graphics, minecraft, player, sw, sh);
-    }
-
-    private static void renderHealth(GuiGraphics graphics, Minecraft minecraft, Player player, int sw, int sh) {
-        // Render Text
-        int currentHealth = Math.round(player.getHealth());
-        int maxHealth = Math.round(player.getMaxHealth());
-        float healthPercent = (currentHealth / (float) maxHealth);
-
-        Component textComponent = Component.translatable("ui.csc.healthBar", currentHealth, maxHealth).withStyle(ChatFormatting.RED);
-        graphics.drawString(minecraft.font, textComponent, sw / 2 , sh / 2, 0xFFFFFFFF);
-
-        // Render Textures
-        int barWidth = 182;
-        int barHeight = 12;
-
-        int marginBottom = 48;
-        int progressWidth = Math.round(barWidth * healthPercent);
-
-        int barX = sw / 2 - barWidth / 2;
-        int barY = sh - marginBottom - 9 - 2;
-
-        graphics.blitSprite(
-                RenderPipelines.GUI_TEXTURED, HEALTH_BAR_BACKGROUND,
-                barX,
-                barY,
-                barWidth,
-                barHeight
-        );
-        graphics.blitSprite(
-                RenderPipelines.GUI_TEXTURED, HEALTH_BAR_PROGRESS,
-                barX,
-                barY,
-                progressWidth,
-                barHeight
-        );
     }
 
     private static void renderGoldFromInterest(GuiGraphics graphics, Minecraft minecraft, Player player, int sw, int sh) {
