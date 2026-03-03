@@ -19,6 +19,7 @@ public class CSCHealthRendering {
         float healthPercent = currentHealth / (float) maxHealth;
 
         Component text = Component.translatable("ui.csc.healthBar", currentHealth, maxHealth).withStyle(ChatFormatting.WHITE).withoutShadow();
+
         if (player.gameMode().isSurvival()) {
             CSCHudRendering.renderBar(
                     graphics,

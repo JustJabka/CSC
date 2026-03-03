@@ -12,5 +12,7 @@
   "overwrites": {
     "requireAnnotations": true
   },
-  "client": []
+  "client": [
+    "GuiMixin"
+  ]
 }

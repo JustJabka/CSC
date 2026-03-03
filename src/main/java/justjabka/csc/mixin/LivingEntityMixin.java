@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
+public abstract class LivingEntityMixin {
 	@Inject(
 		method = "hurtServer", cancellable = true,
 		at = @At(
@@ -48,7 +48,7 @@ public class LivingEntityMixin {
 			Entity attacker = damageSource.getEntity();
 
 			// Damage Attacker
-			if (attacker instanceof LivingEntity livingAttacker && attacker != self) {
+			if (attacker instanceof LivingEntity livingAttacker && attacker != self && damageReflectionPercent > 0.0) {
 				DamageSources damageSources = serverLevel.damageSources();
 				DamageSource reflectedDamage = damageSources.magic();
 

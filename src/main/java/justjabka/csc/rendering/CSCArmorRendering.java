@@ -19,6 +19,7 @@ public class CSCArmorRendering {
 
         int width = 46;
         int height = 12;
+
         Component text = Component.translatable("ui.csc.armorBar", armorPercent).withStyle(ChatFormatting.WHITE).withoutShadow();
 
         CSCHudRendering.renderBar(
