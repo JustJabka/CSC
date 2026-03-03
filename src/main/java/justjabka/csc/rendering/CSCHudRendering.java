@@ -1,17 +1,16 @@
 package justjabka.csc.rendering;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.attachement.PlayerData;
-import justjabka.csc.registries.CSCAttachments;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 
 public class CSCHudRendering {
@@ -48,32 +47,45 @@ public class CSCHudRendering {
         int sh = minecraft.getWindow().getGuiScaledHeight();
 
         CSCHealthRendering.render(graphics, font, player, sw, sh);
-        renderGoldFromInterest(graphics, minecraft, player, sw, sh);
-        renderGold(graphics, minecraft, player, sw, sh);
-        renderArmor(graphics, minecraft, player, sw, sh);
+        CSCInterestRendering.render(graphics, font, player, sw, sh);
+        CSCGoldRendering.render(graphics, font, player, sw, sh);
+        CSCArmorRendering.render(graphics, font, player, sw, sh);
     }
 
-    private static void renderGoldFromInterest(GuiGraphics graphics, Minecraft minecraft, Player player, int sw, int sh) {
-        int goldFromInterest = 0; // Hardcoded for now because PVP haven't implemented yet
+    public static void renderBar(
+            GuiGraphics graphics,
+            Font font,
+            Identifier background,
+            Identifier progress,
+            float percent,
+            Component text,
+            int sw,
+            int sh,
+            int centerOffsetX,
+            int bottomOffset,
+            int width,
+            int height
+    ) {
+        percent = Mth.clamp(percent, 0f, 1f);
+        int progressWidth = Mth.lerpDiscrete(percent, 0, width);
 
-        Component textComponent = Component.translatable("ui.csc.goldBar", goldFromInterest).withStyle(ChatFormatting.GREEN);
-        graphics.drawString(minecraft.font, textComponent, sw / 2 + 50, sh / 2, 0xFFFFFFFF);
-    }
+        int barX = sw / 2 - width / 2 + centerOffsetX;
+        int barY = sh - bottomOffset - height;
 
-    private static void renderGold(GuiGraphics graphics, Minecraft minecraft, Player player, int sw, int sh) {
-        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-        int gold = data.gold();
+        // Background
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, background, barX, barY, width, height);
 
-        Component textComponent = Component.translatable("ui.csc.goldBar", gold).withStyle(ChatFormatting.YELLOW);
-        graphics.drawString(minecraft.font, textComponent, sw / 2 + 100, sh / 2, 0xFFFFFFFF);
-    }
+        // Progress
+        if (progress != null && progressWidth > 0) {
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, progress, barX, barY, progressWidth, height);
+        }
 
-    private static void renderArmor(GuiGraphics graphics, Minecraft minecraft, Player player, int sw, int sh) {
-        int currentArmor = player.getArmorValue();
-        int maxArmor = 20;
-        int armorPercent = (currentArmor * 100) / maxArmor;
+        // Center text inside bar
+        if (text != null) {
+            int textX = barX + (width - font.width(text)) / 2;
+            int textY = (barY + (height - font.lineHeight) / 2) + 1;
 
-        Component textComponent = Component.translatable("ui.csc.armorBar", armorPercent).withStyle(ChatFormatting.GRAY);
-        graphics.drawString(minecraft.font, textComponent, sw / 2 + 150, sh / 2, 0xFFFFFFFF);
+            graphics.drawString(font, text, textX, textY, 0xFFFFFFFF);
+        }
     }
 }
