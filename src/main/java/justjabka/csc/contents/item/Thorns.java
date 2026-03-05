@@ -46,7 +46,10 @@ public class Thorns extends BaseActiveItem {
         ItemStack stack = player.getItemInHand(hand);
 
         if (isClientSide(player)) return InteractionResult.PASS;
-        if (isOnCooldown(player, stack)) return InteractionResult.FAIL;
+        if (isOnCooldown(player, stack)) {
+            player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
+            return InteractionResult.FAIL;
+        }
 
         // Set Cooldown
         player.getCooldowns().addCooldown(stack, getSecondsToTicks(COOLDOWN));

@@ -4,8 +4,10 @@ import justjabka.csc.contents.ability.DarkGauntletAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -66,7 +68,10 @@ public class DarkGauntlet extends BaseActiveItem {
         ItemStack stack = player.getItemInHand(hand);
 
         if (isClientSide(player)) return InteractionResult.PASS;
-        if (isOnCooldown(player, stack)) return InteractionResult.FAIL;
+        if (isOnCooldown(player, stack)) {
+            player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
+            return InteractionResult.FAIL;
+        };
 
         // Set Cooldown
         player.getCooldowns().addCooldown(stack, getSecondsToTicks(COOLDOWN));

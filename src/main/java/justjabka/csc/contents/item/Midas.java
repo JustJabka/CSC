@@ -45,7 +45,10 @@ public class Midas extends BaseActiveItem {
         boolean canBeTurnedIntoGold = target.getType().is(CSCEntityTypeTagProvider.CAN_BE_TURNED_INTO_GOLD);
 
         if (isClientSide(player)) return InteractionResult.PASS;
-        if (isOnCooldown(player, stack)) return InteractionResult.FAIL;
+        if (isOnCooldown(player, stack)) {
+            player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
+            return InteractionResult.FAIL;
+        }
         if (!(canBeTurnedIntoGold)) return InteractionResult.FAIL;
 
         // Set Cooldown
