@@ -1,30 +1,32 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.CSC;
-import justjabka.csc.handlers.TimedAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.registries.CSCAttributes;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 
-public class ThornsAbility extends TimedAbility {
+public class ThornsAbility extends ActiveAbility {
     private final double damageReflection;
     AttributeInstance attribute = player.getAttribute(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
-    Identifier attributeIdentifier = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "thorns_ability");
+    Identifier ABILITY_DAMAGE_REFLECTION_PERCENT_ID = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "thorns_ability");
 
-    public ThornsAbility(Player player, int durationTicks, double damageReflection) {
-        super(player, durationTicks);
+    public ThornsAbility(Player player, InteractionHand hand, int durationTicks, double damageReflection) {
+        super(player, hand, durationTicks);
+        this.togglable = false;
         this.damageReflection = damageReflection;
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         attribute.addTransientModifier(
                 new AttributeModifier(
-                        attributeIdentifier,
+                        ABILITY_DAMAGE_REFLECTION_PERCENT_ID,
                         damageReflection,
                         AttributeModifier.Operation.ADD_VALUE
                 ));
@@ -47,7 +49,7 @@ public class ThornsAbility extends TimedAbility {
     }
 
     @Override
-    protected void onEnd() {
-        attribute.removeModifier(attributeIdentifier);
+    public void onEnd() {
+        attribute.removeModifier(ABILITY_DAMAGE_REFLECTION_PERCENT_ID);
     }
 }

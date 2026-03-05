@@ -21,20 +21,20 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class Thorns extends BaseActiveItem {
+    // Item Properties
+    private static final int COOLDOWN = 45;
+    private static final int DURATION = 5;
+    private static final double DAMAGE_REFLECTION = 0.6;
+
     public Thorns(Properties properties) {
         super(properties.rarity(Rarity.RARE));
     }
 
-    // Consts
-    private static final int cooldown = 45;
-    private static final int duration = 5;
-    private static final double damageReflection = 0.6;
-
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        textConsumer.accept(Component.translatable("other.csc.cooldown", cooldown).withStyle(ChatFormatting.YELLOW));
-        textConsumer.accept(Component.translatable("other.csc.duration", duration).withStyle(ChatFormatting.GREEN));
-        textConsumer.accept(Component.translatable("item.csc.thorns.description", (damageReflection * 100 + "%")).withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("other.csc.cooldown", COOLDOWN).withStyle(ChatFormatting.YELLOW));
+        textConsumer.accept(Component.translatable("other.csc.duration", DURATION).withStyle(ChatFormatting.GREEN));
+        textConsumer.accept(Component.translatable("item.csc.thorns.description", wrapDecimalAsPercent(DAMAGE_REFLECTION)).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
@@ -49,11 +49,11 @@ public class Thorns extends BaseActiveItem {
         if (isOnCooldown(player, stack)) return InteractionResult.FAIL;
 
         // Set Cooldown
-        player.getCooldowns().addCooldown(stack, getSecondsToTicks(cooldown));
+        player.getCooldowns().addCooldown(stack, getSecondsToTicks(COOLDOWN));
 
         // Activate
         AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        handler.addAbility(new ThornsAbility(player, getSecondsToTicks(duration), damageReflection));
+        handler.addAbility(new ThornsAbility(player, hand, getSecondsToTicks(DURATION), DAMAGE_REFLECTION));
 
         // Play Sound
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_THORNS, SoundSource.PLAYERS, 1f, 1f);

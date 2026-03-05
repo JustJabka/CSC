@@ -46,6 +46,7 @@ public class CSCHudRendering {
         int sw = minecraft.getWindow().getGuiScaledWidth();
         int sh = minecraft.getWindow().getGuiScaledHeight();
 
+        // TODO: Add attributes in hud
         CSCHealthRendering.render(graphics, font, player, sw, sh);
         CSCInterestRendering.render(graphics, font, player, sw, sh);
         CSCGoldRendering.render(graphics, font, player, sw, sh);

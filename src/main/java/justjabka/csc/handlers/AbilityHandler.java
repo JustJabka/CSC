@@ -1,25 +1,54 @@
 package justjabka.csc.handlers;
 
+import justjabka.csc.contents.ability.generic.ActiveAbility;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class AbilityHandler {
-    private final List<TimedAbility> activeAbilities = new ArrayList<>();
+    private final List<ActiveAbility> activeAbilities = new ArrayList<>();
 
-    public void addAbility(TimedAbility ability) {
-        ability.onStart();
-        activeAbilities.add(ability);
+    public void addAbility(ActiveAbility ability) {
+        ActiveAbility existing = getAbility(ability.getClass());
+
+        if (existing == null) {
+            ability.onStart();
+            activeAbilities.add(ability);
+            return;
+        }
+
+        if (ability.isTogglable()) {
+            ability.onEnd();
+            activeAbilities.remove(existing);
+            return;
+        }
+
+        existing.refresh(ability);
+    }
+
+    public <T extends ActiveAbility> T getAbility(Class<T> type) {
+        for (ActiveAbility ability : activeAbilities) {
+            if (type.isInstance(ability)) {
+                return type.cast(ability);
+            }
+        }
+        return null;
+    }
+
+    public boolean hasAbility(Class<? extends ActiveAbility> type) {
+        return activeAbilities.stream().anyMatch(type::isInstance);
     }
 
     public void tick() {
-        Iterator<TimedAbility> iterator = activeAbilities.iterator();
+        Iterator<ActiveAbility> iterator = activeAbilities.iterator();
 
         while (iterator.hasNext()) {
-            TimedAbility ability = iterator.next();
+            ActiveAbility ability = iterator.next();
             ability.tick();
 
-            if (ability.isFinished()) {
+            if (ability.isEnded() || ability.shouldEnd()) {
+                ability.onEnd();
                 iterator.remove();
             }
         }

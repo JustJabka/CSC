@@ -21,17 +21,17 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class Midas extends BaseActiveItem {
+    // Item Properties
+    private static final int COOLDOWN = 100;
+    private static final int GOLD_REWARD = 250;
+
     public Midas(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON));
     }
 
-    // Consts
-    private static final int cooldown = 100;
-    private static final int goldReward = 250;
-
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        textConsumer.accept(Component.translatable("other.csc.cooldown", cooldown).withStyle(ChatFormatting.YELLOW));
+        textConsumer.accept(Component.translatable("other.csc.cooldown", COOLDOWN).withStyle(ChatFormatting.YELLOW));
         textConsumer.accept(Component.translatable("item.csc.midas.description").withStyle(ChatFormatting.GRAY));
     }
 
@@ -49,7 +49,7 @@ public class Midas extends BaseActiveItem {
         if (!(canBeTurnedIntoGold)) return InteractionResult.FAIL;
 
         // Set Cooldown
-        player.getCooldowns().addCooldown(stack, getSecondsToTicks(cooldown));
+        player.getCooldowns().addCooldown(stack, getSecondsToTicks(COOLDOWN));
 
         // Turn target into gold
         target.hurt(target.damageSources().magic(), Float.MAX_VALUE);
@@ -58,7 +58,7 @@ public class Midas extends BaseActiveItem {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
         player.setAttached(
                 CSCAttachments.PLAYER_DATA,
-                data.addGold(goldReward)
+                data.addGold(GOLD_REWARD)
         );
 
 

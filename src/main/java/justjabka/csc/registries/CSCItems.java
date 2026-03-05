@@ -1,6 +1,7 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
+import justjabka.csc.contents.item.DarkGauntlet;
 import justjabka.csc.contents.item.Midas;
 import justjabka.csc.contents.item.PhoenixFeather;
 import justjabka.csc.contents.item.Thorns;
@@ -21,6 +22,7 @@ public class CSCItems {
     public static final Item MIDAS = register("midas", Midas::new, new Item.Properties());
     public static final Item PHOENIX_FEATHER = register("phoenix_feather", PhoenixFeather::new, new Item.Properties());
     public static final Item THORNS = register("thorns", Thorns::new, new Item.Properties());
+    public static final Item DARK_GAUNTLET = register("dark_gauntlet", DarkGauntlet::new, new Item.Properties());
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Items");

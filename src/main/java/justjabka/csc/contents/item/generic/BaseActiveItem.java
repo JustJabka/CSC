@@ -14,6 +14,11 @@ public abstract class BaseActiveItem extends Item {
         return seconds * 20;
     }
 
+    protected String wrapDecimalAsPercent(double value) {
+        int percent = Math.toIntExact(Math.round(value * 100));
+        return percent + "%";
+    }
+
     protected boolean isClientSide(Player player) {
         return player.level().isClientSide();
     }

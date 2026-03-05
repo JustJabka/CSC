@@ -21,18 +21,18 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class PhoenixFeather extends BaseActiveItem {
+    // Item Properties
+    private static final int COOLDOWN = 35;
+    private static final double HORIZONTAL_STRENGTH = 1.6;
+    private static final double VERTICAL_STRENGTH = 0.6;
+
     public PhoenixFeather(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON));
     }
 
-    // Consts
-    private static final int cooldown = 35;
-    private static final double horizontalStrength = 1.6d;
-    private static final double verticalStrength = 0.6d;
-
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        textConsumer.accept(Component.translatable("other.csc.cooldown", cooldown).withStyle(ChatFormatting.YELLOW));
+        textConsumer.accept(Component.translatable("other.csc.cooldown", COOLDOWN).withStyle(ChatFormatting.YELLOW));
         textConsumer.accept(Component.translatable("item.csc.phoenix_feather.description").withStyle(ChatFormatting.GRAY));
     }
 
@@ -48,12 +48,12 @@ public class PhoenixFeather extends BaseActiveItem {
         if (isOnCooldown(player, stack)) return InteractionResult.FAIL;
 
         // Set Cooldown
-        player.getCooldowns().addCooldown(stack, getSecondsToTicks(cooldown));
+        player.getCooldowns().addCooldown(stack, getSecondsToTicks(COOLDOWN));
 
         // Server-side logic
         if (player instanceof ServerPlayer serverPlayer) {
             // Apply Impulse
-            Vec3 impulse = getImpulse(serverPlayer, horizontalStrength, verticalStrength);
+            Vec3 impulse = getImpulse(serverPlayer, HORIZONTAL_STRENGTH, VERTICAL_STRENGTH);
             player.setDeltaMovement(impulse);
             player.hurtMarked = true;
 
