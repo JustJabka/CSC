@@ -74,7 +74,9 @@ public class CSCHudRendering {
         int barY = sh - bottomOffset - height;
 
         // Background
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, background, barX, barY, width, height);
+        if (background != null) {
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, background, barX, barY, width, height);
+        }
 
         // Progress
         if (progress != null && progressWidth > 0) {

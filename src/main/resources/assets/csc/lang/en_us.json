@@ -26,10 +26,10 @@
     "other.csc.cooldown": "⌛ Cooldown: %s sec.",
     "other.csc.duration": "⌚ Duration: %s sec.",
 
-    "ui.csc.healthBar": "❤ %s/%s",
-    "ui.csc.armorBar": "\uD83D\uDEE1 %s%%",
-    "ui.csc.goldBar": "♦ %s",
-    "ui.csc.interestBar": "♦ %s",
+    "ui.csc.healthBar": "%s/%s",
+    "ui.csc.armorBar": "%s%%",
+    "ui.csc.goldBar": "%s",
+    "ui.csc.interestBar": "%s",
 
     "ui.csc.wave": "Wave: %s - %s",
     "ui.csc.wave.zombies": "Zombies",

@@ -3,7 +3,7 @@
     {
       "type": "bitmap",
       "file": "csc:gui/sprites/hud/health_bar_icon.png",
-      "ascent": 9,
+      "ascent": 7,
       "height": 9,
       "chars": [
         "❤"
@@ -11,11 +11,29 @@
     },
     {
       "type": "bitmap",
+      "file": "csc:gui/sprites/hud/interest_bar_icon.png",
+      "ascent": 7,
+      "height": 9,
+      "chars": [
+        "♣"
+      ]
+    },
+    {
+      "type": "bitmap",
       "file": "csc:gui/sprites/hud/gold_bar_icon.png",
-      "ascent": 9,
+      "ascent": 7,
       "height": 9,
       "chars": [
         "♦"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "csc:gui/sprites/hud/armor_bar_icon.png",
+      "ascent": 7,
+      "height": 9,
+      "chars": [
+        "♠"
       ]
     }
   ]
