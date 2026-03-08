@@ -3,6 +3,8 @@
   "package": "justjabka.csc.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "CooldownInstanceAccessor",
+    "ItemCooldownsAccessor",
     "LivingEntityMixin",
     "PlayerMixin"
   ],

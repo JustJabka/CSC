@@ -45,7 +45,7 @@ public class CSCArmorRendering {
                 font,
                 ARMOR_BAR_BACKGROUND,
                 null,
-                armorPercent,
+                0f,
                 text,
                 sw,
                 sh,

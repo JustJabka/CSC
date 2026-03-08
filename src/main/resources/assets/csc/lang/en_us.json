@@ -30,6 +30,7 @@
     "ui.csc.armorBar": "%s%%",
     "ui.csc.goldBar": "%s",
     "ui.csc.interestBar": "%s",
+    "ui.csc.cooldown": "%s",
 
     "ui.csc.wave": "Wave: %s - %s",
     "ui.csc.wave.zombies": "Zombies",

@@ -51,6 +51,7 @@ public class CSCHudRendering {
         CSCInterestRendering.render(graphics, font, player, sw, sh);
         CSCGoldRendering.render(graphics, font, player, sw, sh);
         CSCArmorRendering.render(graphics, font, player, sw, sh);
+        CSCCooldownRendering.render(graphics, font, player, sw, sh);
     }
 
     public static void renderBar(
