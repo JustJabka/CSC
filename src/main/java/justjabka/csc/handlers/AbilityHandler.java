@@ -7,19 +7,21 @@ import java.util.Iterator;
 import java.util.List;
 
 public class AbilityHandler {
+
     private final List<ActiveAbility> activeAbilities = new ArrayList<>();
 
-    public void addAbility(ActiveAbility ability) {
+    public void addAbility(ActiveAbility ability, AbilityContext ctx) {
+
         ActiveAbility existing = getAbility(ability.getClass());
 
         if (existing == null) {
-            ability.onStart();
+            ability.start(ctx);
             activeAbilities.add(ability);
             return;
         }
 
         if (ability.isTogglable()) {
-            ability.onEnd();
+            existing.end();
             activeAbilities.remove(existing);
             return;
         }
@@ -41,14 +43,17 @@ public class AbilityHandler {
     }
 
     public void tick() {
+
         Iterator<ActiveAbility> iterator = activeAbilities.iterator();
 
         while (iterator.hasNext()) {
+
             ActiveAbility ability = iterator.next();
+
             ability.tick();
 
             if (ability.isEnded() || ability.shouldEnd()) {
-                ability.onEnd();
+                ability.end();
                 iterator.remove();
             }
         }

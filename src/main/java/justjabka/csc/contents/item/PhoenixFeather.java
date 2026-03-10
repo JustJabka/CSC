@@ -1,5 +1,6 @@
 package justjabka.csc.contents.item;
 
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.handlers.ActiveItemConfig;
 import justjabka.csc.registries.CSCSounds;
@@ -32,6 +33,7 @@ public class PhoenixFeather extends BaseActiveItem {
                 .rarity(Rarity.UNCOMMON),
                 new ActiveItemConfig(
                         true,
+                        false,
                         35,
                         0
                 )
@@ -45,12 +47,17 @@ public class PhoenixFeather extends BaseActiveItem {
     }
 
     @Override
+    protected ActiveAbility createAbility() {
+        return null;
+    }
+
+    @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
         return InteractionResult.PASS;
     }
 
     @Override
-    protected void onActivation(Level level, Player player, InteractionHand hand, ItemStack stack) {
+    protected void onUse(Level level, Player player, InteractionHand hand, ItemStack stack) {
         // Server-side logic
         if (player instanceof ServerPlayer serverPlayer) {
             // Apply Impulse

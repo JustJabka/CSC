@@ -1,10 +1,9 @@
 package justjabka.csc.contents.item;
 
 import justjabka.csc.contents.ability.DarkGauntletAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
-import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.ActiveItemConfig;
-import justjabka.csc.registries.CSCAttachments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -19,7 +18,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.TooltipDisplay;
-import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
@@ -48,6 +46,7 @@ public class DarkGauntlet extends BaseActiveItem {
                 ),
                 new ActiveItemConfig(
                         true,
+                        true,
                         1,
                         0
                 )
@@ -62,13 +61,12 @@ public class DarkGauntlet extends BaseActiveItem {
     }
 
     @Override
-    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
-        return InteractionResult.PASS;
+    protected ActiveAbility createAbility() {
+        return new DarkGauntletAbility(getSecondsToTicks(config.duration), ABILITY_DAMAGE, TICKING_DAMAGE);
     }
 
     @Override
-    protected void onActivation(Level level, Player player, InteractionHand hand, ItemStack stack) {
-        AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        handler.addAbility(new DarkGauntletAbility(player, hand, getSecondsToTicks(config.duration), ABILITY_DAMAGE, TICKING_DAMAGE));
+    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
+        return InteractionResult.PASS;
     }
 }

@@ -1,6 +1,10 @@
 package justjabka.csc.contents.item.generic;
 
+import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.handlers.AbilityContext;
+import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.ActiveItemConfig;
+import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -13,6 +17,7 @@ import net.minecraft.world.level.Level;
 
 public abstract class BaseActiveItem extends Item {
     protected final ActiveItemConfig config;
+    protected abstract ActiveAbility createAbility();
 
     public BaseActiveItem(Properties properties, ActiveItemConfig config) {
         super(properties.stacksTo(1));
@@ -34,7 +39,7 @@ public abstract class BaseActiveItem extends Item {
 
         // On Activation
         applyCooldown(stack, player);
-        onActivation(level, player, hand, stack);
+        onUse(level, player, hand, stack);
 
         return InteractionResult.SUCCESS;
     }
@@ -53,7 +58,7 @@ public abstract class BaseActiveItem extends Item {
 
         // On Activation
         applyCooldown(stack, player);
-        onActivation(player, hand, target, stack);
+        onUse(player, hand, target, stack);
 
         return InteractionResult.SUCCESS;
     }
@@ -96,19 +101,31 @@ public abstract class BaseActiveItem extends Item {
         return true;
     }
 
-    protected void onActivation(
+    protected void onUse(
             Level level,
             Player player,
             InteractionHand hand,
             ItemStack stack
-    ) {}
+    ) {
+        if (config.haveAbility) activateAbility(player, hand);
+    }
 
-    protected void onActivation(
+    protected void onUse(
             Player player,
             InteractionHand hand,
             LivingEntity target,
             ItemStack stack
-    ) {}
+    ) {
+        if (config.haveAbility) activateAbility(player, hand);
+    }
+
+    private void activateAbility(Player player, InteractionHand hand) {
+        AbilityContext ctx = new AbilityContext(player, hand);
+        AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
+        ActiveAbility ability = createAbility();
+
+        handler.addAbility(ability, ctx);
+    }
 
     // Utils
     protected int getSecondsToTicks(int seconds) {

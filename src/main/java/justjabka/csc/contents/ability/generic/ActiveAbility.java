@@ -1,19 +1,20 @@
 package justjabka.csc.contents.ability.generic;
 
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
+import justjabka.csc.handlers.AbilityContext;
 
 public abstract class ActiveAbility {
-
-    protected final Player player;
-    protected final InteractionHand hand;
+    protected AbilityContext ctx;
+    protected final boolean togglable;
     protected int remainingTicks;
-    protected boolean togglable;
 
-    public ActiveAbility(Player player, InteractionHand hand, int durationTicks) {
-        this.player = player;
-        this.hand = hand;
-        this.remainingTicks = durationTicks;
+    protected ActiveAbility(boolean togglable, int duration) {
+        this.togglable = togglable;
+        this.remainingTicks = duration;
+    }
+
+    public void start(AbilityContext ctx) {
+        this.ctx = ctx;
+        onStart();
     }
 
     public void tick() {
@@ -22,6 +23,10 @@ public abstract class ActiveAbility {
         if (!togglable) {
             remainingTicks--;
         }
+    }
+
+    public final void end() {
+        onEnd();
     }
 
     public void refresh(ActiveAbility other) {
@@ -41,6 +46,6 @@ public abstract class ActiveAbility {
     }
 
     public abstract void onStart();
-    protected abstract void onTick();
+    public abstract void onTick();
     public abstract void onEnd();
 }

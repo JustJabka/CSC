@@ -1,5 +1,6 @@
 package justjabka.csc.contents.item;
 
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
@@ -31,6 +32,7 @@ public class Midas extends BaseActiveItem {
                 .rarity(Rarity.UNCOMMON),
                 new ActiveItemConfig(
                         true,
+                        false,
                         100,
                         0
                 )
@@ -44,6 +46,11 @@ public class Midas extends BaseActiveItem {
     }
 
     @Override
+    protected ActiveAbility createAbility() {
+        return null;
+    }
+
+    @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         return InteractionResult.PASS;
     }
@@ -54,7 +61,7 @@ public class Midas extends BaseActiveItem {
     }
 
     @Override
-    protected void onActivation(Player player, InteractionHand hand, LivingEntity target, ItemStack stack) {
+    protected void onUse(Player player, InteractionHand hand, LivingEntity target, ItemStack stack) {
         // Turn target into gold
         target.hurt(target.damageSources().magic(), Float.MAX_VALUE);
 
