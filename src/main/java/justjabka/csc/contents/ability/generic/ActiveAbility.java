@@ -29,6 +29,10 @@ public abstract class ActiveAbility {
         onEnd();
     }
 
+    public int getRemainingSeconds() {
+        return remainingTicks / 20;
+    }
+
     public void refresh(ActiveAbility other) {
         this.remainingTicks = other.remainingTicks;
     }

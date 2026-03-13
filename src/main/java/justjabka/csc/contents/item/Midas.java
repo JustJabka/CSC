@@ -24,7 +24,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class Midas extends BaseActiveItem {
-    // Item Properties
     private static final int GOLD_REWARD = 250;
 
     public Midas(Properties properties) {

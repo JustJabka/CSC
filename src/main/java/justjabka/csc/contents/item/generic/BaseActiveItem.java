@@ -11,11 +11,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public abstract class BaseActiveItem extends Item {
+public abstract class BaseActiveItem extends BaseItem {
     protected final ActiveItemConfig config;
     protected abstract ActiveAbility createAbility();
 
@@ -125,19 +124,5 @@ public abstract class BaseActiveItem extends Item {
         ActiveAbility ability = createAbility();
 
         handler.addAbility(ability, ctx);
-    }
-
-    // Utils
-    protected int getSecondsToTicks(int seconds) {
-        return seconds * 20;
-    }
-
-    protected String wrapDecimalAsPercent(double value) {
-        int percent = Math.toIntExact(Math.round(value * 100));
-        return percent + "%";
-    }
-
-    protected boolean isClientSide(Player player) {
-        return player.level().isClientSide();
     }
 }

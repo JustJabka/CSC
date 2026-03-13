@@ -20,6 +20,11 @@
     "item.csc.vampiric_cape": "Vampiric Cape",
     "item.csc.vampiric_cape.description": "With a %s chance, heals %s of the damage dealt",
 
+    "item.csc.health_book": "Book of Health",
+    "item.csc.health_book.description": "When used, increases max health by %s for the end of the game",
+    "item.csc.damage_book": "Book of Damage",
+    "item.csc.damage_book.description": "When used, increases physical damage by %s for the end of the game",
+
     "item.csc.healing_stew": "Healing Stew",
     "item.csc.healing_stew.description": "When consumed, heals %s of maximum HP",
 

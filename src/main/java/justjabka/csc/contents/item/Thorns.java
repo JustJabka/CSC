@@ -19,7 +19,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class Thorns extends BaseActiveItem {
-    // Item Properties
     private static final double DAMAGE_REFLECTION = 0.6;
 
     public Thorns(Properties properties) {

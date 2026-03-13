@@ -5,6 +5,8 @@ import justjabka.csc.contents.item.DarkGauntlet;
 import justjabka.csc.contents.item.Midas;
 import justjabka.csc.contents.item.PhoenixFeather;
 import justjabka.csc.contents.item.Thorns;
+import justjabka.csc.contents.item.books.DamageBook;
+import justjabka.csc.contents.item.books.HealthBook;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -23,6 +25,8 @@ public class CSCItems {
     public static final Item PHOENIX_FEATHER = register("phoenix_feather", PhoenixFeather::new, new Item.Properties());
     public static final Item THORNS = register("thorns", Thorns::new, new Item.Properties());
     public static final Item DARK_GAUNTLET = register("dark_gauntlet", DarkGauntlet::new, new Item.Properties());
+    public static final Item DAMAGE_BOOK = register("damage_book", DamageBook::new, new Item.Properties());
+    public static final Item HEALTH_BOOK = register("health_book", HealthBook::new, new Item.Properties());
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Items");

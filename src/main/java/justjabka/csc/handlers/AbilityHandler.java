@@ -7,11 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 
 public class AbilityHandler {
-
     private final List<ActiveAbility> activeAbilities = new ArrayList<>();
 
     public void addAbility(ActiveAbility ability, AbilityContext ctx) {
-
         ActiveAbility existing = getAbility(ability.getClass());
 
         if (existing == null) {
@@ -42,12 +40,14 @@ public class AbilityHandler {
         return activeAbilities.stream().anyMatch(type::isInstance);
     }
 
-    public void tick() {
+    public List<ActiveAbility> getActiveAbilities() {
+        return activeAbilities;
+    }
 
+    public void tick() {
         Iterator<ActiveAbility> iterator = activeAbilities.iterator();
 
         while (iterator.hasNext()) {
-
             ActiveAbility ability = iterator.next();
 
             ability.tick();

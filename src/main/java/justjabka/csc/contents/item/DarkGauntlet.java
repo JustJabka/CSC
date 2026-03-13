@@ -23,7 +23,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class DarkGauntlet extends BaseActiveItem {
-    // Item Properties
     private static final double BASE_DAMAGE = 2.0;
     private static final double ABILITY_DAMAGE = 7.0;
     private static final double INCOMING_DAMAGE = 0.02;

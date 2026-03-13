@@ -24,7 +24,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class PhoenixFeather extends BaseActiveItem {
-    // Item Properties
     private static final double HORIZONTAL_STRENGTH = 1.6;
     private static final double VERTICAL_STRENGTH = 0.6;
 
