@@ -3,29 +3,20 @@ package justjabka.csc.mixin;
 import justjabka.csc.data.CSCDamageTypeTagProvider;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
-import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
-	@Shadow
-	public abstract double getAttributeValue(Holder<Attribute> holder);
-
 	@Inject(
 		method = "hurtServer", cancellable = true,
 		at = @At(
@@ -64,10 +55,5 @@ public abstract class LivingEntityMixin {
 				livingAttacker.hurtServer(serverLevel, reflectedDamage, f * damageReflectionPercent);
 			}
 		}
-	}
-
-	@Unique
-	public int getAttackDamageValue() {
-		return Mth.floor(this.getAttributeValue(Attributes.ATTACK_DAMAGE));
 	}
 }
