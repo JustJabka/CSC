@@ -25,6 +25,7 @@ import java.util.function.Consumer;
 public class DarkGauntlet extends BaseActiveItem {
     private static final double BASE_DAMAGE = 2.0;
     private static final double ABILITY_DAMAGE = 7.0;
+    private static final double ABILITY_INCOMING_DAMAGE = 0.02;
     private static final double INCOMING_DAMAGE = 0.02;
     private static final double TICKING_DAMAGE = 0.01;
 
@@ -61,7 +62,7 @@ public class DarkGauntlet extends BaseActiveItem {
 
     @Override
     protected ActiveAbility createAbility() {
-        return new DarkGauntletAbility(getSecondsToTicks(config.duration), ABILITY_DAMAGE, TICKING_DAMAGE);
+        return new DarkGauntletAbility(getSecondsToTicks(config.duration), ABILITY_DAMAGE, ABILITY_INCOMING_DAMAGE, TICKING_DAMAGE);
     }
 
     @Override
