@@ -11,8 +11,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
@@ -27,33 +29,62 @@ public abstract class LivingEntityMixin {
 	public void hurtServer(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity self = (LivingEntity) (Object) this;
 
-		// Dodge
-		AttributeInstance attributeDodgeChanceInstance = self.getAttribute(CSCAttributes.DODGE_CHANCE);
+		handleDodgeLogic(damageSource, cir, self);
+		handleDamageReflectionLogic(serverLevel, damageSource, f, self);
+	}
 
-		if (attributeDodgeChanceInstance != null) {
-			double dodgeChance = attributeDodgeChanceInstance.getValue();
-			boolean bypassesDodge = damageSource.is(CSCDamageTypeTagProvider.BYPASSES_DODGE);
+	@ModifyVariable(
+			method = "actuallyHurt",
+			at = @At("HEAD"),
+			argsOnly = true
+	)
+	private float modifyIncomingDamage(float f, ServerLevel serverLevel, DamageSource damageSource) {
+		LivingEntity self = (LivingEntity) (Object) this;
 
-			if (self.getRandom().nextDouble() < dodgeChance && !bypassesDodge) {
-				self.level().playSound(null, self.blockPosition(), CSCSounds.PLAYER_DODGE, SoundSource.PLAYERS, 1f, 1f);
-				cir.setReturnValue(false);
-			}
-		}
+		AttributeInstance incomingDamageInstance = self.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
+		if (incomingDamageInstance == null) return f;
 
-		// Thorns
-		AttributeInstance attributeDamageReflectionPercentInstance = self.getAttribute(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
+		float multiplier = (float) incomingDamageInstance.getValue();
 
-		if (attributeDamageReflectionPercentInstance != null) {
-			float damageReflectionPercent = (float) attributeDamageReflectionPercentInstance.getValue();
-			Entity attacker = damageSource.getEntity();
+		if (multiplier == 1.0f) return f;
 
-			// Damage Attacker
-			if (attacker instanceof LivingEntity livingAttacker && attacker != self && damageReflectionPercent > 0.0) {
-				DamageSources damageSources = serverLevel.damageSources();
-				DamageSource reflectedDamage = damageSources.magic();
+		return f * multiplier;
+	}
 
-				livingAttacker.hurtServer(serverLevel, reflectedDamage, f * damageReflectionPercent);
-			}
-		}
+	@Unique
+    private static void handleDamageReflectionLogic(ServerLevel serverLevel, DamageSource damageSource, float damageAmount, LivingEntity self) {
+		AttributeInstance damageReflectionPercentInstance = self.getAttribute(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
+		if (damageReflectionPercentInstance == null) return;
+		float damageReflectionPercent = (float) damageReflectionPercentInstance.getValue();
+
+		Entity attacker = damageSource.getEntity();
+		if (!(attacker instanceof LivingEntity livingAttacker)) return;
+
+		boolean isSelfDamage = attacker == self;
+		boolean isValidDamage = damageReflectionPercent > 0;
+
+		if (isSelfDamage || !isValidDamage) return;
+
+		DamageSources damageSources = serverLevel.damageSources();
+		DamageSource reflectedDamage = damageSources.magic();
+
+		livingAttacker.hurtServer(serverLevel, reflectedDamage, damageAmount * damageReflectionPercent);
+	}
+
+	@Unique
+    private static void handleDodgeLogic(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, LivingEntity self) {
+		AttributeInstance dodgeChanceInstance = self.getAttribute(CSCAttributes.DODGE_CHANCE);
+		if (dodgeChanceInstance == null) return;
+
+		double dodgeChance = dodgeChanceInstance.getValue();
+		boolean bypassesDodge = damageSource.is(CSCDamageTypeTagProvider.BYPASSES_DODGE);
+
+		boolean isDodgeTriggered = self.getRandom().nextDouble() < dodgeChance;
+		boolean canDodge = isDodgeTriggered  && !bypassesDodge;
+
+		if (!canDodge) return;
+
+		self.level().playSound(null, self.blockPosition(), CSCSounds.PLAYER_DODGE, SoundSource.PLAYERS, 1f, 1f);
+		cir.setReturnValue(false);
 	}
 }

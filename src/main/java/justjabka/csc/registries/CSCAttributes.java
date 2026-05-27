@@ -25,6 +25,14 @@ public class CSCAttributes {
             true
     );
 
+    public static final Holder<Attribute> INCOMING_DAMAGE_MULTIPLIER = register(
+            "incoming_damage_multiplier",
+            1,
+            0,
+            1024,
+            true
+    );
+
     private static Holder<Attribute> register(
             String name, double defaultValue, double minValue, double maxValue, boolean syncedWithClient
     ) {

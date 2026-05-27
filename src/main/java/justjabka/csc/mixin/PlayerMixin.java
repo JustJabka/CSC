@@ -14,6 +14,7 @@ public abstract class PlayerMixin {
     private static void createAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.getReturnValue()
                 .add(CSCAttributes.DODGE_CHANCE)
-                .add(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
+                .add(CSCAttributes.DAMAGE_REFLECTION_PERCENT)
+                .add(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
     }
 }
