@@ -19,6 +19,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
+
+	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "f")
+	private float modifyIncomingDamage(float f, ServerLevel serverLevel, DamageSource damageSource) {
+		LivingEntity self = (LivingEntity) (Object) this;
+
+		AttributeInstance incomingDamageInstance = self.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
+		if (incomingDamageInstance == null) return f;
+
+		float multiplier = (float) incomingDamageInstance.getValue();
+		if (multiplier == 1.0f) return f;
+
+		return f * multiplier;
+	}
+
 	@Inject(
 		method = "hurtServer", cancellable = true,
 		at = @At(
@@ -31,24 +45,6 @@ public abstract class LivingEntityMixin {
 
 		handleDodgeLogic(damageSource, cir, self);
 		handleDamageReflectionLogic(serverLevel, damageSource, f, self);
-	}
-
-	@ModifyVariable(
-			method = "actuallyHurt",
-			at = @At("HEAD"),
-			argsOnly = true
-	)
-	private float modifyIncomingDamage(float f, ServerLevel serverLevel, DamageSource damageSource) {
-		LivingEntity self = (LivingEntity) (Object) this;
-
-		AttributeInstance incomingDamageInstance = self.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
-		if (incomingDamageInstance == null) return f;
-
-		float multiplier = (float) incomingDamageInstance.getValue();
-
-		if (multiplier == 1.0f) return f;
-
-		return f * multiplier;
 	}
 
 	@Unique
