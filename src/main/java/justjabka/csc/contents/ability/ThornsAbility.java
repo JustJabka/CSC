@@ -12,13 +12,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 public class ThornsAbility extends ActiveAbility {
-    private final double damageReflection;
+    public static final Identifier THORNS_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "thorns");
 
     private AttributeInstance attribute;
-    private static final Identifier ABILITY_DAMAGE_REFLECTION_PERCENT_ID = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "thorns_ability");
+    private final double damageReflection;
 
     public ThornsAbility(int duration, double damageReflection) {
-        super(false, duration);
+        super(THORNS_ABILITY_KEY, false, duration);
         this.damageReflection = damageReflection;
     }
 
@@ -28,7 +28,7 @@ public class ThornsAbility extends ActiveAbility {
 
         attribute.addTransientModifier(
                 new AttributeModifier(
-                        ABILITY_DAMAGE_REFLECTION_PERCENT_ID,
+                        key,
                         damageReflection,
                         AttributeModifier.Operation.ADD_VALUE
                 ));
@@ -55,6 +55,6 @@ public class ThornsAbility extends ActiveAbility {
 
     @Override
     public void onEnd() {
-        attribute.removeModifier(ABILITY_DAMAGE_REFLECTION_PERCENT_ID);
+        attribute.removeModifier(key);
     }
 }

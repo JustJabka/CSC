@@ -15,6 +15,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class DarkGauntletAbility extends ActiveAbility {
+    public static final Identifier DARK_GAUNTLET_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_gauntlet");
+
     private final double attributeDamage;
     private final double attributeIncomingDamage;
     private final double tickingDamage;
@@ -22,10 +24,9 @@ public class DarkGauntletAbility extends ActiveAbility {
     private AttributeInstance attackDamageInstance;
     private AttributeInstance incomingDamageMultiplierInstance;
 
-    private static final Identifier DARK_GAUNTLET_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_gauntlet_ability");
 
     public DarkGauntletAbility(int duration, double attributeDamage, double attributeIncomingDamage, double tickingDamage) {
-        super(true, duration);
+        super(DARK_GAUNTLET_ABILITY_KEY, true, duration);
         this.attributeDamage = attributeDamage;
         this.attributeIncomingDamage = attributeIncomingDamage;
         this.tickingDamage = tickingDamage;
@@ -39,13 +40,13 @@ public class DarkGauntletAbility extends ActiveAbility {
         // Apply Modifier
         attackDamageInstance.addTransientModifier(
                 new AttributeModifier(
-                        DARK_GAUNTLET_ABILITY_KEY,
+                        key,
                         attributeDamage,
                         AttributeModifier.Operation.ADD_VALUE
                 ));
         incomingDamageMultiplierInstance.addTransientModifier(
                 new AttributeModifier(
-                        DARK_GAUNTLET_ABILITY_KEY,
+                        key,
                         attributeIncomingDamage,
                         AttributeModifier.Operation.ADD_VALUE
                 )
@@ -76,8 +77,8 @@ public class DarkGauntletAbility extends ActiveAbility {
     @Override
     public void onEnd() {
         // Remove Modifier
-        attackDamageInstance.removeModifier(DARK_GAUNTLET_ABILITY_KEY);
-        incomingDamageMultiplierInstance.removeModifier(DARK_GAUNTLET_ABILITY_KEY);
+        attackDamageInstance.removeModifier(key);
+        incomingDamageMultiplierInstance.removeModifier(key);
 
         // Remove Enchantment Glint
         // TODO: fix component desync
