@@ -63,7 +63,7 @@ public class CSCAbilityRendering {
         int baseY = 52 + yOffset;
 
         Component text = Component
-                .literal(String.valueOf(remainingSeconds))
+                .translatable("ui.csc.abilityBar", remainingSeconds)
                 .withStyle(style -> style
                         .withColor(ChatFormatting.WHITE)
                 );
