@@ -17,6 +17,8 @@
     "item.csc.dark_gauntlet.description.1": "When used, increases physical damage by %s",
     "item.csc.dark_gauntlet.description.2": "incoming damage by %s, and deals %s magical damage of maximum HP to the user every second",
 
+    "item.csc.dark_cape": "Dark Cape",
+
     "item.csc.vampiric_cape": "Vampiric Cape",
     "item.csc.vampiric_cape.description": "With a %s chance, heals %s of the damage dealt",
 

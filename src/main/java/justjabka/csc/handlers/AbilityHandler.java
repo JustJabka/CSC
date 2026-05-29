@@ -10,6 +10,8 @@ public class AbilityHandler {
     private final List<ActiveAbility> activeAbilities = new ArrayList<>();
 
     public void addAbility(ActiveAbility ability, AbilityContext ctx) {
+        if (ability == null) return;
+
         ActiveAbility existing = getAbility(ability.getClass());
 
         if (existing == null) {
