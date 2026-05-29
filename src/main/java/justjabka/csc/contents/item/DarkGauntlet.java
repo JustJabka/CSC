@@ -1,7 +1,7 @@
 package justjabka.csc.contents.item;
 
 import justjabka.csc.contents.ability.DarkGauntletAbility;
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.handlers.ActiveItemConfig;
 import net.minecraft.ChatFormatting;
@@ -61,7 +61,7 @@ public class DarkGauntlet extends BaseActiveItem {
     }
 
     @Override
-    protected ActiveAbility createAbility() {
+    protected BaseActiveAbility createAbility() {
         return new DarkGauntletAbility(getSecondsToTicks(config.duration), ABILITY_DAMAGE, ABILITY_INCOMING_DAMAGE, TICKING_DAMAGE);
     }
 

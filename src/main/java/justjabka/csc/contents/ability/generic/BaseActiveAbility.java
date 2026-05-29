@@ -4,16 +4,17 @@ import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.handlers.AbilityContext;
 import justjabka.csc.registries.CSCAttachments;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
-public abstract class ActiveAbility {
-    protected AbilityContext ctx;
+@SuppressWarnings("UnstableApiUsage")
+public abstract class BaseActiveAbility {
     protected final Identifier key;
-    protected final boolean togglable;
     protected int duration;
 
-    protected ActiveAbility(Identifier key, boolean togglable, int duration) {
+    protected AbilityContext ctx;
+
+    protected BaseActiveAbility(Identifier key, int duration) {
         this.key = key;
-        this.togglable = togglable;
         this.duration = duration;
     }
 
@@ -22,45 +23,31 @@ public abstract class ActiveAbility {
         onStart();
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     public void tick() {
-        PlayerData data = ctx.player.getAttached(CSCAttachments.PLAYER_DATA);
-        if (data == null) data = PlayerData.DEFAULT;
-
         onTick();
 
-        if (togglable) {
-            duration++;
-        } else {
-            duration--;
-        }
+        PlayerData data = getPlayerData();
+        updateDuration(data);
+    }
 
+    protected void updateDuration(PlayerData data) {
+        duration--;
         ctx.player.setAttached(CSCAttachments.PLAYER_DATA, data.updateAbility(key, duration));
     }
 
     public final void end() {
         onEnd();
 
-        PlayerData data = ctx.player.getAttached(CSCAttachments.PLAYER_DATA);
-        if (data == null) return;
-
+        PlayerData data = getPlayerData();
         ctx.player.setAttached(CSCAttachments.PLAYER_DATA, data.removeAbility(key));
     }
 
-    public int getRemainingSeconds() {
-        return duration / 20;
-    }
-
-    public void refresh(ActiveAbility other) {
+    public void refresh(BaseActiveAbility other) {
         this.duration = other.duration;
     }
 
-    public boolean isTogglable() {
-        return togglable;
-    }
-
     public boolean isEnded() {
-        return !togglable && duration <= 0;
+        return duration <= 0;
     }
 
     public boolean shouldEnd() {
@@ -70,4 +57,11 @@ public abstract class ActiveAbility {
     public abstract void onStart();
     public abstract void onTick();
     public abstract void onEnd();
+
+    protected @NonNull PlayerData getPlayerData() {
+        PlayerData data = ctx.player.getAttached(CSCAttachments.PLAYER_DATA);
+        if (data == null) data = PlayerData.DEFAULT;
+
+        return data;
+    }
 }

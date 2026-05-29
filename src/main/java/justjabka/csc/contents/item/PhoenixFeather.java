@@ -1,6 +1,6 @@
 package justjabka.csc.contents.item;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.handlers.ActiveItemConfig;
 import justjabka.csc.registries.CSCSounds;
@@ -46,7 +46,7 @@ public class PhoenixFeather extends BaseActiveItem {
     }
 
     @Override
-    protected ActiveAbility createAbility() {
+    protected BaseActiveAbility createAbility() {
         return null;
     }
 

@@ -1,7 +1,7 @@
 package justjabka.csc.contents.item;
 
 import justjabka.csc.contents.ability.ThornsAbility;
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.handlers.ActiveItemConfig;
 import net.minecraft.ChatFormatting;
@@ -41,7 +41,7 @@ public class Thorns extends BaseActiveItem {
     }
 
     @Override
-    protected ActiveAbility createAbility() {
+    protected BaseActiveAbility createAbility() {
         return new ThornsAbility(getSecondsToTicks(config.duration), DAMAGE_REFLECTION);
     }
 

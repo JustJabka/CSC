@@ -1,7 +1,7 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.core.particles.ParticleTypes;
@@ -11,14 +11,14 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
-public class ThornsAbility extends ActiveAbility {
+public class ThornsAbility extends BaseActiveAbility {
     public static final Identifier THORNS_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "thorns");
 
     private AttributeInstance attribute;
     private final double damageReflection;
 
     public ThornsAbility(int duration, double damageReflection) {
-        super(THORNS_ABILITY_KEY, false, duration);
+        super(THORNS_ABILITY_KEY, duration);
         this.damageReflection = damageReflection;
     }
 

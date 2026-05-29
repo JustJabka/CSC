@@ -1,18 +1,19 @@
 package justjabka.csc.handlers;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class AbilityHandler {
-    private final List<ActiveAbility> activeAbilities = new ArrayList<>();
+    private final List<BaseActiveAbility> activeAbilities = new ArrayList<>();
 
-    public void addAbility(ActiveAbility ability, AbilityContext ctx) {
+    public void addAbility(BaseActiveAbility ability, AbilityContext ctx) {
         if (ability == null) return;
 
-        ActiveAbility existing = getAbility(ability.getClass());
+        BaseActiveAbility existing = getAbility(ability.getClass());
 
         if (existing == null) {
             ability.start(ctx);
@@ -20,7 +21,7 @@ public class AbilityHandler {
             return;
         }
 
-        if (ability.isTogglable()) {
+        if (ability instanceof BaseTogglableActiveAbility) {
             existing.end();
             activeAbilities.remove(existing);
             return;
@@ -29,8 +30,8 @@ public class AbilityHandler {
         existing.refresh(ability);
     }
 
-    public <T extends ActiveAbility> T getAbility(Class<T> type) {
-        for (ActiveAbility ability : activeAbilities) {
+    public <T extends BaseActiveAbility> T getAbility(Class<T> type) {
+        for (BaseActiveAbility ability : activeAbilities) {
             if (type.isInstance(ability)) {
                 return type.cast(ability);
             }
@@ -38,19 +39,19 @@ public class AbilityHandler {
         return null;
     }
 
-    public boolean hasAbility(Class<? extends ActiveAbility> type) {
+    public boolean hasAbility(Class<? extends BaseActiveAbility> type) {
         return activeAbilities.stream().anyMatch(type::isInstance);
     }
 
-    public List<ActiveAbility> getActiveAbilities() {
+    public List<BaseActiveAbility> getActiveAbilities() {
         return activeAbilities;
     }
 
     public void tick() {
-        Iterator<ActiveAbility> iterator = activeAbilities.iterator();
+        Iterator<BaseActiveAbility> iterator = activeAbilities.iterator();
 
         while (iterator.hasNext()) {
-            ActiveAbility ability = iterator.next();
+            BaseActiveAbility ability = iterator.next();
 
             ability.tick();
 

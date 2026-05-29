@@ -1,7 +1,7 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
@@ -14,7 +14,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-public class DarkGauntletAbility extends ActiveAbility {
+public class DarkGauntletAbility extends BaseTogglableActiveAbility {
     public static final Identifier DARK_GAUNTLET_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_gauntlet");
 
     private final double attributeDamage;
@@ -26,7 +26,7 @@ public class DarkGauntletAbility extends ActiveAbility {
 
 
     public DarkGauntletAbility(int duration, double attributeDamage, double attributeIncomingDamage, double tickingDamage) {
-        super(DARK_GAUNTLET_ABILITY_KEY, true, duration);
+        super(DARK_GAUNTLET_ABILITY_KEY, duration);
         this.attributeDamage = attributeDamage;
         this.attributeIncomingDamage = attributeIncomingDamage;
         this.tickingDamage = tickingDamage;

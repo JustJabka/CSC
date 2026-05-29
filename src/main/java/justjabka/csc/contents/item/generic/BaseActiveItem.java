@@ -1,6 +1,6 @@
 package justjabka.csc.contents.item.generic;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AbilityContext;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.ActiveItemConfig;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 
 public abstract class BaseActiveItem extends BaseItem {
     protected final ActiveItemConfig config;
-    protected abstract ActiveAbility createAbility();
+    protected abstract BaseActiveAbility createAbility();
 
     public BaseActiveItem(Properties properties, ActiveItemConfig config) {
         super(properties.stacksTo(1));
@@ -121,7 +121,7 @@ public abstract class BaseActiveItem extends BaseItem {
     private void activateAbility(Player player, InteractionHand hand) {
         AbilityContext ctx = new AbilityContext(player, hand);
         AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        ActiveAbility ability = createAbility();
+        BaseActiveAbility ability = createAbility();
 
         handler.addAbility(ability, ctx);
     }

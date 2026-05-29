@@ -1,6 +1,6 @@
 package justjabka.csc.contents.item;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
@@ -45,7 +45,7 @@ public class Midas extends BaseActiveItem {
     }
 
     @Override
-    protected ActiveAbility createAbility() {
+    protected BaseActiveAbility createAbility() {
         return null;
     }
 
