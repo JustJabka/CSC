@@ -6,6 +6,7 @@ import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.handlers.ActiveItemConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -56,8 +57,14 @@ public class DarkGauntlet extends BaseActiveItem {
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         textConsumer.accept(Component.translatable("other.csc.cooldown", config.cooldown).withStyle(ChatFormatting.YELLOW));
-        textConsumer.accept(Component.translatable("item.csc.dark_gauntlet.description.1", ABILITY_DAMAGE).withStyle(ChatFormatting.GRAY));
-        textConsumer.accept(Component.translatable("item.csc.dark_gauntlet.description.2", wrapDecimalAsPercent(INCOMING_DAMAGE), wrapDecimalAsPercent(TICKING_DAMAGE)).withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component
+                .translatable("item.csc.dark_gauntlet.description.1", PHYSICAL_DAMAGE, ABILITY_DAMAGE)
+                .withStyle(ChatFormatting.GRAY)
+        );
+        textConsumer.accept(Component
+                .translatable("item.csc.dark_gauntlet.description.2", wrapDecimalAsPercent(INCOMING_DAMAGE), MAGICAL_DAMAGE, wrapDecimalAsPercent(TICKING_DAMAGE))
+                .withStyle(ChatFormatting.GRAY)
+        );
     }
 
     @Override

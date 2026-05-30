@@ -66,6 +66,19 @@ public class DarkCape extends BaseActiveItem {
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         textConsumer.accept(Component.translatable("other.csc.cooldown", config.cooldown).withStyle(ChatFormatting.YELLOW));
+        textConsumer.accept(Component.translatable("other.csc.duration", config.duration).withStyle(ChatFormatting.GREEN));
+        textConsumer.accept(
+                Component.translatable("item.csc.dark_cape.description.1",
+                    wrapDecimalAsPercent(DarkCapeAbility.SPEED_MODIFIER.amount()),
+                    wrapDecimalAsPercent(DarkCapeAbility.VULNERABILITY_MODIFIER.amount())
+                ).withStyle(ChatFormatting.GRAY)
+        );
+        textConsumer.accept(
+                Component.translatable("item.csc.dark_cape.description.2",
+                    DarkCapeAbility.DAMAGE_MULTIPLIER,
+                    PHYSICAL_DAMAGE
+                ).withStyle(ChatFormatting.GRAY)
+        );
     }
 
     @Override

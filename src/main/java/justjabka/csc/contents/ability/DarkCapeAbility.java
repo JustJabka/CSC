@@ -12,15 +12,15 @@ import net.minecraft.world.entity.player.Player;
 public class DarkCapeAbility extends BaseActiveAbility {
     public static final Identifier DARK_CAPE_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_cape");
 
-    public final float DAMAGE_MULTIPLIER = 2;
-    private final AttributeModifier VULNERABILITY_MODIFIER = new AttributeModifier(
-            key,
+    public static final float DAMAGE_MULTIPLIER = 2;
+    public static final AttributeModifier VULNERABILITY_MODIFIER = new AttributeModifier(
+            DARK_CAPE_ABILITY_KEY,
             0.02,
             AttributeModifier.Operation.ADD_VALUE
     );
-    private final AttributeModifier SPEED_MODIFIER = new AttributeModifier(
-            key,
-            1.15,
+    public static final AttributeModifier SPEED_MODIFIER = new AttributeModifier(
+            DARK_CAPE_ABILITY_KEY,
+            0.15,
             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
     );
 

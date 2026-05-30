@@ -14,10 +14,12 @@
     "item.csc.shard.description": "Upgrades character",
 
     "item.csc.dark_gauntlet": "Dark Gauntlet",
-    "item.csc.dark_gauntlet.description.1": "When used, increases physical damage by %s",
-    "item.csc.dark_gauntlet.description.2": "incoming damage by %s, and deals %s magical damage of maximum HP to the user every second",
+    "item.csc.dark_gauntlet.description.1": "When used, increases %s by %s",
+    "item.csc.dark_gauntlet.description.2": "incoming damage by %s, and deals %s %s of maximum HP to the user every second",
 
     "item.csc.dark_cape": "Dark Cape",
+    "item.csc.dark_cape.description.1": "When used, increases movement speed by %s and incoming damage by %s",
+    "item.csc.dark_cape.description.2": "The first attack deals %s more %s and ends the ability",
 
     "item.csc.vampiric_cape": "Vampiric Cape",
     "item.csc.vampiric_cape.description": "With a %s chance, heals %s of the damage dealt",
@@ -25,13 +27,17 @@
     "item.csc.health_book": "Book of Health",
     "item.csc.health_book.description": "When used, increases max health by %s for the end of the game",
     "item.csc.damage_book": "Book of Damage",
-    "item.csc.damage_book.description": "When used, increases physical damage by %s for the end of the game",
+    "item.csc.damage_book.description": "When used, increases %s by %s for the end of the game",
 
     "item.csc.healing_stew": "Healing Stew",
     "item.csc.healing_stew.description": "When consumed, heals %s of maximum HP",
 
     "other.csc.cooldown": "⌛ Cooldown: %s sec.",
     "other.csc.duration": "⌚ Duration: %s sec.",
+
+    "damageType.csc.physical": "Physical Damage",
+    "damageType.csc.magical": "Magical Damage",
+    "damageType.csc.pure": "Pure Damage",
 
     "ui.csc.healthBar": "%s/%s",
     "ui.csc.armorBar": "%s%%",
