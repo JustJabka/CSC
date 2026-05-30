@@ -16,7 +16,9 @@ import net.minecraft.world.level.Level;
 
 public abstract class BaseActiveItem extends BaseItem {
     protected final ActiveItemConfig config;
-    protected abstract BaseActiveAbility createAbility();
+    protected BaseActiveAbility getAbility() {
+        return null;
+    }
 
     public BaseActiveItem(Properties properties, ActiveItemConfig config) {
         super(properties.stacksTo(1));
@@ -29,51 +31,47 @@ public abstract class BaseActiveItem extends BaseItem {
             Player player,
             InteractionHand hand
     ) {
-        ItemStack stack = player.getItemInHand(hand);
-
-        // Gates denesting method, my favorite yummy
-        if (isClientSide(player)) return InteractionResult.PASS;
-        if (isOnCooldown(stack, player)) return InteractionResult.FAIL;
-        if (!canActivate(level, player, hand, stack)) return InteractionResult.FAIL;
-
-        // On Activation
-        applyCooldown(stack, player);
-        onUse(level, player, hand, stack);
-
-        return InteractionResult.SUCCESS;
+        AbilityContext ctx = new AbilityContext(player, hand);
+        return tryActivate(ctx);
     }
 
     @Override
     public InteractionResult interactLivingEntity(
-            ItemStack stack,
+            ItemStack item,
             Player player,
             LivingEntity target,
             InteractionHand hand
     ) {
-        // Gates denesting method, my favorite yummy
-        if (isClientSide(player)) return InteractionResult.PASS;
-        if (isOnCooldown(stack, player)) return InteractionResult.FAIL;
-        if (!canActivate(player, hand, target, stack)) return InteractionResult.FAIL;
+        AbilityContext ctx = new AbilityContext(player, hand, item, target);
+        return tryActivate(ctx);
+    }
 
-        // On Activation
-        applyCooldown(stack, player);
-        onUse(player, hand, target, stack);
+    private InteractionResult tryActivate(AbilityContext ctx) {
+        Player player = ctx.player;
+        ItemStack item = ctx.getItem();
+
+        if (isClientSide(player)) return InteractionResult.PASS;
+        if (isOnCooldown(item, player)) return InteractionResult.FAIL;
+        if (!canActivate(ctx)) return InteractionResult.FAIL;
+
+        applyCooldown(item, player);
+        onUse(ctx);
 
         return InteractionResult.SUCCESS;
     }
 
     // Activation
-    private void applyCooldown(ItemStack stack, Player player) {
+    private void applyCooldown(ItemStack item, Player player) {
         if (config.haveCooldown) {
-            player.getCooldowns().addCooldown(stack, getSecondsToTicks(config.cooldown));
+            player.getCooldowns().addCooldown(item, getSecondsToTicks(config.cooldown));
         }
     }
 
-    private boolean isOnCooldown(ItemStack stack, Player player) {
-        boolean isOnCooldown = player.getCooldowns().isOnCooldown(stack);
+    private boolean isOnCooldown(ItemStack item, Player player) {
+        boolean isItemOnCooldown = player.getCooldowns().isOnCooldown(item);
+        boolean haveCooldown = config.haveCooldown && isItemOnCooldown;
 
-        if (config.haveCooldown && isOnCooldown) {
-            // TODO: fix sound not playing
+        if (haveCooldown) {
             player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
             return true;
         }
@@ -82,46 +80,17 @@ public abstract class BaseActiveItem extends BaseItem {
     }
 
 
-    protected boolean canActivate(
-            Level level,
-            Player player,
-            InteractionHand hand,
-            ItemStack stack
-    ) {
+    protected boolean canActivate(AbilityContext ctx) {
         return true;
     }
 
-    protected boolean canActivate(
-            Player player,
-            InteractionHand hand,
-            LivingEntity target,
-            ItemStack stack
-    ) {
-        return true;
+    protected void onUse(AbilityContext ctx) {
+        if (config.haveAbility) activateAbility(ctx);
     }
 
-    protected void onUse(
-            Level level,
-            Player player,
-            InteractionHand hand,
-            ItemStack stack
-    ) {
-        if (config.haveAbility) activateAbility(player, hand);
-    }
-
-    protected void onUse(
-            Player player,
-            InteractionHand hand,
-            LivingEntity target,
-            ItemStack stack
-    ) {
-        if (config.haveAbility) activateAbility(player, hand);
-    }
-
-    private void activateAbility(Player player, InteractionHand hand) {
-        AbilityContext ctx = new AbilityContext(player, hand);
-        AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        BaseActiveAbility ability = createAbility();
+    private void activateAbility(AbilityContext ctx) {
+        AbilityHandler handler = ctx.player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
+        BaseActiveAbility ability = getAbility();
 
         handler.addAbility(ability, ctx);
     }

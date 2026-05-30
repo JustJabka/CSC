@@ -61,7 +61,7 @@ public class DarkGauntlet extends BaseActiveItem {
     }
 
     @Override
-    protected BaseActiveAbility createAbility() {
+    protected BaseActiveAbility getAbility() {
         return new DarkGauntletAbility(getSecondsToTicks(config.duration), ABILITY_DAMAGE, ABILITY_INCOMING_DAMAGE, TICKING_DAMAGE);
     }
 

@@ -1,7 +1,7 @@
 package justjabka.csc.contents.item;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
+import justjabka.csc.handlers.AbilityContext;
 import justjabka.csc.handlers.ActiveItemConfig;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;
@@ -17,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 
@@ -46,17 +45,14 @@ public class PhoenixFeather extends BaseActiveItem {
     }
 
     @Override
-    protected BaseActiveAbility createAbility() {
-        return null;
-    }
-
-    @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
         return InteractionResult.PASS;
     }
 
     @Override
-    protected void onUse(Level level, Player player, InteractionHand hand, ItemStack stack) {
+    protected void onUse(AbilityContext ctx) {
+        Player player = ctx.player;
+
         // Server-side logic
         if (player instanceof ServerPlayer serverPlayer) {
             // Apply Impulse

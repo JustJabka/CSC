@@ -41,7 +41,7 @@ public class Thorns extends BaseActiveItem {
     }
 
     @Override
-    protected BaseActiveAbility createAbility() {
+    protected BaseActiveAbility getAbility() {
         return new ThornsAbility(getSecondsToTicks(config.duration), DAMAGE_REFLECTION);
     }
 

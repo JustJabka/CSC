@@ -14,21 +14,25 @@ public class AbilityContext {
     public final InteractionHand hand;
     public final Level level;
 
+    private final @Nullable ItemStack item;
     private final @Nullable LivingEntity target;
 
     public AbilityContext(Player player, InteractionHand hand) {
-        this(player, hand, null);
+        this(player, hand, null, null);
     }
 
-    public AbilityContext(Player player, InteractionHand hand, @Nullable LivingEntity target) {
+    public AbilityContext(Player player, InteractionHand hand, @Nullable ItemStack item, @Nullable LivingEntity target) {
         this.player = player;
         this.hand = hand;
         this.level = player.level();
+
+        this.item = item;
         this.target = target;
     }
 
-    public ItemStack getStack() {
-        return player.getItemInHand(hand);
+    public ItemStack getItem() {
+        if (item == null) return player.getItemInHand(hand);
+        return item;
     }
 
     public Optional<LivingEntity> getTarget() {

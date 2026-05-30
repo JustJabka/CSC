@@ -1,14 +1,15 @@
 package justjabka.csc.contents.item;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
+import justjabka.csc.handlers.AbilityContext;
 import justjabka.csc.handlers.ActiveItemConfig;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -21,8 +22,10 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
+@SuppressWarnings("UnstableApiUsage")
 public class Midas extends BaseActiveItem {
     private static final int GOLD_REWARD = 250;
 
@@ -45,24 +48,27 @@ public class Midas extends BaseActiveItem {
     }
 
     @Override
-    protected BaseActiveAbility createAbility() {
-        return null;
-    }
-
-    @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         return InteractionResult.PASS;
     }
 
     @Override
-    protected boolean canActivate(Player player, InteractionHand hand, LivingEntity target, ItemStack stack) {
-        return target.getType().is(CSCEntityTypeTagProvider.CAN_BE_TURNED_INTO_GOLD);
+    protected boolean canActivate(AbilityContext ctx) {
+        Optional<LivingEntity> target = ctx.getTarget();
+
+        return target.map(entity ->
+                entity.getType().is(CSCEntityTypeTagProvider.CAN_BE_TURNED_INTO_GOLD)
+        ).orElse(false);
     }
 
     @Override
-    protected void onUse(Player player, InteractionHand hand, LivingEntity target, ItemStack stack) {
-        // Turn target into gold
-        target.hurt(target.damageSources().magic(), Float.MAX_VALUE);
+    protected void onUse(AbilityContext ctx) {
+        if (ctx.getTarget().isEmpty()) return;
+
+        Player player = ctx.player;
+        LivingEntity target = ctx.getTarget().get();
+
+        target.kill((ServerLevel) ctx.level);
 
         // Add Gold
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);

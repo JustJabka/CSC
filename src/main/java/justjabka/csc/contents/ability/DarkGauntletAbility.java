@@ -52,7 +52,7 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
                 )
         );
 
-        ctx.getStack().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+        ctx.getItem().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
         ctx.player.level().playSound(null, ctx.player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_ACTIVATE, SoundSource.PLAYERS, 1f, 1f);
     }
 
@@ -71,7 +71,7 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
     @Override
     public boolean shouldEnd() {
         // End if gauntlet is not in hands
-        return !ctx.getStack().is(CSCItems.DARK_GAUNTLET);
+        return !ctx.getItem().is(CSCItems.DARK_GAUNTLET);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
 
         // Remove Enchantment Glint
         // TODO: fix component desync
-        ctx.getStack().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, false);
+        ctx.getItem().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, false);
         ctx.player.level().playSound(null, ctx.player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_DEACTIVATE, SoundSource.PLAYERS, 1f, 1f);
     }
 }

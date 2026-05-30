@@ -1,6 +1,5 @@
 package justjabka.csc.contents.item;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.handlers.ActiveItemConfig;
 import net.minecraft.ChatFormatting;
@@ -60,11 +59,6 @@ public class DarkCape extends BaseActiveItem {
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         textConsumer.accept(Component.translatable("other.csc.cooldown", config.cooldown).withStyle(ChatFormatting.YELLOW));
-    }
-
-    @Override
-    protected BaseActiveAbility createAbility() {
-        return null;
     }
 
     @Override
