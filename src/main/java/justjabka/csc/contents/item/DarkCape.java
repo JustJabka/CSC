@@ -1,5 +1,7 @@
 package justjabka.csc.contents.item;
 
+import justjabka.csc.contents.ability.DarkCapeAbility;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.handlers.ActiveItemConfig;
 import net.minecraft.ChatFormatting;
@@ -54,6 +56,11 @@ public class DarkCape extends BaseActiveItem {
             .build()),
             activeItemConfig
         );
+    }
+
+    @Override
+    protected BaseActiveAbility getAbility() {
+        return new DarkCapeAbility(getSecondsToTicks(config.duration));
     }
 
     @Override

@@ -13,7 +13,7 @@ public abstract class BaseActiveAbility {
 
     protected AbilityContext ctx;
 
-    protected BaseActiveAbility(Identifier key, int duration) {
+    public BaseActiveAbility(Identifier key, int duration) {
         this.key = key;
         this.duration = duration;
     }

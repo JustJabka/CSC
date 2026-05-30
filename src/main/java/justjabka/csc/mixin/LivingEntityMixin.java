@@ -1,15 +1,20 @@
 package justjabka.csc.mixin;
 
+import justjabka.csc.contents.ability.DarkCapeAbility;
 import justjabka.csc.data.CSCDamageTypeTagProvider;
+import justjabka.csc.handlers.AbilityHandler;
+import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LivingEntityMixin {
 
 	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "f")
-	private float modifyIncomingDamage(float f, ServerLevel serverLevel, DamageSource damageSource) {
+	private float handleIncomingDamageMultiplierAttribute(float f, ServerLevel serverLevel, DamageSource damageSource) {
 		LivingEntity self = (LivingEntity) (Object) this;
 
 		AttributeInstance incomingDamageInstance = self.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
@@ -33,12 +38,27 @@ public abstract class LivingEntityMixin {
 		return f * multiplier;
 	}
 
+	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "f")
+	private float handleDarkCapeAbilityAttack(float f, ServerLevel serverLevel, DamageSource damageSource) {
+		if (!(damageSource.getEntity() instanceof Player attacker)) return f;
+		if (!damageSource.is(DamageTypes.PLAYER_ATTACK)) return f;
+
+		AbilityHandler handler = attacker.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
+		if (!handler.hasAbility(DarkCapeAbility.class)) return f;
+
+		DarkCapeAbility darkCapeAbility = handler.getAbility(DarkCapeAbility.class);
+		if (darkCapeAbility == null) return f;
+
+		// End ability
+		darkCapeAbility.end();
+		handler.getActiveAbilities().remove(darkCapeAbility);
+
+		return f * darkCapeAbility.DAMAGE_MULTIPLIER;
+	}
+
 	@Inject(
-		method = "hurtServer", cancellable = true,
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/world/entity/LivingEntity;actuallyHurt(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)V"
-		)
+			method = "hurtServer", cancellable = true,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;actuallyHurt(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)V")
 	)
 	public void hurtServer(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity self = (LivingEntity) (Object) this;
