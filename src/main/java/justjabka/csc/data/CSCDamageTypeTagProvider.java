@@ -1,8 +1,8 @@
 package justjabka.csc.data;
 
 import justjabka.csc.CSC;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -13,10 +13,10 @@ import net.minecraft.world.damagesource.DamageTypes;
 
 import java.util.concurrent.CompletableFuture;
 
-public class CSCDamageTypeTagProvider extends FabricTagProvider<DamageType> {
+public class CSCDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
     public static final TagKey<DamageType> BYPASSES_DODGE = TagKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(CSC.MOD_ID, "bypasses_dodge"));
 
-    public CSCDamageTypeTagProvider(FabricDataOutput output,
+    public CSCDamageTypeTagProvider(FabricPackOutput output,
                                     CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, Registries.DAMAGE_TYPE, registriesFuture);
     }

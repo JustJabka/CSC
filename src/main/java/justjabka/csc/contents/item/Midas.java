@@ -25,7 +25,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-@SuppressWarnings("UnstableApiUsage")
 public class Midas extends BaseActiveItem {
     private static final int GOLD_REWARD = 250;
 
@@ -57,7 +56,7 @@ public class Midas extends BaseActiveItem {
         Optional<LivingEntity> target = ctx.getTarget();
 
         return target.map(entity ->
-                entity.getType().is(CSCEntityTypeTagProvider.CAN_BE_TURNED_INTO_GOLD)
+                entity.is(CSCEntityTypeTagProvider.CAN_BE_TURNED_INTO_GOLD)
         ).orElse(false);
     }
 

@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -36,7 +36,7 @@ public class CSCHudRendering {
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT, Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud"), CSCHudRendering::render);
     }
 
-    private static void render(GuiGraphics graphics, DeltaTracker tickCounter) {
+    private static void render(GuiGraphicsExtractor graphics, DeltaTracker tickCounter) {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
         Font font = minecraft.font;
@@ -56,7 +56,7 @@ public class CSCHudRendering {
     }
 
     public static void renderBar(
-            GuiGraphics graphics,
+            GuiGraphicsExtractor graphics,
             Font font,
             Identifier background,
             Identifier progress,
@@ -90,7 +90,7 @@ public class CSCHudRendering {
             int textX = barX + (width - font.width(text)) / 2;
             int textY = (barY + (height - font.lineHeight) / 2) + 1;
 
-            graphics.drawString(font, text, textX, textY, 0xFFFFFFFF);
+            graphics.text(font, text, textX, textY, 0xFFFFFFFF);
         }
     }
 }

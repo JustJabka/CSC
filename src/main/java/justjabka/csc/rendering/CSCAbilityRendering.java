@@ -5,7 +5,7 @@ import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.registries.CSCAttachments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +20,7 @@ public class CSCAbilityRendering {
 
     private static final Map<Identifier, Integer> MAX_DURATION_CACHE = new HashMap<>();
 
-    public static void render(GuiGraphics graphics, Font font, Player player, int sw, int sh) {
+    public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
         PlayerData data = player.getAttached(CSCAttachments.PLAYER_DATA);
         if (data == null) {
             MAX_DURATION_CACHE.clear();
@@ -50,7 +50,7 @@ public class CSCAbilityRendering {
     }
 
     public static void renderAbility(
-            GuiGraphics graphics,
+            GuiGraphicsExtractor graphics,
             Font font,
             Player player,
             int sw,

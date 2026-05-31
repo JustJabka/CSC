@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.resources.Identifier;
 
-@SuppressWarnings("UnstableApiUsage")
 public class CSCAttachments {
     public static final AttachmentType<PlayerData> PLAYER_DATA =
             AttachmentRegistry.create(

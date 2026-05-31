@@ -25,50 +25,50 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "f")
-	private float handleIncomingDamageMultiplierAttribute(float f, ServerLevel serverLevel, DamageSource damageSource) {
+	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
+	private float handleIncomingDamageMultiplierAttribute(float damage, ServerLevel level, DamageSource source) {
 		LivingEntity self = (LivingEntity) (Object) this;
 
 		AttributeInstance incomingDamageInstance = self.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
-		if (incomingDamageInstance == null) return f;
+		if (incomingDamageInstance == null) return damage;
 
 		float multiplier = (float) incomingDamageInstance.getValue();
-		if (multiplier == 1.0f) return f;
+		if (multiplier == 1.0f) return damage;
 
-		return f * multiplier;
+		return damage * multiplier;
 	}
 
-	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "f")
-	private float handleDarkCapeAbilityAttack(float f, ServerLevel serverLevel, DamageSource damageSource) {
-		if (!(damageSource.getEntity() instanceof Player attacker)) return f;
-		if (!damageSource.is(DamageTypes.PLAYER_ATTACK)) return f;
+	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
+	private float handleDarkCapeAbilityAttack(float damage, ServerLevel level, DamageSource source) {
+		if (!(source.getEntity() instanceof Player attacker)) return damage;
+		if (!source.is(DamageTypes.PLAYER_ATTACK)) return damage;
 
 		AbilityHandler handler = attacker.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-		if (!handler.hasAbility(DarkCapeAbility.class)) return f;
+		if (!handler.hasAbility(DarkCapeAbility.class)) return damage;
 
 		DarkCapeAbility darkCapeAbility = handler.getAbility(DarkCapeAbility.class);
-		if (darkCapeAbility == null) return f;
+		if (darkCapeAbility == null) return damage;
 
 		// End ability
 		darkCapeAbility.end();
 		handler.getActiveAbilities().remove(darkCapeAbility);
 
-		return f * DarkCapeAbility.DAMAGE_MULTIPLIER;
+		return damage * DarkCapeAbility.DAMAGE_MULTIPLIER;
 	}
 
 	@Inject(
 			method = "hurtServer", cancellable = true,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;actuallyHurt(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)V")
 	)
-	public void hurtServer(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
+	public void hurtServer(ServerLevel level, DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity self = (LivingEntity) (Object) this;
 
-		handleDodgeLogic(damageSource, cir, self);
-		handleDamageReflectionLogic(serverLevel, damageSource, f, self);
+		handleDodgeLogic(source, cir, self);
+		handleDamageReflectionLogic(level, source, damage, self);
 	}
 
 	@Unique
-    private static void handleDamageReflectionLogic(ServerLevel serverLevel, DamageSource damageSource, float damageAmount, LivingEntity self) {
+    private static void handleDamageReflectionLogic(ServerLevel level, DamageSource damageSource, float damage, LivingEntity self) {
 		AttributeInstance damageReflectionPercentInstance = self.getAttribute(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
 		if (damageReflectionPercentInstance == null) return;
 		float damageReflectionPercent = (float) damageReflectionPercentInstance.getValue();
@@ -81,10 +81,10 @@ public abstract class LivingEntityMixin {
 
 		if (isSelfDamage || !isValidDamage) return;
 
-		DamageSources damageSources = serverLevel.damageSources();
+		DamageSources damageSources = level.damageSources();
 		DamageSource reflectedDamage = damageSources.magic();
 
-		livingAttacker.hurtServer(serverLevel, reflectedDamage, damageAmount * damageReflectionPercent);
+		livingAttacker.hurtServer(level, reflectedDamage, damage * damageReflectionPercent);
 	}
 
 	@Unique

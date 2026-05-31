@@ -5,7 +5,7 @@ import justjabka.csc.mixin.CooldownInstanceAccessor;
 import justjabka.csc.mixin.ItemCooldownsAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class CSCCooldownRendering {
     private static final Identifier COOLDOWN_BACKGROUND = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/cooldown_background");
 
-    public static void render(GuiGraphics graphics, Font font, Player player, int sw, int sh) {
+    public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
         // Get list of all items that on cooldowns
         ItemCooldowns cooldowns = player.getCooldowns();
         Map<Identifier, ?> map = ((ItemCooldownsAccessor) cooldowns).getCooldowns();
@@ -50,7 +50,7 @@ public class CSCCooldownRendering {
     }
 
     private static void renderCooldownElement(
-            GuiGraphics graphics,
+            GuiGraphicsExtractor graphics,
             Font font,
             Player player,
             ItemStack stack,
@@ -78,8 +78,8 @@ public class CSCCooldownRendering {
                 );
 
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, COOLDOWN_BACKGROUND, bgX, bgY, bgSize, bgSize);
-        graphics.renderItem(player, stack, itemX, itemY, 0);
-        graphics.renderItemDecorations(font, stack, itemX, itemY);
-        graphics.drawCenteredString(font, text, baseX, textY, 0xFFFFFFFF);
+        graphics.item(player, stack, itemX, itemY, 0);
+        graphics.itemDecorations(font, stack, itemX, itemY);
+        graphics.centeredText(font, text, baseX, textY, 0xFFFFFFFF);
     }
 }
