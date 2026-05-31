@@ -20,6 +20,7 @@ public class CSC implements ModInitializer {
 		CSCSounds.initialize();
 		CSCAttachments.initialize();
 		CSCAttributes.initialize();
+		CSCKeyMappings.initialize();
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> SetGold.register(dispatcher));
 
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
