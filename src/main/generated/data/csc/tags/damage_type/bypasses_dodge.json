@@ -1,13 +1,13 @@
 {
   "values": [
     "#minecraft:bypasses_invulnerability",
+    "#csc:is_magic",
     "minecraft:cramming",
     "minecraft:drown",
     "minecraft:dry_out",
     "minecraft:freeze",
     "minecraft:in_wall",
     "minecraft:outside_border",
-    "minecraft:starve",
-    "minecraft:wither"
+    "minecraft:starve"
   ]
 }

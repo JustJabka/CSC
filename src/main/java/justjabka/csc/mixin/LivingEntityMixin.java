@@ -51,7 +51,6 @@ public abstract class LivingEntityMixin {
 		if (resistance == 0.0f) return damage;
 
 		float resistancePercent = Math.max(1 - resistance, 0);
-
 		return resistancePercent * damage;
 	}
 

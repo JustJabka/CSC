@@ -24,6 +24,14 @@ public class CSCDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
 
     @Override
     protected void addTags(HolderLookup.Provider wrapperLookup) {
+        builder(IS_MAGIC)
+                .add(DamageTypes.MAGIC)
+                .add(DamageTypes.INDIRECT_MAGIC)
+                .add(DamageTypes.DRAGON_BREATH)
+                .add(DamageTypes.THORNS)
+                .add(DamageTypes.WITHER)
+                .add(DamageTypes.WITHER_SKULL);
+
         builder(BYPASSES_DODGE)
                 .forceAddTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 .forceAddTag(CSCDamageTypeTagProvider.IS_MAGIC)
@@ -34,14 +42,6 @@ public class CSCDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
                 .add(DamageTypes.IN_WALL)
                 .add(DamageTypes.OUTSIDE_BORDER)
                 .add(DamageTypes.STARVE);
-
-        builder(IS_MAGIC)
-                .add(DamageTypes.MAGIC)
-                .add(DamageTypes.INDIRECT_MAGIC)
-                .add(DamageTypes.DRAGON_BREATH)
-                .add(DamageTypes.THORNS)
-                .add(DamageTypes.WITHER)
-                .add(DamageTypes.WITHER_SKULL);
 
         builder(DamageTypeTags.NO_KNOCKBACK)
                 .add(DamageTypes.MAGIC)
