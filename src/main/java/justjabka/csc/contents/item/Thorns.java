@@ -2,14 +2,10 @@ package justjabka.csc.contents.item;
 
 import justjabka.csc.contents.ability.ThornsAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
-import justjabka.csc.contents.item.generic.BaseActiveItem;
+import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.handlers.ActiveItemConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -18,7 +14,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
-public class Thorns extends BaseActiveItem {
+public class Thorns extends BaseActiveTrinketItem {
     private static final double DAMAGE_REFLECTION = 0.6;
 
     public Thorns(Properties properties) {
@@ -41,12 +37,7 @@ public class Thorns extends BaseActiveItem {
     }
 
     @Override
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return new ThornsAbility(getSecondsToTicks(config.duration), DAMAGE_REFLECTION);
-    }
-
-    @Override
-    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
-        return InteractionResult.PASS;
     }
 }

@@ -21,12 +21,13 @@ public class CSC implements ModInitializer {
 		CSCAttachments.initialize();
 		CSCAttributes.initialize();
 		CSCKeyMappings.initialize();
+		CSCPayloads.initialize();
+
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> SetGold.register(dispatcher));
 
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-				player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER)
-						.tick();
+				player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER).tick();
 			}
 		});
 	}

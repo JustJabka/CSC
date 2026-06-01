@@ -1,11 +1,10 @@
 package justjabka.csc.contents.item;
 
 import eu.pb4.trinkets.api.TrinketSlotAccess;
-import eu.pb4.trinkets.api.callback.TrinketCallback;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.DarkCapeAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
-import justjabka.csc.contents.item.generic.BaseActiveItem;
+import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.handlers.ActiveItemConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -27,7 +26,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class DarkCape extends BaseActiveItem implements TrinketCallback {
+public class DarkCape extends BaseActiveTrinketItem {
     private static final double BASE_HEALTH = 4;
     private static final double BASE_DAMAGE = 1;
 
@@ -66,7 +65,7 @@ public class DarkCape extends BaseActiveItem implements TrinketCallback {
     }
 
     @Override
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return new DarkCapeAbility(getSecondsToTicks(config.duration));
     }
 

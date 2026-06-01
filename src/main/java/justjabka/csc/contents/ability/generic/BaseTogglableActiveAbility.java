@@ -4,7 +4,6 @@ import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.registries.CSCAttachments;
 import net.minecraft.resources.Identifier;
 
-@SuppressWarnings("UnstableApiUsage")
 public abstract class BaseTogglableActiveAbility extends BaseActiveAbility {
     protected BaseTogglableActiveAbility(Identifier key, int duration) {
         super(key, duration);

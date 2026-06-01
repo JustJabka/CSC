@@ -6,7 +6,6 @@ import justjabka.csc.registries.CSCAttachments;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NonNull;
 
-@SuppressWarnings("UnstableApiUsage")
 public abstract class BaseActiveAbility {
     protected final Identifier key;
     protected int duration;

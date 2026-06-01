@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 
 public abstract class BaseActiveItem extends BaseItem {
     protected final ActiveItemConfig config;
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return null;
     }
 
@@ -31,7 +31,7 @@ public abstract class BaseActiveItem extends BaseItem {
             Player player,
             InteractionHand hand
     ) {
-        AbilityContext ctx = new AbilityContext(player, hand);
+        AbilityContext ctx = new AbilityContext(player, hand.asEquipmentSlot());
         return tryActivate(ctx);
     }
 
@@ -42,11 +42,11 @@ public abstract class BaseActiveItem extends BaseItem {
             LivingEntity target,
             InteractionHand hand
     ) {
-        AbilityContext ctx = new AbilityContext(player, hand, item, target);
+        AbilityContext ctx = new AbilityContext(player, hand.asEquipmentSlot(), item, target);
         return tryActivate(ctx);
     }
 
-    private InteractionResult tryActivate(AbilityContext ctx) {
+    public InteractionResult tryActivate(AbilityContext ctx) {
         Player player = ctx.player;
         ItemStack item = ctx.getItem();
 
@@ -78,7 +78,6 @@ public abstract class BaseActiveItem extends BaseItem {
 
         return false;
     }
-
 
     protected boolean canActivate(AbilityContext ctx) {
         return true;

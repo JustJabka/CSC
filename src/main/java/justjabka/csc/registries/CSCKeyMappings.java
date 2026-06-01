@@ -2,10 +2,11 @@ package justjabka.csc.registries;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import justjabka.csc.CSC;
+import justjabka.csc.payloads.ActivateTrinketPayload;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
@@ -22,16 +23,14 @@ public class CSCKeyMappings {
     public static void initialize() {
         CSC.LOGGER.info("Initializing Key Mappings");
         register();
+        registerKeyInputs();
     }
 
     private static void registerKeyInputs() {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (capeActivationKey.consumeClick()) {
-                if (client.player == null) continue;
-
-                client.player.sendSystemMessage(Component.literal("Test"));
-            }
-        });
+        registerTrinketActivationKey(faceActivationKey, "head/face");
+        registerTrinketActivationKey(capeActivationKey, "chest/cape");
+        registerTrinketActivationKey(beltActivationKey, "legs/belt");
+        registerTrinketActivationKey(agletActivationKey, "feet/aglet");
     }
 
     private static void register() {
@@ -59,7 +58,16 @@ public class CSCKeyMappings {
                 GLFW.GLFW_KEY_V,
                 ACTIVATION_CATEGORY
         ));
+    }
 
-        registerKeyInputs();
+    private static void registerTrinketActivationKey(KeyMapping keyMapping, String slotGroup) {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            while (keyMapping.consumeClick()) {
+                if (client.player == null) continue;
+
+                ActivateTrinketPayload payload = new ActivateTrinketPayload(slotGroup);
+                ClientPlayNetworking.send(payload);
+            }
+        });
     }
 }

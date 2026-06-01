@@ -1,6 +1,6 @@
 package justjabka.csc.contents.item;
 
-import justjabka.csc.contents.item.generic.BaseActiveItem;
+import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.handlers.AbilityContext;
 import justjabka.csc.handlers.ActiveItemConfig;
 import justjabka.csc.registries.CSCSounds;
@@ -22,7 +22,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
-public class PhoenixFeather extends BaseActiveItem {
+public class PhoenixFeather extends BaseActiveTrinketItem {
     private static final double HORIZONTAL_STRENGTH = 1.6;
     private static final double VERTICAL_STRENGTH = 0.6;
 
