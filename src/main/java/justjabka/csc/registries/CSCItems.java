@@ -27,6 +27,7 @@ public class CSCItems {
     public static final Item DAMAGE_BOOK = register("damage_book", DamageBook::new, new Item.Properties());
     public static final Item HEALTH_BOOK = register("health_book", HealthBook::new, new Item.Properties());
     public static final Item ASTRAL_DUST = register("astral_dust", AstralDust::new, new Item.Properties());
+    public static final Item HEALING_STEW = register("healing_stew", HealingStew::new, new Item.Properties());
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Items");
