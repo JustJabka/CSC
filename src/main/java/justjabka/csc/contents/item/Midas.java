@@ -1,10 +1,10 @@
 package justjabka.csc.contents.item;
 
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
 import justjabka.csc.handlers.AbilityContext;
-import justjabka.csc.handlers.ActiveItemConfig;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;
@@ -28,21 +28,28 @@ import java.util.function.Consumer;
 public class Midas extends BaseActiveItem {
     private static final int GOLD_REWARD = 250;
 
+    @Override
+    protected int getCooldown() {
+        return 100;
+    }
+
+    @Override
+    protected int getDuration() {
+        return 0;
+    }
+
+    @Override
+    protected BaseActiveAbility getAbility() {
+        return null;
+    }
+
     public Midas(Properties properties) {
-        super(properties
-                .rarity(Rarity.UNCOMMON),
-                new ActiveItemConfig(
-                        true,
-                        false,
-                        100,
-                        0
-                )
-        );
+        super(properties.rarity(Rarity.UNCOMMON));
     }
 
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        textConsumer.accept(Component.translatable("other.csc.cooldown", config.cooldown).withStyle(ChatFormatting.YELLOW));
+        super.appendHoverText(stack, context, displayComponent, textConsumer, type);
         textConsumer.accept(Component.translatable("item.csc.midas.description").withStyle(ChatFormatting.GRAY));
     }
 

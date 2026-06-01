@@ -5,7 +5,6 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.MagicProtectionClockAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.handlers.ActiveItemConfig;
 import justjabka.csc.registries.CSCAttributes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -26,21 +25,23 @@ import java.util.function.Consumer;
 public class MagicProtectionClock extends BaseActiveTrinketItem {
     private static final double BASE_MAGIC_RESISTANCE = 0.25;
 
-    public MagicProtectionClock(Properties properties) {
-        super(
-            properties.rarity(Rarity.RARE),
-            new ActiveItemConfig(
-                true,
-                true,
-                60,
-                10
-            )
-        );
+    @Override
+    protected int getCooldown() {
+        return 60;
+    }
+
+    @Override
+    protected int getDuration() {
+        return 10;
     }
 
     @Override
     public BaseActiveAbility getAbility() {
-        return new MagicProtectionClockAbility(getSecondsToTicks(config.duration));
+        return new MagicProtectionClockAbility(getSecondsToTicks(getDuration()));
+    }
+
+    public MagicProtectionClock(Properties properties) {
+        super(properties.rarity(Rarity.RARE));
     }
 
     @Override
@@ -62,8 +63,7 @@ public class MagicProtectionClock extends BaseActiveTrinketItem {
 
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        textConsumer.accept(Component.translatable("other.csc.cooldown", config.cooldown).withStyle(ChatFormatting.YELLOW));
-        textConsumer.accept(Component.translatable("other.csc.duration", config.duration).withStyle(ChatFormatting.GREEN));
-        textConsumer.accept(Component.translatable("item.csc.magic_protection_clock.description", MAGICAL_DAMAGE, config.duration).withStyle(ChatFormatting.GRAY));
+        super.appendHoverText(stack, context, displayComponent, textConsumer, type);
+        textConsumer.accept(Component.translatable("item.csc.magic_protection_clock.description", MAGICAL_DAMAGE).withStyle(ChatFormatting.GRAY));
     }
 }

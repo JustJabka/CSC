@@ -11,7 +11,7 @@
     "item.csc.thorns.description": "You reflect %s of the damage received back to the attacker",
 
     "item.csc.magic_protection_clock": "Magic Protection Clock",
-    "item.csc.magic_protection_clock.description": "When used, protects from %s for %s sec.",
+    "item.csc.magic_protection_clock.description": "When used, protects from %s",
 
     "item.csc.shard": "Shard",
     "item.csc.shard.description": "Upgrades character",

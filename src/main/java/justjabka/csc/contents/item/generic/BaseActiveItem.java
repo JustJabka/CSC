@@ -3,28 +3,63 @@ package justjabka.csc.contents.item.generic;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AbilityContext;
 import justjabka.csc.handlers.AbilityHandler;
-import justjabka.csc.handlers.ActiveItemConfig;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.NonNull;
+
+import java.util.function.Consumer;
 
 public abstract class BaseActiveItem extends BaseItem {
-    protected final ActiveItemConfig config;
-    public BaseActiveAbility getAbility() {
-        return null;
+    // Ability Settings
+    protected abstract int getCooldown();
+    protected abstract int getDuration();
+    protected abstract BaseActiveAbility getAbility();
+
+    protected boolean haveCooldown() {
+        return getCooldown() > 0;
     }
 
-    public BaseActiveItem(Properties properties, ActiveItemConfig config) {
+    protected boolean haveDuration() {
+        return getDuration() > 0;
+    }
+
+    protected boolean haveAbility() {
+        return getAbility() != null;
+    }
+
+    public BaseActiveItem(Properties properties) {
         super(properties.stacksTo(1));
-        this.config = config;
     }
 
+    @Override
+    public void appendHoverText(
+            @NonNull ItemStack stack,
+            @NonNull TooltipContext context,
+            @NonNull TooltipDisplay displayComponent,
+            Consumer<Component> textConsumer,
+            @NonNull TooltipFlag type
+    ) {
+        if (haveCooldown()) {
+            textConsumer.accept(Component.translatable("other.csc.cooldown", getCooldown()).withStyle(ChatFormatting.YELLOW));
+        }
+
+        if (haveDuration()) {
+            textConsumer.accept(Component.translatable("other.csc.duration", getDuration()).withStyle(ChatFormatting.GREEN));
+        }
+    }
+
+    // Interactions
     @Override
     public InteractionResult use(
             Level level,
@@ -46,6 +81,7 @@ public abstract class BaseActiveItem extends BaseItem {
         return tryActivate(ctx);
     }
 
+    // Activation
     public InteractionResult tryActivate(AbilityContext ctx) {
         Player player = ctx.player;
         ItemStack item = ctx.getItem();
@@ -60,23 +96,20 @@ public abstract class BaseActiveItem extends BaseItem {
         return InteractionResult.SUCCESS;
     }
 
-    // Activation
     private void applyCooldown(ItemStack item, Player player) {
-        if (config.haveCooldown) {
-            player.getCooldowns().addCooldown(item, getSecondsToTicks(config.cooldown));
-        }
+        if (!haveCooldown()) return;
+
+        player.getCooldowns().addCooldown(item, getSecondsToTicks(getCooldown()));
     }
 
     private boolean isOnCooldown(ItemStack item, Player player) {
         boolean isItemOnCooldown = player.getCooldowns().isOnCooldown(item);
-        boolean haveCooldown = config.haveCooldown && isItemOnCooldown;
+        boolean haveCooldown = haveCooldown() && isItemOnCooldown;
 
-        if (haveCooldown) {
-            player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
-            return true;
-        }
+        if (!haveCooldown) return false;
 
-        return false;
+        player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
+        return true;
     }
 
     protected boolean canActivate(AbilityContext ctx) {
@@ -84,7 +117,7 @@ public abstract class BaseActiveItem extends BaseItem {
     }
 
     protected void onUse(AbilityContext ctx) {
-        if (config.haveAbility) activateAbility(ctx);
+        if (haveAbility()) activateAbility(ctx);
     }
 
     private void activateAbility(AbilityContext ctx) {
