@@ -7,6 +7,7 @@ import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,6 +23,9 @@ import java.util.function.Consumer;
 
 public abstract class BaseActiveItem extends BaseItem {
     // Ability Settings
+    protected Identifier getKey() {
+        return null;
+    }
     protected abstract int getCooldown();
     protected abstract int getDuration();
     protected abstract BaseActiveAbility getAbility();

@@ -26,6 +26,24 @@ public class DarkCape extends BaseActiveTrinketItem {
     private static final double BASE_HEALTH = 4;
     private static final double BASE_DAMAGE = 1;
 
+    private final double DAMAGE_MULTIPLIER = 2;
+
+    private final AttributeModifier VULNERABILITY_MODIFIER = new AttributeModifier(
+            getKey(),
+            0.02,
+            AttributeModifier.Operation.ADD_VALUE
+    );
+    private final AttributeModifier SPEED_MODIFIER = new AttributeModifier(
+            getKey(),
+            0.15,
+            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+    );
+
+    @Override
+    protected Identifier getKey() {
+        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_cape");
+    }
+
     @Override
     protected int getCooldown() {
         return 42;
@@ -38,7 +56,13 @@ public class DarkCape extends BaseActiveTrinketItem {
 
     @Override
     public BaseActiveAbility getAbility() {
-        return new DarkCapeAbility(getSecondsToTicks(getDuration()));
+        return new DarkCapeAbility(
+                getKey(),
+                getSecondsToTicks(getDuration()),
+                DAMAGE_MULTIPLIER,
+                VULNERABILITY_MODIFIER,
+                SPEED_MODIFIER
+        );
     }
 
     public DarkCape(Properties properties) {
@@ -73,13 +97,13 @@ public class DarkCape extends BaseActiveTrinketItem {
         super.appendHoverText(stack, context, displayComponent, textConsumer, type);
         textConsumer.accept(
                 Component.translatable("item.csc.dark_cape.description.1",
-                    wrapDecimalAsPercent(DarkCapeAbility.SPEED_MODIFIER.amount()),
-                    wrapDecimalAsPercent(DarkCapeAbility.VULNERABILITY_MODIFIER.amount())
+                    wrapDecimalAsPercent(SPEED_MODIFIER.amount()),
+                    wrapDecimalAsPercent(VULNERABILITY_MODIFIER.amount())
                 ).withStyle(ChatFormatting.GRAY)
         );
         textConsumer.accept(
                 Component.translatable("item.csc.dark_cape.description.2",
-                    DarkCapeAbility.DAMAGE_MULTIPLIER,
+                    DAMAGE_MULTIPLIER,
                     PHYSICAL_DAMAGE
                 ).withStyle(ChatFormatting.GRAY)
         );

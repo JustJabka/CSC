@@ -69,7 +69,7 @@ public abstract class LivingEntityMixin {
 		darkCapeAbility.end();
 		handler.getActiveAbilities().remove(darkCapeAbility);
 
-		return damage * DarkCapeAbility.DAMAGE_MULTIPLIER;
+        return (float) (damage * darkCapeAbility.damageMultiplier);
 	}
 
 	@Inject(

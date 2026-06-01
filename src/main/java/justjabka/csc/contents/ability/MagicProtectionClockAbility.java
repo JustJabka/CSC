@@ -1,6 +1,5 @@
 package justjabka.csc.contents.ability;
 
-import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
@@ -17,13 +16,12 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class MagicProtectionClockAbility extends BaseActiveAbility {
-    public static final Identifier MAGIC_PROTECTION_CLOCK_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "magic_protection_clock");
-    public static final double MAGIC_RESISTANCE = 1;
-
+    private final AttributeModifier magicResistanceModifier;
     private AttributeInstance magicResistanceInstance;
 
-    public MagicProtectionClockAbility(int duration) {
-        super(MAGIC_PROTECTION_CLOCK_ABILITY_KEY, duration);
+    public MagicProtectionClockAbility(Identifier key, int duration, AttributeModifier magicResistance) {
+        super(key, duration);
+        this.magicResistanceModifier = magicResistance;
     }
 
     @Override
@@ -31,13 +29,7 @@ public class MagicProtectionClockAbility extends BaseActiveAbility {
         Player player = ctx.player;
 
         magicResistanceInstance = player.getAttribute(CSCAttributes.MAGIC_RESISTANCE);
-        magicResistanceInstance.addTransientModifier(
-                new AttributeModifier(
-                        key,
-                        MAGIC_RESISTANCE,
-                        AttributeModifier.Operation.ADD_VALUE
-                )
-        );
+        magicResistanceInstance.addTransientModifier(magicResistanceModifier);
 
         player.setGlowingTag(true);
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_MAGIC_PROTECTION_CLOCK, SoundSource.PLAYERS, 1f, 1f);

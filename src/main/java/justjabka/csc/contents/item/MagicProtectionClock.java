@@ -25,6 +25,17 @@ import java.util.function.Consumer;
 public class MagicProtectionClock extends BaseActiveTrinketItem {
     private static final double BASE_MAGIC_RESISTANCE = 0.25;
 
+    private final AttributeModifier ACTIVE_MAGIC_RESISTANCE = new AttributeModifier(
+            getKey(),
+            1,
+            AttributeModifier.Operation.ADD_VALUE
+    );
+
+    @Override
+    protected Identifier getKey() {
+        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "magic_protection_clock");
+    }
+
     @Override
     protected int getCooldown() {
         return 60;
@@ -37,7 +48,11 @@ public class MagicProtectionClock extends BaseActiveTrinketItem {
 
     @Override
     public BaseActiveAbility getAbility() {
-        return new MagicProtectionClockAbility(getSecondsToTicks(getDuration()));
+        return new MagicProtectionClockAbility(
+                getKey(),
+                getSecondsToTicks(getDuration()),
+                ACTIVE_MAGIC_RESISTANCE
+        );
     }
 
     public MagicProtectionClock(Properties properties) {

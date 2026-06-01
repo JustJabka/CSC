@@ -1,6 +1,5 @@
 package justjabka.csc.contents.ability;
 
-import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.registries.CSCAttributes;
 import net.minecraft.resources.Identifier;
@@ -10,22 +9,15 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
 public class DarkCapeAbility extends BaseActiveAbility {
-    public static final Identifier DARK_CAPE_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_cape");
+    public final double damageMultiplier;
+    public final AttributeModifier vulnerabilityModifier;
+    public final AttributeModifier speedModifier;
 
-    public static final float DAMAGE_MULTIPLIER = 2;
-    public static final AttributeModifier VULNERABILITY_MODIFIER = new AttributeModifier(
-            DARK_CAPE_ABILITY_KEY,
-            0.02,
-            AttributeModifier.Operation.ADD_VALUE
-    );
-    public static final AttributeModifier SPEED_MODIFIER = new AttributeModifier(
-            DARK_CAPE_ABILITY_KEY,
-            0.15,
-            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-    );
-
-    public DarkCapeAbility(int duration) {
-        super(DARK_CAPE_ABILITY_KEY, duration);
+    public DarkCapeAbility(Identifier key, int duration, double damageMultiplier, AttributeModifier vulnerabilityModifier, AttributeModifier speedModifier) {
+        super(key, duration);
+        this.damageMultiplier = damageMultiplier;
+        this.vulnerabilityModifier = vulnerabilityModifier;
+        this.speedModifier = speedModifier;
     }
 
     @Override
@@ -54,8 +46,8 @@ public class DarkCapeAbility extends BaseActiveAbility {
         if (incomingDamageMultiplier == null) return;
         if (movementSpeed == null) return;
 
-        incomingDamageMultiplier.addTransientModifier(VULNERABILITY_MODIFIER);
-        movementSpeed.addTransientModifier(SPEED_MODIFIER);
+        incomingDamageMultiplier.addTransientModifier(vulnerabilityModifier);
+        movementSpeed.addTransientModifier(speedModifier);
     }
 
     private void removeAttributes(Player player) {
@@ -65,7 +57,7 @@ public class DarkCapeAbility extends BaseActiveAbility {
         if (incomingDamageMultiplier == null) return;
         if (movementSpeed == null) return;
 
-        incomingDamageMultiplier.removeModifier(VULNERABILITY_MODIFIER);
-        movementSpeed.removeModifier(SPEED_MODIFIER);
+        incomingDamageMultiplier.removeModifier(vulnerabilityModifier);
+        movementSpeed.removeModifier(speedModifier);
     }
 }

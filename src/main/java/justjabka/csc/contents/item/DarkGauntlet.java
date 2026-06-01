@@ -23,10 +23,17 @@ import java.util.function.Consumer;
 
 public class DarkGauntlet extends BaseActiveItem {
     private static final double BASE_DAMAGE = 2.0;
-    private static final double ABILITY_DAMAGE = 7.0;
-    private static final double ABILITY_INCOMING_DAMAGE = 0.02;
-    private static final double INCOMING_DAMAGE = 0.02;
     private static final double TICKING_DAMAGE = 0.01;
+    private final AttributeModifier ABILITY_DAMAGE_ATTRIBUTE = new AttributeModifier(
+            getKey(),
+            7,
+            AttributeModifier.Operation.ADD_VALUE
+    );
+    private final AttributeModifier ABILITY_INCOMING_DAMAGE_ATTRIBUTE = new AttributeModifier(
+            getKey(),
+            0.02,
+            AttributeModifier.Operation.ADD_VALUE
+    );
 
     @Override
     protected int getCooldown() {
@@ -40,7 +47,12 @@ public class DarkGauntlet extends BaseActiveItem {
 
     @Override
     public BaseActiveAbility getAbility() {
-        return new DarkGauntletAbility(getSecondsToTicks(getDuration()), ABILITY_DAMAGE, ABILITY_INCOMING_DAMAGE, TICKING_DAMAGE);
+        return new DarkGauntletAbility(
+                getSecondsToTicks(getDuration()),
+                ABILITY_DAMAGE_ATTRIBUTE,
+                ABILITY_INCOMING_DAMAGE_ATTRIBUTE,
+                TICKING_DAMAGE
+        );
     }
 
     public DarkGauntlet(Properties properties) {
@@ -65,11 +77,11 @@ public class DarkGauntlet extends BaseActiveItem {
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         super.appendHoverText(stack, context, displayComponent, textConsumer, type);
         textConsumer.accept(Component
-                .translatable("item.csc.dark_gauntlet.description.1", PHYSICAL_DAMAGE, ABILITY_DAMAGE)
+                .translatable("item.csc.dark_gauntlet.description.1", PHYSICAL_DAMAGE, ABILITY_DAMAGE_ATTRIBUTE.amount())
                 .withStyle(ChatFormatting.GRAY)
         );
         textConsumer.accept(Component
-                .translatable("item.csc.dark_gauntlet.description.2", wrapDecimalAsPercent(INCOMING_DAMAGE), MAGICAL_DAMAGE, wrapDecimalAsPercent(TICKING_DAMAGE))
+                .translatable("item.csc.dark_gauntlet.description.2", wrapDecimalAsPercent(ABILITY_INCOMING_DAMAGE_ATTRIBUTE.amount()), MAGICAL_DAMAGE, wrapDecimalAsPercent(TICKING_DAMAGE))
                 .withStyle(ChatFormatting.GRAY)
         );
     }

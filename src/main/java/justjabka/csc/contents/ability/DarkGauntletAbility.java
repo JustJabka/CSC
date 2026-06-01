@@ -18,18 +18,18 @@ import net.minecraft.world.entity.player.Player;
 public class DarkGauntletAbility extends BaseTogglableActiveAbility {
     public static final Identifier DARK_GAUNTLET_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_gauntlet");
 
-    private final double attributeDamage;
-    private final double attributeIncomingDamage;
+    private final AttributeModifier abilityDamageAttribute;
+    private final AttributeModifier abilityIncomingDamageAttribute;
     private final double tickingDamage;
 
     private AttributeInstance attackDamageInstance;
     private AttributeInstance incomingDamageMultiplierInstance;
 
 
-    public DarkGauntletAbility(int duration, double attributeDamage, double attributeIncomingDamage, double tickingDamage) {
+    public DarkGauntletAbility(int duration, AttributeModifier abilityDamageAttribute, AttributeModifier abilityIncomingDamageAttribute, double tickingDamage) {
         super(DARK_GAUNTLET_ABILITY_KEY, duration);
-        this.attributeDamage = attributeDamage;
-        this.attributeIncomingDamage = attributeIncomingDamage;
+        this.abilityDamageAttribute = abilityDamageAttribute;
+        this.abilityIncomingDamageAttribute = abilityIncomingDamageAttribute;
         this.tickingDamage = tickingDamage;
     }
 
@@ -41,19 +41,8 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
         incomingDamageMultiplierInstance = player.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
 
         // Apply Modifier
-        attackDamageInstance.addTransientModifier(
-                new AttributeModifier(
-                        key,
-                        attributeDamage,
-                        AttributeModifier.Operation.ADD_VALUE
-                ));
-        incomingDamageMultiplierInstance.addTransientModifier(
-                new AttributeModifier(
-                        key,
-                        attributeIncomingDamage,
-                        AttributeModifier.Operation.ADD_VALUE
-                )
-        );
+        attackDamageInstance.addTransientModifier(abilityDamageAttribute);
+        incomingDamageMultiplierInstance.addTransientModifier(abilityIncomingDamageAttribute);
 
         ctx.getItem().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_ACTIVATE, SoundSource.PLAYERS, 1f, 1f);
