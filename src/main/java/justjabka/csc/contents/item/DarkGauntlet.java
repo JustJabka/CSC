@@ -1,10 +1,12 @@
 package justjabka.csc.contents.item;
 
+import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.DarkGauntletAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -34,6 +36,11 @@ public class DarkGauntlet extends BaseActiveItem {
             0.02,
             AttributeModifier.Operation.ADD_VALUE
     );
+
+    @Override
+    protected Identifier getKey() {
+        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_gauntlet");
+    }
 
     @Override
     protected int getCooldown() {

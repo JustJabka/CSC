@@ -33,12 +33,16 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
     public void onStart() {
         Player player = ctx.player;
 
-        damageInstance = player.getAttribute(Attributes.ATTACK_DAMAGE);
-        incomingDamageInstance = player.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
+        try {
+            damageInstance = player.getAttribute(Attributes.ATTACK_DAMAGE);
+            incomingDamageInstance = player.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
 
-        // Apply Modifier
-        damageInstance.addTransientModifier(damageModifier);
-        incomingDamageInstance.addTransientModifier(incomingDamageModifier);
+            // Apply Modifier
+            damageInstance.addTransientModifier(damageModifier);
+            incomingDamageInstance.addTransientModifier(incomingDamageModifier);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         ctx.getItem().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_ACTIVATE, SoundSource.PLAYERS, 1f, 1f);

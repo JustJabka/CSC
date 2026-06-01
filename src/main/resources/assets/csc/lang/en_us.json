@@ -32,7 +32,8 @@
     "item.csc.health_book.description": "When used, increases max health by %s for the end of the game",
     "item.csc.damage_book": "Book of Damage",
     "item.csc.damage_book.description": "When used, increases %s by %s for the end of the game",
-
+    "item.csc.astral_dust": "Astral Dust",
+    "item.csc.astral_dust.description": "When used, reveals all invisible players in %s blocks radius",
     "item.csc.healing_stew": "Healing Stew",
     "item.csc.healing_stew.description": "When consumed, heals %s of maximum HP",
 

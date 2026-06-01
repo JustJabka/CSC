@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class BaseConsumable extends BaseItem {
+public abstract class BaseConsumable extends BaseItem {
     public BaseConsumable(Properties properties) {
         super(properties);
     }
@@ -20,6 +20,7 @@ public class BaseConsumable extends BaseItem {
         ItemStack stack = player.getItemInHand(hand);
 
         if (isClientSide(player)) return InteractionResult.PASS;
+        if (!canActivate(player, stack, level)) return InteractionResult.PASS;
 
         stack.consume(1, player);
         onUse(level, player, hand, stack);
@@ -27,10 +28,14 @@ public class BaseConsumable extends BaseItem {
         return InteractionResult.SUCCESS;
     }
 
-    protected void onUse(
+    protected boolean canActivate(Player player, ItemStack stack, Level level) {
+        return true;
+    }
+
+    protected abstract void onUse(
             Level level,
             Player player,
             InteractionHand hand,
             ItemStack stack
-    ) {}
+    );
 }
