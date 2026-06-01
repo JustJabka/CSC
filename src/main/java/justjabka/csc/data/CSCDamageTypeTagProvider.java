@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class CSCDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
     public static final TagKey<DamageType> BYPASSES_DODGE = TagKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(CSC.MOD_ID, "bypasses_dodge"));
+    public static final TagKey<DamageType> IS_MAGIC = TagKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(CSC.MOD_ID, "is_magic"));
 
     public CSCDamageTypeTagProvider(FabricPackOutput output,
                                     CompletableFuture<HolderLookup.Provider> registriesFuture) {
@@ -25,14 +26,22 @@ public class CSCDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
     protected void addTags(HolderLookup.Provider wrapperLookup) {
         builder(BYPASSES_DODGE)
                 .forceAddTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                .forceAddTag(CSCDamageTypeTagProvider.IS_MAGIC)
                 .add(DamageTypes.CRAMMING)
                 .add(DamageTypes.DROWN)
                 .add(DamageTypes.DRY_OUT)
                 .add(DamageTypes.FREEZE)
                 .add(DamageTypes.IN_WALL)
                 .add(DamageTypes.OUTSIDE_BORDER)
-                .add(DamageTypes.STARVE)
-                .add(DamageTypes.WITHER);
+                .add(DamageTypes.STARVE);
+
+        builder(IS_MAGIC)
+                .add(DamageTypes.MAGIC)
+                .add(DamageTypes.INDIRECT_MAGIC)
+                .add(DamageTypes.DRAGON_BREATH)
+                .add(DamageTypes.THORNS)
+                .add(DamageTypes.WITHER)
+                .add(DamageTypes.WITHER_SKULL);
 
         builder(DamageTypeTags.NO_KNOCKBACK)
                 .add(DamageTypes.MAGIC)

@@ -33,6 +33,14 @@ public class CSCAttributes {
             true
     );
 
+    public static final Holder<Attribute> MAGIC_RESISTANCE = register(
+            "magic_resistance",
+            0,
+            -1,
+            1,
+            true
+    );
+
     private static Holder<Attribute> register(
             String name, double defaultValue, double minValue, double maxValue, boolean syncedWithClient
     ) {

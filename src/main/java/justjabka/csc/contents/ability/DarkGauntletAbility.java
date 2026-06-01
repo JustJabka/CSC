@@ -13,6 +13,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 
 public class DarkGauntletAbility extends BaseTogglableActiveAbility {
     public static final Identifier DARK_GAUNTLET_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_gauntlet");
@@ -34,8 +35,10 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
 
     @Override
     public void onStart() {
-        attackDamageInstance = ctx.player.getAttribute(Attributes.ATTACK_DAMAGE);
-        incomingDamageMultiplierInstance = ctx.player.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
+        Player player = ctx.player;
+
+        attackDamageInstance = player.getAttribute(Attributes.ATTACK_DAMAGE);
+        incomingDamageMultiplierInstance = player.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
 
         // Apply Modifier
         attackDamageInstance.addTransientModifier(
@@ -53,7 +56,7 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
         );
 
         ctx.getItem().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
-        ctx.player.level().playSound(null, ctx.player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_ACTIVATE, SoundSource.PLAYERS, 1f, 1f);
+        player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_ACTIVATE, SoundSource.PLAYERS, 1f, 1f);
     }
 
     @Override

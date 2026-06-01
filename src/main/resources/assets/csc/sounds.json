@@ -27,6 +27,13 @@
             }
         ]
     },
+    "item.magic_protection_clock.use": {
+        "sounds": [
+            {
+                "name": "csc:item/magic_protection_clock"
+            }
+        ]
+    },
     "item.dark_gauntlet.activate": {
         "sounds": [
             {

@@ -10,6 +10,9 @@
     "item.csc.thorns": "Thorns",
     "item.csc.thorns.description": "You reflect %s of the damage received back to the attacker",
 
+    "item.csc.magic_protection_clock": "Magic Protection Clock",
+    "item.csc.magic_protection_clock.description": "When used, protects from %s for %s sec.",
+
     "item.csc.shard": "Shard",
     "item.csc.shard.description": "Upgrades character",
 
@@ -32,14 +35,19 @@
     "item.csc.healing_stew": "Healing Stew",
     "item.csc.healing_stew.description": "When consumed, heals %s of maximum HP",
 
-    "other.csc.cooldown": "⌛ Cooldown: %s sec.",
-    "other.csc.duration": "⌚ Duration: %s sec.",
+    "csc.dodge_chance": "Dodge Chance",
+    "csc.damage_reflection_percent": "Damage Reflection Percent",
+    "csc.incoming_damage_multiplier": "Incoming Damage Multiplier",
+    "csc.magic_resistance": "Magic Resistance",
 
     "key.category.csc.activation": "Trinket Activation",
     "key.csc.face_activation": "Face Activation",
     "key.csc.cape_activation": "Cape Activation",
     "key.csc.belt_activation": "Belt Activation",
     "key.csc.aglet_activation": "Aglet Activation",
+
+    "other.csc.cooldown": "⌛ Cooldown: %s sec.",
+    "other.csc.duration": "⌚ Duration: %s sec.",
 
     "damageType.csc.physical": "Physical Damage",
     "damageType.csc.magical": "Magical Damage",

@@ -12,6 +12,7 @@ public class CSCSounds {
     public static final SoundEvent ITEM_MIDAS = registerSound("item.midas.use");
     public static final SoundEvent ITEM_PHOENIX_FEATHER = registerSound("item.phoenix_feather.use");
     public static final SoundEvent ITEM_THORNS = registerSound("item.thorns.use");
+    public static final SoundEvent ITEM_MAGIC_PROTECTION_CLOCK = registerSound("item.magic_protection_clock.use");
     public static final SoundEvent ITEM_DARK_GAUNTLET_ACTIVATE = registerSound("item.dark_gauntlet.activate");
     public static final SoundEvent ITEM_DARK_GAUNTLET_DEACTIVATE = registerSound("item.dark_gauntlet.deactivate");
 

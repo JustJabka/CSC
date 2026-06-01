@@ -39,6 +39,23 @@ public abstract class LivingEntityMixin {
 	}
 
 	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
+	private float handleMagicResistanceAttribute(float damage, ServerLevel level, DamageSource source) {
+		LivingEntity self = (LivingEntity) (Object) this;
+
+		AttributeInstance magicResistanceInstance = self.getAttribute(CSCAttributes.MAGIC_RESISTANCE);
+		if (magicResistanceInstance == null) return damage;
+
+		if (!source.is(CSCDamageTypeTagProvider.IS_MAGIC)) return damage;
+
+		float resistance = (float) magicResistanceInstance.getValue();
+		if (resistance == 0.0f) return damage;
+
+		float resistancePercent = Math.max(1 - resistance, 0);
+
+		return resistancePercent * damage;
+	}
+
+	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
 	private float handleDarkCapeAbilityAttack(float damage, ServerLevel level, DamageSource source) {
 		if (!(source.getEntity() instanceof Player attacker)) return damage;
 		if (!source.is(DamageTypes.PLAYER_ATTACK)) return damage;
