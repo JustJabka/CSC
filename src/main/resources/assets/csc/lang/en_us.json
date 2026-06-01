@@ -35,6 +35,12 @@
     "other.csc.cooldown": "⌛ Cooldown: %s sec.",
     "other.csc.duration": "⌚ Duration: %s sec.",
 
+    "key.category.csc.activation": "Trinket Activation",
+    "key.csc.face_activation": "Face Activation",
+    "key.csc.cape_activation": "Cape Activation",
+    "key.csc.belt_activation": "Belt Activation",
+    "key.csc.aglet_activation": "Aglet Activation",
+
     "damageType.csc.physical": "Physical Damage",
     "damageType.csc.magical": "Magical Damage",
     "damageType.csc.pure": "Pure Damage",
