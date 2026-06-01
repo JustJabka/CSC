@@ -1,6 +1,5 @@
 package justjabka.csc.contents.ability;
 
-import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCItems;
@@ -16,20 +15,17 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
 public class DarkGauntletAbility extends BaseTogglableActiveAbility {
-    public static final Identifier DARK_GAUNTLET_ABILITY_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_gauntlet");
-
-    private final AttributeModifier abilityDamageAttribute;
-    private final AttributeModifier abilityIncomingDamageAttribute;
     private final double tickingDamage;
+    private final AttributeModifier damageModifier;
+    private final AttributeModifier incomingDamageModifier;
 
-    private AttributeInstance attackDamageInstance;
-    private AttributeInstance incomingDamageMultiplierInstance;
+    private AttributeInstance damageInstance;
+    private AttributeInstance incomingDamageInstance;
 
-
-    public DarkGauntletAbility(int duration, AttributeModifier abilityDamageAttribute, AttributeModifier abilityIncomingDamageAttribute, double tickingDamage) {
-        super(DARK_GAUNTLET_ABILITY_KEY, duration);
-        this.abilityDamageAttribute = abilityDamageAttribute;
-        this.abilityIncomingDamageAttribute = abilityIncomingDamageAttribute;
+    public DarkGauntletAbility(Identifier key, int duration, AttributeModifier damageModifier, AttributeModifier incomingDamageModifier, double tickingDamage) {
+        super(key, duration);
+        this.damageModifier = damageModifier;
+        this.incomingDamageModifier = incomingDamageModifier;
         this.tickingDamage = tickingDamage;
     }
 
@@ -37,12 +33,12 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
     public void onStart() {
         Player player = ctx.player;
 
-        attackDamageInstance = player.getAttribute(Attributes.ATTACK_DAMAGE);
-        incomingDamageMultiplierInstance = player.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
+        damageInstance = player.getAttribute(Attributes.ATTACK_DAMAGE);
+        incomingDamageInstance = player.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
 
         // Apply Modifier
-        attackDamageInstance.addTransientModifier(abilityDamageAttribute);
-        incomingDamageMultiplierInstance.addTransientModifier(abilityIncomingDamageAttribute);
+        damageInstance.addTransientModifier(damageModifier);
+        incomingDamageInstance.addTransientModifier(incomingDamageModifier);
 
         ctx.getItem().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_ACTIVATE, SoundSource.PLAYERS, 1f, 1f);
@@ -69,8 +65,8 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
     @Override
     public void onEnd() {
         // Remove Modifier
-        attackDamageInstance.removeModifier(key);
-        incomingDamageMultiplierInstance.removeModifier(key);
+        damageInstance.removeModifier(key);
+        incomingDamageInstance.removeModifier(key);
 
         // Remove Enchantment Glint
         // TODO: fix component desync

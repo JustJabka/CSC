@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 
 public class MagicProtectionClockAbility extends BaseActiveAbility {
     private final AttributeModifier magicResistanceModifier;
+
     private AttributeInstance magicResistanceInstance;
 
     public MagicProtectionClockAbility(Identifier key, int duration, AttributeModifier magicResistance) {

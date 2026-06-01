@@ -25,7 +25,7 @@ import java.util.function.Consumer;
 public class MagicProtectionClock extends BaseActiveTrinketItem {
     private static final double BASE_MAGIC_RESISTANCE = 0.25;
 
-    private final AttributeModifier ACTIVE_MAGIC_RESISTANCE = new AttributeModifier(
+    private final AttributeModifier MAGIC_RESISTANCE_MODIFIER = new AttributeModifier(
             getKey(),
             1,
             AttributeModifier.Operation.ADD_VALUE
@@ -51,7 +51,7 @@ public class MagicProtectionClock extends BaseActiveTrinketItem {
         return new MagicProtectionClockAbility(
                 getKey(),
                 getSecondsToTicks(getDuration()),
-                ACTIVE_MAGIC_RESISTANCE
+                MAGIC_RESISTANCE_MODIFIER
         );
     }
 

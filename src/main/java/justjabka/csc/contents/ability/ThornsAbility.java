@@ -13,7 +13,8 @@ import net.minecraft.world.entity.player.Player;
 
 public class ThornsAbility extends BaseActiveAbility {
     private final AttributeModifier damageReflectionModifier;
-    private AttributeInstance damageReflectionPercentInstance;
+
+    private AttributeInstance damageReflectionInstance;
 
     public ThornsAbility(Identifier key, int duration, AttributeModifier damageReflectionModifier) {
         super(key, duration);
@@ -24,8 +25,8 @@ public class ThornsAbility extends BaseActiveAbility {
     public void onStart() {
         Player player = ctx.player;
 
-        damageReflectionPercentInstance = player.getAttribute(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
-        damageReflectionPercentInstance.addTransientModifier(damageReflectionModifier);
+        damageReflectionInstance = player.getAttribute(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
+        damageReflectionInstance.addTransientModifier(damageReflectionModifier);
 
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_THORNS, SoundSource.PLAYERS, 1f, 1f);
     }
@@ -47,6 +48,6 @@ public class ThornsAbility extends BaseActiveAbility {
 
     @Override
     public void onEnd() {
-        damageReflectionPercentInstance.removeModifier(key);
+        damageReflectionInstance.removeModifier(key);
     }
 }
