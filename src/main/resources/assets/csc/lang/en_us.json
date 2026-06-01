@@ -2,16 +2,17 @@
     "itemGroup.csc": "Custom Steve Chaos",
 
     "item.csc.midas": "Midas",
-    "item.csc.midas.description": "When interacting with a mob, it turns into gold",
+    "item.csc.midas.description.1": "When used, turns the mob into gold",
+    "item.csc.midas.description.2": "If used successfully, gives %s gold",
 
     "item.csc.phoenix_feather": "Phoenix Feather",
     "item.csc.phoenix_feather.description": "Launches forward for a long distance",
 
     "item.csc.thorns": "Thorns",
-    "item.csc.thorns.description": "You reflect %s of the damage received back to the attacker",
+    "item.csc.thorns.description": "When used, reflects %s of the damage received back to the attacker in %s",
 
     "item.csc.magic_protection_clock": "Magic Protection Clock",
-    "item.csc.magic_protection_clock.description": "When used, protects from %s",
+    "item.csc.magic_protection_clock.description": "When used, protects from %s by %s",
 
     "item.csc.shard": "Shard",
     "item.csc.shard.description": "Upgrades character",
@@ -22,7 +23,7 @@
 
     "item.csc.dark_cape": "Dark Cape",
     "item.csc.dark_cape.description.1": "When used, increases movement speed by %s and incoming damage by %s",
-    "item.csc.dark_cape.description.2": "The first attack deals %s more %s and ends the ability",
+    "item.csc.dark_cape.description.2": "The first attack deals %sx more %s and ends the ability",
 
     "item.csc.vampiric_cape": "Vampiric Cape",
     "item.csc.vampiric_cape.description": "With a %s chance, heals %s of the damage dealt",

@@ -54,6 +54,8 @@ public class Thorns extends BaseActiveTrinketItem {
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         super.appendHoverText(stack, context, displayComponent, textConsumer, type);
-        textConsumer.accept(Component.translatable("item.csc.thorns.description", wrapDecimalAsPercent(DAMAGE_REFLECTION_MODIFIER.amount())).withStyle(ChatFormatting.GRAY));
+
+        String reflectionPercent = wrapDecimalAsPercent(DAMAGE_REFLECTION_MODIFIER.amount());
+        textConsumer.accept(Component.translatable("item.csc.thorns.description", reflectionPercent, MAGICAL_DAMAGE).withStyle(ChatFormatting.GRAY));
     }
 }

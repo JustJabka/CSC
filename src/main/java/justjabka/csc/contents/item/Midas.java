@@ -50,7 +50,12 @@ public class Midas extends BaseActiveItem {
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         super.appendHoverText(stack, context, displayComponent, textConsumer, type);
-        textConsumer.accept(Component.translatable("item.csc.midas.description").withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("item.csc.midas.description.1").withStyle(ChatFormatting.GRAY));
+
+        Component goldReward = Component.literal(String.valueOf(GOLD_REWARD)).withStyle(ChatFormatting.YELLOW);
+        textConsumer.accept(
+                Component.translatable("item.csc.midas.description.2", goldReward).withStyle(ChatFormatting.GRAY)
+        );
     }
 
     @Override
