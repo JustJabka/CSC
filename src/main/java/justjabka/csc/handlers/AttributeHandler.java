@@ -35,4 +35,25 @@ public class AttributeHandler {
         modifiers.forEach((attribute, modifier) ->
                 removeModifier(player, attribute, modifier));
     }
+
+    public static void setBaseValues(Player player, Map<Holder<Attribute>, Double> attributes) {
+        attributes.forEach((attribute, value) ->
+                setBaseValue(player, attribute, value));
+    }
+
+    public static void setBaseValue(Player player, Holder<Attribute> attribute, double value) {
+        AttributeInstance instance = player.getAttribute(attribute);
+
+        if (instance == null) return;
+
+        instance.setBaseValue(value);
+    }
+
+    public static void resetBaseValues(Player player) {
+        player.getAttributes().getSyncableAttributes().forEach(instance -> {
+            if (instance == null) return;
+
+            player.getAttributes().resetBaseValue(instance.getAttribute());
+        });
+    }
 }

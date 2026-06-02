@@ -1,0 +1,30 @@
+package justjabka.csc.contents.character;
+
+import justjabka.csc.CSC;
+import justjabka.csc.contents.character.generic.BaseCharacter;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+
+import java.util.Map;
+
+public class SwordsmanCharacter extends BaseCharacter {
+    @Override
+    public Identifier getKey() {
+        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "swordsman");
+    }
+
+    @Override
+    public Identifier getDisplayIcon() {
+        return null;
+    }
+
+    @Override
+    public Map<Holder<Attribute>, Double> getBaseAttributes() {
+        return Map.of(
+                Attributes.MAX_HEALTH, 24.0,
+                Attributes.ATTACK_DAMAGE, 2.0
+        );
+    }
+}

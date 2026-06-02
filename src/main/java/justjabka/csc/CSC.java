@@ -1,9 +1,7 @@
 package justjabka.csc;
 
-import justjabka.csc.contents.command.SetGold;
 import justjabka.csc.registries.*;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.level.ServerPlayer;
 import org.slf4j.Logger;
@@ -22,8 +20,8 @@ public class CSC implements ModInitializer {
 		CSCAttributes.initialize();
 		CSCKeyMappings.initialize();
 		CSCPayloads.initialize();
-
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> SetGold.register(dispatcher));
+		CSCCharacters.initialize();
+		CSCCommands.initialize();
 
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			for (ServerPlayer player : server.getPlayerList().getPlayers()) {
