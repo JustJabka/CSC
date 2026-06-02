@@ -1,48 +1,37 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
-import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+
+import java.util.Map;
 
 public class DarkGauntletAbility extends BaseTogglableActiveAbility {
     private final double tickingDamage;
-    private final AttributeModifier damageModifier;
-    private final AttributeModifier incomingDamageModifier;
+    private final Map<Holder<Attribute>, AttributeModifier> activeModifiers;
 
-    private AttributeInstance damageInstance;
-    private AttributeInstance incomingDamageInstance;
-
-    public DarkGauntletAbility(Identifier key, int duration, AttributeModifier damageModifier, AttributeModifier incomingDamageModifier, double tickingDamage) {
+    public DarkGauntletAbility(Identifier key, int duration, double tickingDamage, Map<Holder<Attribute>, AttributeModifier> activeModifiers) {
         super(key, duration);
-        this.damageModifier = damageModifier;
-        this.incomingDamageModifier = incomingDamageModifier;
+
         this.tickingDamage = tickingDamage;
+        this.activeModifiers = activeModifiers;
     }
 
     @Override
     public void onStart() {
         Player player = ctx.player;
 
-        try {
-            damageInstance = player.getAttribute(Attributes.ATTACK_DAMAGE);
-            incomingDamageInstance = player.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
-
-            // Apply Modifier
-            damageInstance.addTransientModifier(damageModifier);
-            incomingDamageInstance.addTransientModifier(incomingDamageModifier);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        AttributeHandler.addTransientModifiers(player, activeModifiers);
 
         ctx.getItem().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_ACTIVATE, SoundSource.PLAYERS, 1f, 1f);
@@ -68,13 +57,13 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
 
     @Override
     public void onEnd() {
-        // Remove Modifier
-        damageInstance.removeModifier(key);
-        incomingDamageInstance.removeModifier(key);
+        Player player = ctx.player;
+
+        AttributeHandler.removeModifiers(player, activeModifiers);
 
         // Remove Enchantment Glint
         // TODO: fix component desync
         ctx.getItem().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, false);
-        ctx.player.level().playSound(null, ctx.player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_DEACTIVATE, SoundSource.PLAYERS, 1f, 1f);
+        player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_DEACTIVATE, SoundSource.PLAYERS, 1f, 1f);
     }
 }

@@ -5,6 +5,7 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.DarkCapeAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.registries.CSCAttributes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -27,16 +29,20 @@ public class DarkCape extends BaseActiveTrinketItem {
     private static final double BASE_DAMAGE = 1;
 
     private final double DAMAGE_MULTIPLIER = 2;
+    private static final double VULNERABILITY_MODIFIER = 0.02;
+    private static final double SPEED_MODIFIER = 0.15;
 
-    private final AttributeModifier VULNERABILITY_MODIFIER = new AttributeModifier(
-            getKey(),
-            0.02,
-            AttributeModifier.Operation.ADD_VALUE
-    );
-    private final AttributeModifier SPEED_MODIFIER = new AttributeModifier(
-            getKey(),
-            0.15,
-            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+    private final Map<Holder<Attribute>, AttributeModifier> ACTIVE_MODIFIERS = Map.of(
+            CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, new AttributeModifier(
+                    getKey(),
+                    VULNERABILITY_MODIFIER,
+                    AttributeModifier.Operation.ADD_VALUE
+            ),
+            Attributes.MOVEMENT_SPEED, new AttributeModifier(
+                    getKey(),
+                    SPEED_MODIFIER,
+                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+            )
     );
 
     @Override
@@ -60,8 +66,7 @@ public class DarkCape extends BaseActiveTrinketItem {
                 getKey(),
                 getSecondsToTicks(getDuration()),
                 DAMAGE_MULTIPLIER,
-                VULNERABILITY_MODIFIER,
-                SPEED_MODIFIER
+                ACTIVE_MODIFIERS
         );
     }
 
@@ -97,8 +102,8 @@ public class DarkCape extends BaseActiveTrinketItem {
         super.appendHoverText(stack, context, displayComponent, textConsumer, type);
         textConsumer.accept(
                 Component.translatable("item.csc.dark_cape.description.1",
-                    wrapDecimalAsPercent(SPEED_MODIFIER.amount()),
-                    wrapDecimalAsPercent(VULNERABILITY_MODIFIER.amount())
+                    wrapDecimalAsPercent(SPEED_MODIFIER),
+                    wrapDecimalAsPercent(VULNERABILITY_MODIFIER)
                 ).withStyle(ChatFormatting.GRAY)
         );
         textConsumer.accept(
