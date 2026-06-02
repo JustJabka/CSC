@@ -25,6 +25,8 @@
     "item.csc.dark_cape.description.1": "When used, increases movement speed by %s and incoming damage by %s",
     "item.csc.dark_cape.description.2": "The first attack deals %sx more %s and ends the ability",
 
+    "item.csc.wild_fox_cape": "Wild Fox Cape",
+
     "item.csc.vampiric_cape": "Vampiric Cape",
     "item.csc.vampiric_cape.description": "With a %s chance, heals %s of the damage dealt",
 
