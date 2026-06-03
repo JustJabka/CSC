@@ -45,10 +45,11 @@
     "csc.magic_resistance": "Magic Resistance",
 
     "key.category.csc.activation": "Trinket Activation",
-    "key.csc.face_activation": "Face Activation",
-    "key.csc.cape_activation": "Cape Activation",
-    "key.csc.belt_activation": "Belt Activation",
-    "key.csc.aglet_activation": "Aglet Activation",
+    "key.csc.face_activation": "Use Face Slot",
+    "key.csc.cape_activation": "Use Cape Slot",
+    "key.csc.belt_activation.0": "Use Belt Slot 1",
+    "key.csc.belt_activation.1": "Use Belt Slot 2",
+    "key.csc.aglet_activation": "Use Aglet Slot",
 
     "other.csc.cooldown": "⌛ Cooldown: %s sec.",
     "other.csc.duration": "⌚ Duration: %s sec.",

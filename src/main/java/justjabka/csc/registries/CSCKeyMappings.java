@@ -17,7 +17,8 @@ public class CSCKeyMappings {
 
     public static KeyMapping faceActivationKey;
     public static KeyMapping capeActivationKey;
-    public static KeyMapping beltActivationKey;
+    public static KeyMapping beltActivationKey0;
+    public static KeyMapping beltActivationKey1;
     public static KeyMapping agletActivationKey;
 
     public static void initialize() {
@@ -27,10 +28,11 @@ public class CSCKeyMappings {
     }
 
     private static void registerKeyInputs() {
-        registerTrinketActivationKey(faceActivationKey, "head/face");
-        registerTrinketActivationKey(capeActivationKey, "chest/cape");
-        registerTrinketActivationKey(beltActivationKey, "legs/belt");
-        registerTrinketActivationKey(agletActivationKey, "feet/aglet");
+        registerTrinketActivationKey(faceActivationKey, "head/face", 0);
+        registerTrinketActivationKey(capeActivationKey, "chest/cape", 0);
+        registerTrinketActivationKey(beltActivationKey0, "legs/belt", 0);
+        registerTrinketActivationKey(beltActivationKey1, "legs/belt", 1);
+        registerTrinketActivationKey(agletActivationKey, "feet/aglet", 0);
     }
 
     private static void register() {
@@ -46,26 +48,32 @@ public class CSCKeyMappings {
                 GLFW.GLFW_KEY_X,
                 ACTIVATION_CATEGORY
         ));
-        beltActivationKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-                "key.csc.belt_activation",
+        beltActivationKey0 = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+                "key.csc.belt_activation.0",
                 InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_C,
+                ACTIVATION_CATEGORY
+        ));
+        beltActivationKey1 = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+                "key.csc.belt_activation.1",
+                InputConstants.Type.KEYSYM,
+                GLFW.GLFW_KEY_V,
                 ACTIVATION_CATEGORY
         ));
         agletActivationKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.csc.aglet_activation",
                 InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_V,
+                GLFW.GLFW_KEY_G,
                 ACTIVATION_CATEGORY
         ));
     }
 
-    private static void registerTrinketActivationKey(KeyMapping keyMapping, String slotGroup) {
+    private static void registerTrinketActivationKey(KeyMapping keyMapping, String slotGroup, int slotOffset) {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (keyMapping.consumeClick()) {
                 if (client.player == null) continue;
 
-                ActivateTrinketPayload payload = new ActivateTrinketPayload(slotGroup);
+                ActivateTrinketPayload payload = new ActivateTrinketPayload(slotGroup, slotOffset);
                 ClientPlayNetworking.send(payload);
             }
         });

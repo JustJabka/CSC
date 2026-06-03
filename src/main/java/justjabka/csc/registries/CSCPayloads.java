@@ -25,7 +25,9 @@ public class CSCPayloads {
     public static void registerReceivers() {
         ServerPlayNetworking.registerGlobalReceiver(ActivateTrinketPayload.TYPE, (payload, context) -> {
             ServerPlayer player = context.player();
+
             String targetSlot = payload.slotGroup();
+            int slotOffset = payload.slotOffset();
 
             context.server().execute(() -> TrinketsApi.getAttachment(player).getAllEquipped().forEach(
                     tuple -> {
@@ -33,9 +35,11 @@ public class CSCPayloads {
                         ItemStack stack = tuple.getB();
 
                         String slotId = trinketsSlotAccess.slotType().getId();
+                        int slotIndex = trinketsSlotAccess.index();
 
                         if (!trinketsSlotAccess.isValid()) return;
                         if (!slotId.equals(targetSlot)) return;
+                        if (slotIndex != slotOffset) return;
 
                         if (!(stack.getItem() instanceof BaseActiveTrinketItem activeItem)) return;
 
