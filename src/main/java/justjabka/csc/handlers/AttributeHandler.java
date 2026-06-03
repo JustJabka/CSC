@@ -6,7 +6,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class AttributeHandler {
     public static void addTransientModifier(Player player, Holder<Attribute> attribute, AttributeModifier modifier) {
@@ -34,6 +37,28 @@ public class AttributeHandler {
     public static void removeModifiers(Player player, Map<Holder<Attribute>, AttributeModifier> modifiers) {
         modifiers.forEach((attribute, modifier) ->
                 removeModifier(player, attribute, modifier));
+    }
+
+    public static void removeAllModifiersFromNamespace(Player player, String namespace) {
+        Collection<AttributeInstance> attributes = player.getAttributes().getSyncableAttributes();
+
+        for (AttributeInstance instance : attributes) {
+            if (instance == null) continue;
+
+            Set<AttributeModifier> toRemove = new HashSet<>();
+
+            for (AttributeModifier modifier : instance.getModifiers()) {
+                String modifierNamespace = modifier.id().getNamespace();
+
+                if (!modifierNamespace.equals(namespace)) continue;
+
+                toRemove.add(modifier);
+            }
+
+            for (AttributeModifier modifier : toRemove) {
+                instance.removeModifier(modifier);
+            }
+        }
     }
 
     public static void setBaseValues(Player player, Map<Holder<Attribute>, Double> attributes) {
