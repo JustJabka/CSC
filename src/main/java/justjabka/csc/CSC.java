@@ -23,6 +23,7 @@ public class CSC implements ModInitializer {
 		CSCCharacters.initialize();
 		CSCCommands.initialize();
 
+		// Tick abilities
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 				player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER).tick();
