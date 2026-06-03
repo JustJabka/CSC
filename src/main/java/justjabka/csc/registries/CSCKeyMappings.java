@@ -21,6 +21,9 @@ public class CSCKeyMappings {
     public static KeyMapping beltActivationKey1;
     public static KeyMapping agletActivationKey;
 
+    public static KeyMapping abilityActivationKey0;
+    public static KeyMapping abilityActivationKey1;
+
     public static void initialize() {
         CSC.LOGGER.info("Initializing Key Mappings");
         register();
@@ -33,9 +36,13 @@ public class CSCKeyMappings {
         registerTrinketActivationKey(beltActivationKey0, "legs/belt", 0);
         registerTrinketActivationKey(beltActivationKey1, "legs/belt", 1);
         registerTrinketActivationKey(agletActivationKey, "feet/aglet", 0);
+
+        registerTrinketActivationKey(abilityActivationKey0, "offhand/ability", 0);
+        registerTrinketActivationKey(abilityActivationKey1, "feet/ability", 1);
     }
 
     private static void register() {
+        // Trinkets
         faceActivationKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.csc.face_activation",
                 InputConstants.Type.KEYSYM,
@@ -64,6 +71,20 @@ public class CSCKeyMappings {
                 "key.csc.aglet_activation",
                 InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_G,
+                ACTIVATION_CATEGORY
+        ));
+
+        // Abilities
+        abilityActivationKey0 = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+                "key.csc.ablility_activation.0",
+                InputConstants.Type.KEYSYM,
+                GLFW.GLFW_KEY_R,
+                ACTIVATION_CATEGORY
+        ));
+        abilityActivationKey1 = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+                "key.csc.ablility_activation.1",
+                InputConstants.Type.KEYSYM,
+                GLFW.GLFW_KEY_J,
                 ACTIVATION_CATEGORY
         ));
     }

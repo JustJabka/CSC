@@ -17,7 +17,7 @@ public class AbilityContext {
     private final @Nullable ItemStack item;
     private final @Nullable LivingEntity target;
 
-    public java.util.Optional<EquipmentSlot> getSlot() { return java.util.Optional.ofNullable(slot); }
+    public Optional<EquipmentSlot> getSlot() { return Optional.ofNullable(slot); }
 
     public AbilityContext(Player player, EquipmentSlot slot) {
         this(player, slot, null, null);
