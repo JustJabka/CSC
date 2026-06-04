@@ -38,7 +38,7 @@ public class CSCKeyMappings {
         registerTrinketActivationKey(agletActivationKey, "feet/aglet", 0);
 
         registerTrinketActivationKey(abilityActivationKey0, "offhand/ability", 0);
-        registerTrinketActivationKey(abilityActivationKey1, "feet/ability", 1);
+        registerTrinketActivationKey(abilityActivationKey1, "offhand/ability", 1);
     }
 
     private static void register() {
