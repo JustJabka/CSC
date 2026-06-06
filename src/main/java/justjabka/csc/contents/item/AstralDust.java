@@ -21,9 +21,10 @@ import java.util.function.Consumer;
 
 public class AstralDust extends BaseConsumable {
     private static final double RADIUS = 15;
+    private static final int COOLDOWN = 32;
 
     public AstralDust(Properties properties) {
-        super(properties);
+        super(properties.useCooldown(COOLDOWN));
     }
 
     @Override
