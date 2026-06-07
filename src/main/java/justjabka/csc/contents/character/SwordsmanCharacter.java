@@ -41,8 +41,7 @@ public class SwordsmanCharacter extends BaseCharacter {
     @Override
     public Map<Item, Integer> getAbilities() {
         return Map.of(
-                CSCItems.THORNS, 0,
-                CSCItems.MAGIC_PROTECTION_CLOCK, 1
+                CSCItems.SPINNING_SWORDS, 0
         );
     }
 }

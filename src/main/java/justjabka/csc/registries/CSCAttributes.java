@@ -41,6 +41,14 @@ public class CSCAttributes {
             true
     );
 
+    public static final Holder<Attribute> MAGIC_DAMAGE = register(
+            "magic_damage",
+            1,
+            0,
+            1024,
+            true
+    );
+
     private static Holder<Attribute> register(
             String name, double defaultValue, double minValue, double maxValue, boolean syncedWithClient
     ) {

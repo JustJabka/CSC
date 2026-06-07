@@ -39,10 +39,15 @@
     "item.csc.healing_stew": "Healing Stew",
     "item.csc.healing_stew.description": "When consumed, heals %s of maximum HP",
 
+    "item.csc.spinning_swords": "Spinning Swords",
+    "item.csc.spinning_swords.description.1": "When used, summons two spinning swords that follow the owner",
+    "item.csc.spinning_swords.description.2": "The swords deal %s %s of the victim's max HP in %s blocks radius",
+
     "csc.dodge_chance": "Dodge Chance",
     "csc.damage_reflection_percent": "Damage Reflection Percent",
     "csc.incoming_damage_multiplier": "Incoming Damage Multiplier",
     "csc.magic_resistance": "Magic Resistance",
+    "csc.magic_damage": "Magic Damage",
 
     "key.category.csc.activation": "Trinket Activation",
     "key.csc.face_activation": "Use Face Slot",

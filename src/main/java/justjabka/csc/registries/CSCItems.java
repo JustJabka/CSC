@@ -18,6 +18,7 @@ import java.util.function.Function;
 public class CSCItems {
     public static final List<Item> MOD_ITEMS = new ArrayList<>();
 
+    // Actual items
     public static final Item MIDAS = register("midas", Midas::new, new Item.Properties());
     public static final Item PHOENIX_FEATHER = register("phoenix_feather", PhoenixFeather::new, new Item.Properties());
     public static final Item THORNS = register("thorns", Thorns::new, new Item.Properties());
@@ -29,6 +30,9 @@ public class CSCItems {
     public static final Item HEALTH_BOOK = register("health_book", HealthBook::new, new Item.Properties());
     public static final Item ASTRAL_DUST = register("astral_dust", AstralDust::new, new Item.Properties());
     public static final Item HEALING_STEW = register("healing_stew", HealingStew::new, new Item.Properties());
+
+    // Character Abilities
+    public static final Item SPINNING_SWORDS = register("spinning_swords", SpinningSwords::new, new Item.Properties());
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Items");

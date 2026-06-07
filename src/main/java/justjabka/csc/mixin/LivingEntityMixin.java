@@ -39,6 +39,23 @@ public abstract class LivingEntityMixin {
 	}
 
 	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
+	private float handleMagicDamageAttribute(float damage, ServerLevel level, DamageSource source) {
+		Entity entity = source.getEntity();
+
+		if (!(entity instanceof LivingEntity attacker)) return damage;
+
+		AttributeInstance magicDamageInstance = attacker.getAttribute(CSCAttributes.MAGIC_DAMAGE);
+		if (magicDamageInstance == null) return damage;
+
+		if (!source.is(CSCDamageTypeTagProvider.IS_MAGIC)) return damage;
+
+		float multiplier = (float) magicDamageInstance.getValue();
+		if (multiplier == 1.0f) return damage;
+
+		return damage * multiplier;
+	}
+
+	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
 	private float handleMagicResistanceAttribute(float damage, ServerLevel level, DamageSource source) {
 		LivingEntity self = (LivingEntity) (Object) this;
 
