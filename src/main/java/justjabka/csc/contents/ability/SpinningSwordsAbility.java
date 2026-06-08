@@ -1,20 +1,28 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.registries.CSCSounds;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class SpinningSwordsAbility extends BaseActiveAbility {
+    private final List<Display.ItemDisplay> swords = new ArrayList<>();
+    private static final ItemStack SWORD_ITEM = new ItemStack(Items.IRON_SWORD);
+
     private final double radius;
     private final double damagePercent;
 
@@ -26,17 +34,69 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
 
     @Override
     public void onStart() {
+        Player player = ctx.player;
+        Level level = ctx.level;
 
+        spawnSword(level, player);
+        spawnSword(level, player);
+
+        level.playSound(null, player.blockPosition(), CSCSounds.ABILITY_SPINNING_SWORDS, SoundSource.PLAYERS, 1f, 1f);
     }
 
     @Override
     public void onTick() {
-        // TODO: add visual for ability
         Player player = ctx.player;
         Level level = ctx.level;
 
+        updateSwordsDisplay(player, level);
+
         if (player.tickCount % 20 != 0) return;
         damageEntities(player, level);
+    }
+
+    private void spawnSword(Level level, Player player) {
+        Display.ItemDisplay sword = new Display.ItemDisplay(EntityType.ITEM_DISPLAY, level);
+        sword.setItemStack(SWORD_ITEM);
+        sword.setPosRotInterpolationDuration(1);
+
+        sword.setPos(player.position());
+
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.addFreshEntity(sword);
+        }
+
+        swords.add(sword);
+    }
+
+    private void updateSwordsDisplay(Player player, Level level) {
+        float angle1 = (player.tickCount * 10f) % 360f;
+        float angle2 = (angle1 + 180f) % 360f;
+
+        double orbitRadius = radius;
+        double targetY = player.getY() + (player.getBbHeight() / 2);
+
+        for (int i = 0; i < swords.size(); i++) {
+            Display.ItemDisplay sword = swords.get(i);
+
+            float currentAngle = (i % 2 == 0) ? angle1 : angle2;
+            double radians = Math.toRadians(currentAngle);
+
+            double offsetX = Math.cos(radians) * orbitRadius;
+            double offsetZ = Math.sin(radians) * orbitRadius;
+
+            // -currentAngle for rotation around its own axis
+
+            sword.teleportTo(
+                    (ServerLevel) level,
+                    player.getX() + offsetX,
+                    targetY,
+                    player.getZ() + offsetZ,
+                    Set.of(),
+                    currentAngle + 45f + 180f, // Point the blades of the swords in the opposite direction from the user
+                    90f,
+                    false
+            );
+        }
     }
 
     private void damageEntities(Player player, Level level) {
@@ -58,6 +118,6 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
 
     @Override
     public void onEnd() {
-
+        swords.forEach(Entity::discard);
     }
 }

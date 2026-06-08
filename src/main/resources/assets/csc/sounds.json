@@ -54,5 +54,12 @@
                 "name": "csc:entity/player/dodge"
             }
         ]
+    },
+    "ability.spinning_swords.use": {
+        "sounds": [
+            {
+                "name": "csc:ability/spinning_swords"
+            }
+        ]
     }
 }
