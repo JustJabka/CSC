@@ -33,6 +33,7 @@ public class CSCItems {
 
     // Character Abilities
     public static final Item SPINNING_SWORDS = register("spinning_swords", SpinningSwords::new, new Item.Properties());
+    public static final Item REDOUBT = register("redoubt", Redoubt::new, new Item.Properties());
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Items");

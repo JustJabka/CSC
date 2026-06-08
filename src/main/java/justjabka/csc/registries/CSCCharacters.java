@@ -2,6 +2,7 @@ package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.character.SwordsmanCharacter;
+import justjabka.csc.contents.character.TitanCharacter;
 import justjabka.csc.contents.character.generic.BaseCharacter;
 import net.minecraft.resources.Identifier;
 
@@ -15,6 +16,7 @@ public class CSCCharacters {
         CSC.LOGGER.info("Initializing Characters");
 
         registerCharacter(new SwordsmanCharacter());
+        registerCharacter(new TitanCharacter());
     }
 
     public static void registerCharacter(BaseCharacter character) {
