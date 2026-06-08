@@ -82,7 +82,19 @@ public class CSCHudRendering {
 
         // Progress
         if (progress != null && progressWidth > 0) {
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, progress, barX, barY, progressWidth, height);
+            graphics.blitSprite(
+                    RenderPipelines.GUI_TEXTURED,
+                    progress,
+                    width,
+                    height,
+                    0,
+                    0,
+                    barX,
+                    barY,
+                    progressWidth,
+                    height
+                    -1
+            );
         }
 
         // Center text inside bar
@@ -90,7 +102,7 @@ public class CSCHudRendering {
             int textX = barX + (width - font.width(text)) / 2;
             int textY = (barY + (height - font.lineHeight) / 2) + 1;
 
-            graphics.text(font, text, textX, textY, 0xFFFFFFFF);
+            graphics.text(font, text, textX, textY, -1);
         }
     }
 }

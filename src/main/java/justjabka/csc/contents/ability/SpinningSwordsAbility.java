@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Set;
 
 public class SpinningSwordsAbility extends BaseActiveAbility {
-    private final List<Display.ItemDisplay> swords = new ArrayList<>();
     private static final ItemStack SWORD_ITEM = new ItemStack(Items.IRON_SWORD);
 
     private final double radius;
     private final double damagePercent;
+    private final List<Display.ItemDisplay> swords = new ArrayList<>();
 
     public SpinningSwordsAbility(Identifier key, int duration, double radius, double damagePercent) {
         super(key, duration);

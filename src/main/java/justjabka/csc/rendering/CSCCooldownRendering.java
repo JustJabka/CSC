@@ -80,6 +80,6 @@ public class CSCCooldownRendering {
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, COOLDOWN_BACKGROUND, bgX, bgY, bgSize, bgSize);
         graphics.item(player, stack, itemX, itemY, 0);
         graphics.itemDecorations(font, stack, itemX, itemY);
-        graphics.centeredText(font, text, baseX, textY, 0xFFFFFFFF);
+        graphics.centeredText(font, text, baseX, textY, -1);
     }
 }
