@@ -6,6 +6,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 
 public class CSCAttributes {
@@ -49,6 +50,16 @@ public class CSCAttributes {
             true
     );
 
+    public static void initialize() {
+        CSC.LOGGER.info("Initializing Attributes");
+        syncAttributes();
+    }
+
+    public static void syncAttributes() {
+        RangedAttribute attackDamage = (RangedAttribute) Attributes.ATTACK_DAMAGE.value();
+        attackDamage.setSyncable(true);
+    }
+
     private static Holder<Attribute> register(
             String name, double defaultValue, double minValue, double maxValue, boolean syncedWithClient
     ) {
@@ -61,9 +72,5 @@ public class CSCAttributes {
         ).setSyncable(syncedWithClient);
 
         return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, identifier, entityAttribute);
-    }
-
-    public static void initialize() {
-        CSC.LOGGER.info("Initializing Attributes");
     }
 }

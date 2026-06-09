@@ -47,6 +47,11 @@
     "item.csc.redoubt.description.1": "When used, decreases incoming damage by %s",
     "item.csc.redoubt.description.2": "And gives %s knockback resistance",
 
+    "item.csc.bloody_larynx": "Bloody Larynx",
+    "item.csc.bloody_larynx.description.1": "When used, deals %s + (%s * %s) %s",
+    "item.csc.bloody_larynx.description.2": "To all enemies within a radius from %s to %s blocks",
+    "item.csc.bloody_larynx.description.3": "The lower the current HP, the larger the radius",
+
     "csc.dodge_chance": "Dodge Chance",
     "csc.damage_reflection_percent": "Damage Reflection Percent",
     "csc.incoming_damage_multiplier": "Incoming Damage Multiplier",
@@ -65,10 +70,12 @@
 
     "other.csc.cooldown": "⌛ Cooldown: %s sec.",
     "other.csc.duration": "⌚ Duration: %s sec.",
+    "other.csc.reveal_details": "ⓘ Hold %s to reveal details",
 
     "damageType.csc.physical": "Physical Damage",
     "damageType.csc.magical": "Magical Damage",
     "damageType.csc.pure": "Pure Damage",
+    "health.csc.lost": "Lost Health",
 
     "ui.csc.healthBar": "%s/%s",
     "ui.csc.armorBar": "%s%%",

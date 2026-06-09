@@ -12,10 +12,10 @@ import net.minecraft.world.item.Item;
 
 import java.util.Map;
 
-public class TitanCharacter extends BaseCharacter {
+public class BerserkCharacter extends BaseCharacter {
     @Override
     public Identifier getKey() {
-        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "titan");
+        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "berserk");
     }
 
     @Override
@@ -23,25 +23,22 @@ public class TitanCharacter extends BaseCharacter {
         return null;
     }
 
-    // TODO: Add health book bonus
     @Override
     public Map<Holder<Attribute>, Double> getBaseAttributes() {
         return Map.of(
-                Attributes.MAX_HEALTH, 40.0
+                Attributes.MAX_HEALTH, 18.0
         );
     }
 
     @Override
     public Map<Holder<Attribute>, AttributeModifier> getAttributeModifiers() {
-        return Map.of(
-                Attributes.MOVEMENT_SPEED, new AttributeModifier(getKey(), -0.05, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-        );
+        return Map.of();
     }
 
     @Override
     public Map<Item, Integer> getAbilities() {
         return Map.of(
-                CSCItems.REDOUBT, 0
+                CSCItems.BLOODY_LARYNX, 0
         );
     }
 }

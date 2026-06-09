@@ -1,11 +1,13 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
+import justjabka.csc.contents.character.BerserkCharacter;
 import justjabka.csc.contents.character.SwordsmanCharacter;
 import justjabka.csc.contents.character.TitanCharacter;
 import justjabka.csc.contents.character.generic.BaseCharacter;
 import net.minecraft.resources.Identifier;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ public class CSCCharacters {
 
         registerCharacter(new SwordsmanCharacter());
         registerCharacter(new TitanCharacter());
+        registerCharacter(new BerserkCharacter());
     }
 
     public static void registerCharacter(BaseCharacter character) {
@@ -24,7 +27,7 @@ public class CSCCharacters {
     }
 
     public static Map<Identifier, BaseCharacter> getCharacters() {
-        return CHARACTERS;
+        return Collections.unmodifiableMap(CHARACTERS);
     }
 
     public static BaseCharacter getByKey(Identifier key) {

@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
+	// TODO: split this attribute to: physical, magical and pure damage
 	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
 	private float handleIncomingDamageMultiplierAttribute(float damage, ServerLevel level, DamageSource source) {
 		LivingEntity self = (LivingEntity) (Object) this;
