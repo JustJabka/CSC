@@ -8,9 +8,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
@@ -99,6 +102,7 @@ public class BloodyLarynx extends BaseActiveTrinketItem {
     @Override
     protected void onUse(AbilityContext ctx) {
         Player player = ctx.player;
+        Level level = ctx.level;
 
         double lostHealth = getLostHealth(player);
         double attackDamage = getAttackDamage(player);
@@ -106,13 +110,11 @@ public class BloodyLarynx extends BaseActiveTrinketItem {
         double damage = attackDamage + (lostHealth * DAMAGE_MULTIPLIER);
         double radius = getRadius(player);
 
-        damageEntities(ctx, damage, radius);
+        damageEntities(player, level, damage, radius);
+        onUseEffects(player, level, lostHealth, radius);
     }
 
-    private static void damageEntities(AbilityContext ctx, double damage, double radius) {
-        Player player = ctx.player;
-        Level level = ctx.level;
-
+    private static void damageEntities(Player player, Level level, double damage, double radius) {
         AABB damageRadius = player.getBoundingBox().inflate(radius);
         List<Entity> entities = level.getEntities(player, damageRadius);
 
@@ -124,6 +126,38 @@ public class BloodyLarynx extends BaseActiveTrinketItem {
 
             victim.hurtServer((ServerLevel) level, damageSource, (float) damage);
         });
+    }
+
+    private static void onUseEffects(Player player, Level level, double lostHealth, double radius) {
+        if (!(level instanceof ServerLevel serverLevel)) return;
+
+        float minPitch = 0.7f;
+        float maxPitch = 1.2f;
+        float pitch = maxPitch - (minPitch * (float) (lostHealth / player.getMaxHealth()));
+
+        for (int j = 0; j < radius; j++) {
+            int particleCount = j * 8;
+
+            for (int i = 0; i < particleCount; i++) { // TODO: how the fuck do I even schedule ts?!
+                double angle = (i * 2 * Math.PI) / particleCount;
+
+                double xOffset = Math.cos(angle) * j;
+                double zOffset = Math.sin(angle) * j;
+
+                serverLevel.sendParticles(
+                        new DustParticleOptions(16711680, 2f),
+                        player.getX() + xOffset,
+                        player.getY() + 1.0,
+                        player.getZ() + zOffset,
+                        1,
+                        0.0, 0.0, 0.0,
+                        0.0
+                );
+            }
+        }
+
+        serverLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 2f, pitch);
+        serverLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_DRAGON_GROWL, SoundSource.PLAYERS, 2f, pitch);
     }
 
     private static double getLostHealth(Player player) {
