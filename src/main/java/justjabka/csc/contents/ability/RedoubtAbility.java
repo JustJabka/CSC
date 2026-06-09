@@ -3,11 +3,16 @@ package justjabka.csc.contents.ability;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.registries.CSCSounds;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.Map;
 
@@ -32,11 +37,29 @@ public class RedoubtAbility extends BaseActiveAbility {
 
     @Override
     public void onStart() {
-        AttributeHandler.addTransientModifiers(ctx.player, activeModifiers);
+        Player player = ctx.player;
+
+        AttributeHandler.addTransientModifiers(player, activeModifiers);
+
+        ctx.level.playSound(null, player.blockPosition(), CSCSounds.ABILITY_REDOUBT, SoundSource.PLAYERS, 1f, 1f);
     }
 
     @Override
-    public void onTick() {}
+    public void onTick() {
+        Player player = ctx.player;
+
+        if (!(ctx.level instanceof ServerLevel serverLevel)) return;
+
+        serverLevel.sendParticles (
+                ParticleTypes.POOF,
+                player.getX(),
+                player.getBoundingBox().minY + 1,
+                player.getZ(),
+                1,
+                0.25, 0.5, 0.25,
+                0
+        );
+    }
 
     @Override
     public void onEnd() {

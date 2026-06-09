@@ -61,5 +61,12 @@
                 "name": "csc:ability/spinning_swords"
             }
         ]
+    },
+    "ability.redoubt.use": {
+        "sounds": [
+            {
+                "name": "csc:ability/redoubt"
+            }
+        ]
     }
 }

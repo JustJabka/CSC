@@ -21,6 +21,7 @@ public class CSCSounds {
 
     // Ability
     public static final SoundEvent ABILITY_SPINNING_SWORDS = registerSound("ability.spinning_swords.use");
+    public static final SoundEvent ABILITY_REDOUBT = registerSound("ability.redoubt.use");
 
     private static SoundEvent registerSound(String id) {
         Identifier identifier = Identifier.fromNamespaceAndPath(CSC.MOD_ID, id);

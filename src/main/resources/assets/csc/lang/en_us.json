@@ -43,6 +43,10 @@
     "item.csc.spinning_swords.description.1": "When used, summons two spinning swords that follow the owner",
     "item.csc.spinning_swords.description.2": "The swords deal %s %s of the victim's max HP in %s blocks radius",
 
+    "item.csc.redoubt": "Redoubt",
+    "item.csc.redoubt.description.1": "When used, decreases incoming damage by %s",
+    "item.csc.redoubt.description.2": "And gives %s knockback resistance",
+
     "csc.dodge_chance": "Dodge Chance",
     "csc.damage_reflection_percent": "Damage Reflection Percent",
     "csc.incoming_damage_multiplier": "Incoming Damage Multiplier",
