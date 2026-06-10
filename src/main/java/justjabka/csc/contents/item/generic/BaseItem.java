@@ -2,14 +2,13 @@ package justjabka.csc.contents.item.generic;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
 public abstract class BaseItem extends Item {
-    public static final Identifier BASE_MAX_HEALTH_ID = Identifier.withDefaultNamespace("base_max_health");
     public static final Component PHYSICAL_DAMAGE = Component.translatable("damageType.csc.physical").withStyle(ChatFormatting.RED);
     public static final Component MAGICAL_DAMAGE = Component.translatable("damageType.csc.magical").withStyle(ChatFormatting.LIGHT_PURPLE);
+    public static final Component MAX_HEALTH = Component.translatable("attribute.name.max_health").withStyle(ChatFormatting.GREEN);
 
     public BaseItem(Properties properties) {
         super(properties);

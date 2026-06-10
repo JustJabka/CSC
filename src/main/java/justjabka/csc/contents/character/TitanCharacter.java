@@ -2,6 +2,7 @@ package justjabka.csc.contents.character;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.character.generic.BaseCharacter;
+import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCItems;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -23,11 +24,11 @@ public class TitanCharacter extends BaseCharacter {
         return null;
     }
 
-    // TODO: Add health book bonus
     @Override
     public Map<Holder<Attribute>, Double> getBaseAttributes() {
         return Map.of(
-                Attributes.MAX_HEALTH, 40.0
+                Attributes.MAX_HEALTH, 40.0,
+                CSCAttributes.HEALTH_BOOK_BONUS, 2.0
         );
     }
 

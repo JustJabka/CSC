@@ -50,6 +50,21 @@ public class CSCAttributes {
             true
     );
 
+    public static final Holder<Attribute> DAMAGE_BOOK_BONUS = register(
+            "damage_book_bonus",
+            0,
+            0,
+            1024,
+            true
+    );
+    public static final Holder<Attribute> HEALTH_BOOK_BONUS = register(
+            "health_book_bonus",
+            0,
+            0,
+            1024,
+            true
+    );
+
     public static void initialize() {
         CSC.LOGGER.info("Initializing Attributes");
         syncAttributes();

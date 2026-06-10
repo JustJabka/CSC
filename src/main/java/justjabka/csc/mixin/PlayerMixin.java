@@ -17,6 +17,8 @@ public abstract class PlayerMixin {
                 .add(CSCAttributes.DAMAGE_REFLECTION_PERCENT)
                 .add(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER)
                 .add(CSCAttributes.MAGIC_RESISTANCE)
-                .add(CSCAttributes.MAGIC_DAMAGE);
+                .add(CSCAttributes.MAGIC_DAMAGE)
+                .add(CSCAttributes.DAMAGE_BOOK_BONUS)
+                .add(CSCAttributes.HEALTH_BOOK_BONUS);
     }
 }
