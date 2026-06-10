@@ -23,6 +23,7 @@ public class CSCItems {
     public static final Item PHOENIX_FEATHER = register("phoenix_feather", PhoenixFeather::new, new Item.Properties());
     public static final Item THORNS = register("thorns", Thorns::new, new Item.Properties());
     public static final Item MAGIC_PROTECTION_CLOCK = register("magic_protection_clock", MagicProtectionClock::new, new Item.Properties());
+    public static final Item SHARD = register("shard", Shard::new, new Item.Properties());
     public static final Item DARK_GAUNTLET = register("dark_gauntlet", DarkGauntlet::new, new Item.Properties());
     public static final Item DARK_CAPE = register("dark_cape", DarkCape::new, new Item.Properties());
     public static final Item WILD_FOX_CAPE = register("wild_fox_cape", WildFoxCape::new, new Item.Properties());

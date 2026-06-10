@@ -6,6 +6,7 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.TrinketsApi;
 import justjabka.csc.CSC;
 import justjabka.csc.handlers.AttributeHandler;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
@@ -17,13 +18,16 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
+import org.jspecify.annotations.NonNull;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.SequencedSet;
+import java.util.function.Consumer;
 
 public abstract class BaseCharacter {
     private static final String ABILITY_SLOT_ID = "offhand/ability";
@@ -35,10 +39,15 @@ public abstract class BaseCharacter {
         String key = "character.%s".formatted(getKey());
         return Component.translatableWithFallback(key, "Sorry the translate broke :(");
     }
+    public void getShardDescription(@NonNull ItemStack stack, Item.TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
+        textConsumer.accept(Component.translatable("item.csc.shard.description").withStyle(ChatFormatting.GRAY));
+    }
 
+    // Attributes
     public abstract Map<Holder<Attribute>, Double> getBaseAttributes();
     public abstract Map<Holder<Attribute>, AttributeModifier> getAttributeModifiers();
 
+    // Abilities
     public abstract Map<Item, Integer> getAbilities();
 
     private void updateAbilities(Player player) {
