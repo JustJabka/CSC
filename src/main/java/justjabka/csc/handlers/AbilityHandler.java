@@ -2,6 +2,7 @@ package justjabka.csc.handlers;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
+import justjabka.csc.types.AbilityContext;
 
 import java.util.ArrayList;
 import java.util.Iterator;

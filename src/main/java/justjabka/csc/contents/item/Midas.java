@@ -4,7 +4,7 @@ import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
-import justjabka.csc.handlers.AbilityContext;
+import justjabka.csc.types.AbilityContext;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;

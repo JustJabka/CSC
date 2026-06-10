@@ -1,4 +1,4 @@
-package justjabka.csc.contents.item;
+package justjabka.csc.contents.item.consumable;
 
 import justjabka.csc.contents.item.generic.BaseConsumable;
 import net.minecraft.ChatFormatting;

@@ -1,4 +1,4 @@
-package justjabka.csc.handlers;
+package justjabka.csc.types;
 
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;

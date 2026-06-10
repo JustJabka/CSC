@@ -1,7 +1,7 @@
 package justjabka.csc.contents.item.generic;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
-import justjabka.csc.handlers.AbilityContext;
+import justjabka.csc.types.AbilityContext;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;

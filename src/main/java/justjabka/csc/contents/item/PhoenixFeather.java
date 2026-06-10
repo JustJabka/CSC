@@ -2,7 +2,7 @@ package justjabka.csc.contents.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.handlers.AbilityContext;
+import justjabka.csc.types.AbilityContext;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;

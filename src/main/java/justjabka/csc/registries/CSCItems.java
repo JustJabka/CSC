@@ -2,8 +2,13 @@ package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.item.*;
-import justjabka.csc.contents.item.books.DamageBook;
-import justjabka.csc.contents.item.books.HealthBook;
+import justjabka.csc.contents.item.ability.BloodyLarynx;
+import justjabka.csc.contents.item.ability.Redoubt;
+import justjabka.csc.contents.item.ability.SpinningSwords;
+import justjabka.csc.contents.item.book.DamageBook;
+import justjabka.csc.contents.item.book.HealthBook;
+import justjabka.csc.contents.item.consumable.AstralDust;
+import justjabka.csc.contents.item.consumable.HealingStew;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;

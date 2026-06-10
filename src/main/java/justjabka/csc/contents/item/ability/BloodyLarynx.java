@@ -1,9 +1,9 @@
-package justjabka.csc.contents.item;
+package justjabka.csc.contents.item.ability;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.handlers.AbilityContext;
+import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;

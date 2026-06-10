@@ -1,4 +1,4 @@
-package justjabka.csc.contents.item.books;
+package justjabka.csc.contents.item.book;
 
 import justjabka.csc.contents.item.generic.BaseBook;
 import justjabka.csc.registries.CSCAttributes;

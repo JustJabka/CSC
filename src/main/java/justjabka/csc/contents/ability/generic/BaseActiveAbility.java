@@ -1,7 +1,7 @@
 package justjabka.csc.contents.ability.generic;
 
 import justjabka.csc.contents.attachement.PlayerData;
-import justjabka.csc.handlers.AbilityContext;
+import justjabka.csc.types.AbilityContext;
 import justjabka.csc.registries.CSCAttachments;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NonNull;

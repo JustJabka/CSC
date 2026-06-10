@@ -4,7 +4,7 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.TrinketsApi;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.handlers.AbilityContext;
+import justjabka.csc.types.AbilityContext;
 import justjabka.csc.payloads.ActivateTrinketPayload;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
