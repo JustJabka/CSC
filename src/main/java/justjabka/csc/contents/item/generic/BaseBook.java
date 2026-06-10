@@ -25,7 +25,7 @@ public abstract class BaseBook extends BaseConsumable {
         AttributeInstance attributeInstance = player.getAttribute(getBonusAttribute());
         if (attributeInstance == null) return;
 
-        double attributeValue = attributeInstance.getValue();
+        double attributeValue = attributeInstance.getBaseValue();
 
         // Apply Bonus
         attributeInstance.setBaseValue(attributeValue + calcBonusValue(player));
