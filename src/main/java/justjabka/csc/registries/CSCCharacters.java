@@ -14,12 +14,16 @@ import java.util.Map;
 public class CSCCharacters {
     private static final Map<Identifier, BaseCharacter> CHARACTERS = new HashMap<>();
 
+    public static final SwordsmanCharacter SWORDSMAN = new SwordsmanCharacter();
+    public static final TitanCharacter TITAN = new TitanCharacter();
+    public static final BerserkCharacter BERSERK = new BerserkCharacter();
+
     public static void initialize() {
         CSC.LOGGER.info("Initializing Characters");
 
-        registerCharacter(new SwordsmanCharacter());
-        registerCharacter(new TitanCharacter());
-        registerCharacter(new BerserkCharacter());
+        registerCharacter(SWORDSMAN);
+        registerCharacter(TITAN);
+        registerCharacter(BERSERK);
     }
 
     public static void registerCharacter(BaseCharacter character) {

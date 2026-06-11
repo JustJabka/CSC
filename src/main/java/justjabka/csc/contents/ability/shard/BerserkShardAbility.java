@@ -1,0 +1,37 @@
+package justjabka.csc.contents.ability.shard;
+
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.registries.CSCAttributes;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+
+public class BerserkShardAbility extends BaseActiveAbility {
+    private static final Holder<Attribute> activeAttribute = CSCAttributes.INCOMING_DAMAGE_MULTIPLIER;
+    private final AttributeModifier activeModifier = new AttributeModifier(
+            key,
+            -1024,
+            AttributeModifier.Operation.ADD_VALUE
+    );
+
+    public BerserkShardAbility(Identifier key, int duration) {
+        super(key, duration);
+    }
+
+    @Override
+    public void onStart() {
+        AttributeHandler.addTransientModifier(ctx.player, activeAttribute, activeModifier);
+    }
+
+    @Override
+    public void onTick() {
+
+    }
+
+    @Override
+    public void onEnd() {
+        AttributeHandler.removeModifier(ctx.player, activeAttribute, activeModifier);
+    }
+}

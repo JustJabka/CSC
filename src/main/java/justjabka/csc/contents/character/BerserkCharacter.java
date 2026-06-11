@@ -1,8 +1,16 @@
 package justjabka.csc.contents.character;
 
 import justjabka.csc.CSC;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.shard.BerserkShardAbility;
 import justjabka.csc.contents.character.generic.BaseCharacter;
+import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.handlers.AbilityHandler;
+import justjabka.csc.handlers.TrinketHandler;
+import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCItems;
+import justjabka.csc.types.AbilityContext;
+import justjabka.csc.types.ShardContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -10,7 +18,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -20,6 +30,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class BerserkCharacter extends BaseCharacter {
+    private static final int SHARD_DURATION = 10 * 20;
+
     @Override
     public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "berserk");
@@ -54,5 +66,40 @@ public class BerserkCharacter extends BaseCharacter {
         return Map.of(
                 CSCItems.BLOODY_LARYNX, 0
         );
+    }
+
+    @Override
+    public void onShardTrigger(ShardContext ctx) {
+        Player player = ctx.player;
+        ItemStack shardStack = ctx.shardStack;
+
+        player.setHealth(0.1f);
+
+        triggerInvulnerability(player, shardStack);
+        triggerFirstAbility(player);
+    }
+
+    private void triggerFirstAbility(Player player) {
+        ItemStack stack = TrinketHandler.getFirstTrinket(player, ABILITY_SLOT_ID);
+        if (stack.isEmpty()) return;
+
+        if (!(stack.getItem() instanceof BaseActiveTrinketItem activeItem)) return;
+
+        // Remove Cooldown
+        ItemCooldowns cooldowns = player.getCooldowns();
+        Identifier cooldownGroup = cooldowns.getCooldownGroup(stack);
+        cooldowns.removeCooldown(cooldownGroup);
+
+        // Trigger Ability
+        AbilityContext ctx = new AbilityContext(player, stack);
+        activeItem.tryActivate(ctx);
+    }
+
+    private void triggerInvulnerability(Player player, ItemStack shardStack) {
+        AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
+        BaseActiveAbility ability = new BerserkShardAbility(getKey(), SHARD_DURATION);
+        AbilityContext ctx = new AbilityContext(player, shardStack);
+
+        handler.addAbility(ability, ctx);
     }
 }

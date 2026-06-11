@@ -6,6 +6,7 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.TrinketsApi;
 import justjabka.csc.CSC;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.types.ShardContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -30,7 +31,7 @@ import java.util.SequencedSet;
 import java.util.function.Consumer;
 
 public abstract class BaseCharacter {
-    private static final String ABILITY_SLOT_ID = "offhand/ability";
+    protected static final String ABILITY_SLOT_ID = "offhand/ability";
 
     // Getters
     public abstract Identifier getKey();
@@ -103,6 +104,9 @@ public abstract class BaseCharacter {
         AttributeHandler.removeAllModifiersFromNamespace(player, CSC.MOD_ID);
         AttributeHandler.addTransientModifiers(player, modifiers);
     }
+
+    // Shard
+    public void onShardTrigger(ShardContext ctx) {}
 
     // Other
     public void onSelect(Player player) {
