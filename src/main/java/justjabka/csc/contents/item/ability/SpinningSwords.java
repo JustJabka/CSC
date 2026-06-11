@@ -16,8 +16,8 @@ import java.util.function.Consumer;
 
 public class SpinningSwords extends BaseActiveTrinketItem {
     private static final double RADIUS = 1.5;
-    private static final double DAMAGE_PERCENT = 0.12; // TODO: nerf this guy💀
-    private static final double DAMAGE_PERCENT_SHARD_BONUS = 0.04;
+    private static final double DAMAGE_PERCENT = 0.08;
+    private static final double DAMAGE_PERCENT_SHARD_BONUS = 0.02;
 
     public SpinningSwords(Properties properties) {
         super(properties);
