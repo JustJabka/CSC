@@ -1,6 +1,8 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.handlers.TrinketHandler;
+import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -24,12 +26,16 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
 
     private final double radius;
     private final double damagePercent;
+    private final double damagePercentShardBonus;
     private final List<Display.ItemDisplay> swords = new ArrayList<>();
 
-    public SpinningSwordsAbility(Identifier key, int duration, double radius, double damagePercent) {
+    private boolean hasShard = false;
+
+    public SpinningSwordsAbility(Identifier key, int duration, double radius, double damagePercent, double damagePercentShardBonus) {
         super(key, duration);
         this.radius = radius;
         this.damagePercent = damagePercent;
+        this.damagePercentShardBonus = damagePercentShardBonus;
     }
 
     @Override
@@ -37,8 +43,13 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
         Player player = ctx.player;
         Level level = ctx.level;
 
-        spawnSword(level, player);
-        spawnSword(level, player);
+        hasShard = TrinketHandler.hasTrinket(player, CSCItems.SHARD, "legs/belt");
+
+        int swordsToSpawn = hasShard ? 3 : 2;
+
+        for (int i = 0; i < swordsToSpawn; i++) {
+            spawnSword(level, player);
+        }
 
         level.playSound(null, player.blockPosition(), CSCSounds.ABILITY_SPINNING_SWORDS, SoundSource.PLAYERS, 1f, 1f);
     }
@@ -69,16 +80,19 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
     }
 
     private void updateSwordsDisplay(Player player, Level level) {
-        float angle1 = (player.tickCount * 10f) % 360f;
-        float angle2 = (angle1 + 180f) % 360f;
+        int count = swords.size();
+        if (count == 0) return;
+
+        float baseAngle = (player.tickCount * 10f) % 360f;
+        float angleStep = 360f / count;
 
         double orbitRadius = radius;
         double targetY = player.getY() + (player.getBbHeight() / 2);
 
-        for (int i = 0; i < swords.size(); i++) {
+        for (int i = 0; i < count; i++) {
             Display.ItemDisplay sword = swords.get(i);
 
-            float currentAngle = (i % 2 == 0) ? angle1 : angle2;
+            float currentAngle = (baseAngle + (i * angleStep)) % 360f;
             double radians = Math.toRadians(currentAngle);
 
             double offsetX = Math.cos(radians) * orbitRadius;
@@ -105,12 +119,13 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
 
         Holder<DamageType> damageType = player.damageSources().magic().typeHolder();
         DamageSource damageSource = new DamageSource(damageType, player);
+        double currentDamagePercent = hasShard ? damagePercent + damagePercentShardBonus : damagePercent;
 
         entities.forEach(entity -> {
             if (!(entity instanceof LivingEntity victim)) return;
 
             double maxHealth = victim.getMaxHealth();
-            float damage = (float) (maxHealth * damagePercent);
+            float damage = (float) (maxHealth * currentDamagePercent);
 
             victim.hurtServer((ServerLevel) level, damageSource, damage);
         });

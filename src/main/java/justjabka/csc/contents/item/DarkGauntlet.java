@@ -1,7 +1,7 @@
 package justjabka.csc.contents.item;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.DarkGauntletAbility;
+import justjabka.csc.contents.ability.item.DarkGauntletAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.registries.CSCAttributes;

@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 public class Redoubt extends BaseActiveTrinketItem {
     private static final double INCOMING_DAMAGE_MULTIPLIER_MODIFIER = -0.35;
     private static final double KNOCKBACK_RESISTANCE_MODIFIER = 1;
+    private static final float ABSORPTION_AMOUNT_SHARD_BONUS = 0.1f;
 
     public Redoubt(Properties properties) {
         super(properties);
@@ -43,7 +44,8 @@ public class Redoubt extends BaseActiveTrinketItem {
                 getKey(),
                 getSecondsToTicks(getDuration()),
                 INCOMING_DAMAGE_MULTIPLIER_MODIFIER,
-                KNOCKBACK_RESISTANCE_MODIFIER
+                KNOCKBACK_RESISTANCE_MODIFIER,
+                ABSORPTION_AMOUNT_SHARD_BONUS
         );
     }
 

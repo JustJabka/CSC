@@ -1,6 +1,6 @@
 package justjabka.csc.mixin;
 
-import justjabka.csc.contents.ability.DarkCapeAbility;
+import justjabka.csc.contents.ability.item.DarkCapeAbility;
 import justjabka.csc.data.CSCDamageTypeTagProvider;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.registries.CSCAttachments;

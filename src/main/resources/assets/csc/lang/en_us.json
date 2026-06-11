@@ -52,6 +52,9 @@
     "item.csc.bloody_larynx.description.2": "To all enemies within a radius from %s to %s blocks",
     "item.csc.bloody_larynx.description.3": "The lower the current HP, the larger the radius",
 
+    "shard.csc.swordsman.description": "Increases %s of the %s ability from %s to %s",
+    "shard.csc.titan.description.1": "Grants additional absorption health",
+    "shard.csc.titan.description.2": "When the %s ability triggered",
     "shard.csc.berserk.description.1": "Activates upon death.",
     "shard.csc.berserk.description.2": "When triggered, activates the ability %s bypassing its cooldown.",
     "shard.csc.berserk.description.3": "And cancels death, and makes user completely immortal.",

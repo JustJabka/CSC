@@ -2,7 +2,7 @@ package justjabka.csc.contents.item;
 
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.DarkCapeAbility;
+import justjabka.csc.contents.ability.item.DarkCapeAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.registries.CSCAttributes;

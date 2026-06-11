@@ -2,7 +2,9 @@ package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,9 +19,13 @@ import net.minecraft.world.entity.player.Player;
 import java.util.Map;
 
 public class RedoubtAbility extends BaseActiveAbility {
+    private boolean hasShard = false;
+    private AttributeModifier absorptionAmountShardBonusModifier;
+
+    private final float absorptionAmountShardBonus;
     private final Map<Holder<Attribute>, AttributeModifier> activeModifiers;
 
-    public RedoubtAbility(Identifier key, int duration, double incomingDamageMultiplierModifier, double knockbackResistanceModifier) {
+    public RedoubtAbility(Identifier key, int duration, double incomingDamageMultiplierModifier, double knockbackResistanceModifier, float absorptionAmountShardBonus) {
         super(key, duration);
         this.activeModifiers = Map.of(
                 CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, new AttributeModifier(
@@ -33,12 +39,16 @@ public class RedoubtAbility extends BaseActiveAbility {
                         AttributeModifier.Operation.ADD_VALUE
                 )
         );
+        this.absorptionAmountShardBonus = absorptionAmountShardBonus;
     }
 
     @Override
     public void onStart() {
         Player player = ctx.player;
 
+        hasShard = TrinketHandler.hasTrinket(player, CSCItems.SHARD, "legs/belt");
+
+        if (hasShard) giveShardBonus(player);
         AttributeHandler.addTransientModifiers(player, activeModifiers);
 
         ctx.level.playSound(null, player.blockPosition(), CSCSounds.ABILITY_REDOUBT, SoundSource.PLAYERS, 1f, 1f);
@@ -63,6 +73,27 @@ public class RedoubtAbility extends BaseActiveAbility {
 
     @Override
     public void onEnd() {
-        AttributeHandler.removeModifiers(ctx.player, activeModifiers);
+        Player player = ctx.player;
+
+        if (hasShard) clearShardBonus(player);
+        AttributeHandler.removeModifiers(player, activeModifiers);
+    }
+
+    private void giveShardBonus(Player player) {
+        float currentAmount = player.getAbsorptionAmount();
+        float bonusAmount = player.getMaxHealth() * absorptionAmountShardBonus;
+
+        absorptionAmountShardBonusModifier = new AttributeModifier(
+                key,
+                bonusAmount,
+                AttributeModifier.Operation.ADD_VALUE
+        );
+
+        AttributeHandler.addTransientModifier(player, Attributes.MAX_ABSORPTION, absorptionAmountShardBonusModifier);
+        player.setAbsorptionAmount(currentAmount + bonusAmount);
+    }
+
+    private void clearShardBonus(Player player) {
+        AttributeHandler.removeModifier(player, Attributes.MAX_ABSORPTION, absorptionAmountShardBonusModifier);
     }
 }

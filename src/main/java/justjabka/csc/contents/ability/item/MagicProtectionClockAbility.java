@@ -1,4 +1,4 @@
-package justjabka.csc.contents.ability;
+package justjabka.csc.contents.ability.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
