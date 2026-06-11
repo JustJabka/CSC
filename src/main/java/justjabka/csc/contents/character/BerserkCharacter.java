@@ -30,8 +30,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class BerserkCharacter extends BaseCharacter {
-    private static final int SHARD_DURATION = 10 * 20;
-
     @Override
     public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "berserk");
@@ -40,6 +38,16 @@ public class BerserkCharacter extends BaseCharacter {
     @Override
     public Identifier getDisplayIcon() {
         return null;
+    }
+
+    @Override
+    public int getShardCooldown() {
+        return 120;
+    }
+
+    @Override
+    public int getShardDuration() {
+        return 10;
     }
 
     @Override
@@ -97,7 +105,7 @@ public class BerserkCharacter extends BaseCharacter {
 
     private void triggerInvulnerability(Player player, ItemStack shardStack) {
         AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        BaseActiveAbility ability = new BerserkShardAbility(getKey(), SHARD_DURATION);
+        BaseActiveAbility ability = new BerserkShardAbility(getKey(), getShardDuration() * 20);
         AbilityContext ctx = new AbilityContext(player, shardStack);
 
         handler.addAbility(ability, ctx);

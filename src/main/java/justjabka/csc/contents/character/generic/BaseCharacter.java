@@ -33,13 +33,17 @@ import java.util.function.Consumer;
 public abstract class BaseCharacter {
     protected static final String ABILITY_SLOT_ID = "offhand/ability";
 
-    // Getters
+    // Base Getters
     public abstract Identifier getKey();
     public abstract Identifier getDisplayIcon();
     public Component getDisplayName() {
         String key = "character.%s".formatted(getKey());
         return Component.translatableWithFallback(key, "Sorry the translate broke :(");
     }
+
+    // Shard
+    public abstract int getShardCooldown();
+    public abstract int getShardDuration();
     public void getShardDescription(@NonNull ItemStack stack, Item.TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         textConsumer.accept(Component.translatable("item.csc.shard.description").withStyle(ChatFormatting.GRAY));
     }

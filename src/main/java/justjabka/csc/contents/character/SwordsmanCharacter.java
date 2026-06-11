@@ -24,6 +24,16 @@ public class SwordsmanCharacter extends BaseCharacter {
     }
 
     @Override
+    public int getShardCooldown() {
+        return 0;
+    }
+
+    @Override
+    public int getShardDuration() {
+        return 0;
+    }
+
+    @Override
     public Map<Holder<Attribute>, Double> getBaseAttributes() {
         return Map.of(
                 Attributes.MAX_HEALTH, 22.0,

@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -29,12 +30,18 @@ public class Shard extends BaseActiveTrinketItem {
 
     @Override
     protected int getCooldown() {
-        return 0;
+        BaseCharacter character = getCharacter();
+        if (character == null) return 0;
+
+        return character.getShardCooldown();
     }
 
     @Override
     protected int getDuration() {
-        return 0;
+        BaseCharacter character = getCharacter();
+        if (character == null) return 0;
+
+        return character.getShardDuration();
     }
 
     @Override
@@ -46,15 +53,19 @@ public class Shard extends BaseActiveTrinketItem {
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         super.appendHoverText(stack, context, displayComponent, textConsumer, type);
 
-        Minecraft mc = Minecraft.getInstance();
-        LocalPlayer player = mc.player;
-
-        if (player == null) return;
-        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-
-        BaseCharacter character = data.getCharacter();
+        BaseCharacter character = getCharacter();
         if (character == null) return;
 
         character.getShardDescription(stack, context, displayComponent, textConsumer, type);
+    }
+
+    private static @Nullable BaseCharacter getCharacter() {
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
+
+        if (player == null) return null;
+        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
+
+        return data.getCharacter();
     }
 }

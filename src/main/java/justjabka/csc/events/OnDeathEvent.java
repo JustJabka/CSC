@@ -30,7 +30,7 @@ public class OnDeathEvent {
             boolean isOnCooldown = cooldowns.isOnCooldown(stack);
 
             if (isOnCooldown) return true;
-            cooldowns.addCooldown(stack, 120 * 20); // TODO: Remove hardcoded cooldowns
+            cooldowns.addCooldown(stack, character.getShardCooldown() * 20);
 
             ShardContext ctx = new ShardContext(player, stack, character);
             character.onShardTrigger(ctx);
