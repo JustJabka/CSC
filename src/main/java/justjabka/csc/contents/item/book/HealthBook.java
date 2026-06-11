@@ -2,6 +2,8 @@ package justjabka.csc.contents.item.book;
 
 import justjabka.csc.contents.item.generic.BaseBook;
 import justjabka.csc.registries.CSCAttributes;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -37,6 +39,7 @@ public class HealthBook extends BaseBook {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;

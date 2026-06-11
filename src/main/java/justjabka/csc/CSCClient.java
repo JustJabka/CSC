@@ -1,5 +1,6 @@
 package justjabka.csc;
 
+import justjabka.csc.registries.CSCKeyMappings;
 import justjabka.csc.rendering.CSCHudRendering;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
@@ -9,6 +10,7 @@ public class CSCClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         CSCHudRendering.initialize();
+        CSCKeyMappings.initialize();
 
         // Prevent item drop in opened inventory
         ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
