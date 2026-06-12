@@ -39,12 +39,23 @@ public abstract class LivingEntityMixin {
 		OnPlayerHealthChangeCallback.EVENT.invoker().change(player, oldHealth, health);
 	}
 
-	// TODO: split this attribute to: physical, magical and pure damage
 	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
-	private float handleIncomingDamageMultiplierAttribute(float damage, ServerLevel level, DamageSource source) {
-		LivingEntity self = (LivingEntity) (Object) this;
+	private float modifyIncomingDamage(float damage, ServerLevel level, DamageSource source) {
+		LivingEntity entity = (LivingEntity) (Object) this;
 
-		AttributeInstance incomingDamageInstance = self.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
+		damage = handleDarkCapeAbilityAttack(damage, source);
+		damage = handleMagicDamageAttribute(damage, source);
+		damage = handleIncomingDamageMultiplierAttribute(entity, damage);
+
+		damage = handleMagicResistanceAttribute(entity, damage, source);
+
+		return damage;
+	}
+
+	// TODO: split this attribute to: physical, magical and pure damage
+	@Unique
+	private float handleIncomingDamageMultiplierAttribute(LivingEntity entity, float damage) {
+		AttributeInstance incomingDamageInstance = entity.getAttribute(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER);
 		if (incomingDamageInstance == null) return damage;
 
 		float multiplier = (float) incomingDamageInstance.getValue();
@@ -53,11 +64,9 @@ public abstract class LivingEntityMixin {
 		return damage * multiplier;
 	}
 
-	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
-	private float handleMagicDamageAttribute(float damage, ServerLevel level, DamageSource source) {
-		Entity entity = source.getEntity();
-
-		if (!(entity instanceof LivingEntity attacker)) return damage;
+	@Unique
+	private float handleMagicDamageAttribute(float damage, DamageSource source) {
+		if (!(source.getEntity() instanceof LivingEntity attacker)) return damage;
 
 		AttributeInstance magicDamageInstance = attacker.getAttribute(CSCAttributes.MAGIC_DAMAGE);
 		if (magicDamageInstance == null) return damage;
@@ -70,11 +79,9 @@ public abstract class LivingEntityMixin {
 		return damage * multiplier;
 	}
 
-	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
-	private float handleMagicResistanceAttribute(float damage, ServerLevel level, DamageSource source) {
-		LivingEntity self = (LivingEntity) (Object) this;
-
-		AttributeInstance magicResistanceInstance = self.getAttribute(CSCAttributes.MAGIC_RESISTANCE);
+	@Unique
+	private float handleMagicResistanceAttribute(LivingEntity entity, float damage, DamageSource source) {
+		AttributeInstance magicResistanceInstance = entity.getAttribute(CSCAttributes.MAGIC_RESISTANCE);
 		if (magicResistanceInstance == null) return damage;
 
 		if (!source.is(CSCDamageTypeTagProvider.IS_MAGIC)) return damage;
@@ -86,8 +93,8 @@ public abstract class LivingEntityMixin {
 		return resistancePercent * damage;
 	}
 
-	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")
-	private float handleDarkCapeAbilityAttack(float damage, ServerLevel level, DamageSource source) {
+	@Unique
+	private float handleDarkCapeAbilityAttack(float damage, DamageSource source) {
 		if (!(source.getEntity() instanceof Player attacker)) return damage;
 		if (!source.is(DamageTypes.PLAYER_ATTACK)) return damage;
 
