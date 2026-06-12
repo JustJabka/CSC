@@ -98,8 +98,6 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
 
     @Override
     public void onChange(Player player, float oldHealth, float newHealth) {
-        CSC.LOGGER.info("On change");
-
         float maxHealth = player.getMaxHealth();
         float lostHealthPercent = (maxHealth - newHealth) / maxHealth;
 
@@ -115,8 +113,6 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
     @Override
     public boolean allowDeath(@NonNull LivingEntity entity, @NonNull DamageSource source, float amount) {
         if (!(entity instanceof Player player)) return true;
-
-        CSC.LOGGER.info("Allow death");
 
         // Check if player have shard
         ItemStack stack = TrinketHandler.findFirstTrinket(player, CSCItems.SHARD, "legs/belt");
