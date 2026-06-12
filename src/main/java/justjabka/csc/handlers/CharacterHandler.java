@@ -39,4 +39,12 @@ public class CharacterHandler {
 
         return data.getCharacter();
     }
+
+    public static boolean isCurrentCharacter(Player player, Identifier character) {
+        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
+        BaseCharacter currentCharacter = data.getCharacter();
+
+        if (currentCharacter == null) return false;
+        return currentCharacter.getKey().equals(character);
+    }
 }

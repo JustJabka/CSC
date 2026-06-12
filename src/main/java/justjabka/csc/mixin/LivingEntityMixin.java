@@ -2,7 +2,7 @@ package justjabka.csc.mixin;
 
 import justjabka.csc.contents.ability.item.DarkCapeAbility;
 import justjabka.csc.data.CSCDamageTypeTagProvider;
-import justjabka.csc.events.callback.OnPlayerHealthChangeCallback;
+import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCAttributes;
@@ -36,7 +36,7 @@ public abstract class LivingEntityMixin {
 
 		float oldHealth = player.getHealth();
 
-		OnPlayerHealthChangeCallback.EVENT.invoker().change(player, oldHealth, health);
+		OnPlayerHealthChangeCallback.EVENT.invoker().onChange(player, oldHealth, health);
 	}
 
 	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")

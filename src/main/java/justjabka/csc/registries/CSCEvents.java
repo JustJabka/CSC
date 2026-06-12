@@ -1,8 +1,6 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
-import justjabka.csc.events.OnDeathEvent;
-import justjabka.csc.events.OnPlayerHealthChangeEvent;
 import justjabka.csc.events.OnServerTickEvent;
 
 public class CSCEvents {
@@ -10,7 +8,5 @@ public class CSCEvents {
         CSC.LOGGER.info("Initializing Events");
 
         OnServerTickEvent.register();
-        OnDeathEvent.register();
-        OnPlayerHealthChangeEvent.register();
     }
 }

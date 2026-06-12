@@ -5,16 +5,21 @@ import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.shard.BerserkShardAbility;
 import justjabka.csc.contents.character.generic.BaseCharacter;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
+import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.types.ShardContext;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -29,7 +34,11 @@ import org.jspecify.annotations.NonNull;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class BerserkCharacter extends BaseCharacter {
+public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthChangeCallback, ServerLivingEntityEvents.AllowDeath {
+    private static final int LOST_HEALTH_BONUS_PERCENT_STEP = 10;
+    private static final double LOST_HEALTH_ATTACK_DAMAGE_BONUS_PERCENT = 0.03;
+    private static final double LOST_HEALTH_ATTACK_SPEED_BONUS_PERCENT = 0.02;
+
     @Override
     public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "berserk");
@@ -85,6 +94,61 @@ public class BerserkCharacter extends BaseCharacter {
 
         triggerInvulnerability(player, shardStack);
         triggerFirstAbility(player);
+    }
+
+    @Override
+    public void onChange(Player player, float oldHealth, float newHealth) {
+        CSC.LOGGER.info("On change");
+
+        float maxHealth = player.getMaxHealth();
+        float lostHealthPercent = (maxHealth - newHealth) / maxHealth;
+
+        int step = (int) (lostHealthPercent * LOST_HEALTH_BONUS_PERCENT_STEP);
+
+        double attackDamageBonus = step * LOST_HEALTH_ATTACK_DAMAGE_BONUS_PERCENT;
+        double attackSpeedBonus = step * LOST_HEALTH_ATTACK_SPEED_BONUS_PERCENT;
+
+        updatePassiveAbilityBonus(player, Attributes.ATTACK_DAMAGE, attackDamageBonus);
+        updatePassiveAbilityBonus(player, Attributes.ATTACK_SPEED, attackSpeedBonus);
+    }
+
+    @Override
+    public boolean allowDeath(@NonNull LivingEntity entity, @NonNull DamageSource source, float amount) {
+        if (!(entity instanceof Player player)) return true;
+
+        CSC.LOGGER.info("Allow death");
+
+        // Check if player have shard
+        ItemStack stack = TrinketHandler.findFirstTrinket(player, CSCItems.SHARD, "legs/belt");
+        if (stack.isEmpty()) return true;
+
+        // Check if shard is on cooldown
+        ItemCooldowns cooldowns = player.getCooldowns();
+        boolean isOnCooldown = cooldowns.isOnCooldown(stack);
+
+        // Apply cooldown
+        if (isOnCooldown) return true;
+        cooldowns.addCooldown(stack, getShardCooldown() * 20);
+
+        // Trigger shard
+        ShardContext ctx = new ShardContext(player, stack, this);
+        onShardTrigger(ctx);
+
+        return false;
+    }
+
+    private void updatePassiveAbilityBonus(Player player, Holder<Attribute> attribute, double value) {
+        AttributeModifier modifier = new AttributeModifier(
+                getKey(),
+                value,
+                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        );
+
+        AttributeHandler.removeModifier(player, attribute, modifier);
+
+        if (value <= 0) return;
+
+        AttributeHandler.addTransientModifier(player, attribute, modifier);
     }
 
     private void triggerFirstAbility(Player player) {

@@ -1,4 +1,4 @@
-package justjabka.csc.events.callback;
+package justjabka.csc.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -8,10 +8,10 @@ public interface OnPlayerHealthChangeCallback {
     Event<OnPlayerHealthChangeCallback> EVENT = EventFactory.createArrayBacked(OnPlayerHealthChangeCallback.class,
             (listeners) -> (player, oldHealth, newHealth) -> {
                 for (OnPlayerHealthChangeCallback listener : listeners) {
-                    listener.change(player, oldHealth, newHealth);
+                    listener.onChange(player, oldHealth, newHealth);
                 }
             }
     );
 
-    void change(Player player, float oldHealth, float newHealth);
+    void onChange(Player player, float oldHealth, float newHealth);
 }
