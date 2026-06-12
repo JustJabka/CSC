@@ -2,6 +2,7 @@ package justjabka.csc.mixin;
 
 import justjabka.csc.contents.ability.item.DarkCapeAbility;
 import justjabka.csc.data.CSCDamageTypeTagProvider;
+import justjabka.csc.events.callback.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCAttributes;
@@ -20,10 +21,23 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
+
+	@Inject(method = "setHealth", at = @At("HEAD"))
+	private void onHealthChange(float health, CallbackInfo ci) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+
+		if (!(entity instanceof Player player)) return;
+		if (player.level().isClientSide()) return;
+
+		float oldHealth = player.getHealth();
+
+		OnPlayerHealthChangeCallback.EVENT.invoker().change(player, oldHealth, health);
+	}
 
 	// TODO: split this attribute to: physical, magical and pure damage
 	@ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, name = "damage")

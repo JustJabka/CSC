@@ -2,6 +2,7 @@ package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
 import justjabka.csc.events.OnDeathEvent;
+import justjabka.csc.events.OnPlayerHealthChangeEvent;
 import justjabka.csc.events.OnServerTickEvent;
 
 public class CSCEvents {
@@ -10,5 +11,6 @@ public class CSCEvents {
 
         OnServerTickEvent.register();
         OnDeathEvent.register();
+        OnPlayerHealthChangeEvent.register();
     }
 }

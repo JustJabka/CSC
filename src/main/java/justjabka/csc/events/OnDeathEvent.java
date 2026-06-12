@@ -18,24 +18,28 @@ public class OnDeathEvent {
         ServerLivingEntityEvents.ALLOW_DEATH.register((entity, damageSource, damageAmount) -> {
             if (!(entity instanceof Player player)) return true;
 
-            PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-            BaseCharacter character = data.getCharacter();
-
-            if (character != BERSERK) return true;
-
-            ItemStack stack = TrinketHandler.findFirstTrinket(player, CSCItems.SHARD, "legs/belt");
-            if (stack.isEmpty()) return true;
-
-            ItemCooldowns cooldowns = player.getCooldowns();
-            boolean isOnCooldown = cooldowns.isOnCooldown(stack);
-
-            if (isOnCooldown) return true;
-            cooldowns.addCooldown(stack, character.getShardCooldown() * 20);
-
-            ShardContext ctx = new ShardContext(player, stack, character);
-            character.onShardTrigger(ctx);
-
-            return false;
+            return handleBerserkShard(player);
         });
+    }
+
+    private static boolean handleBerserkShard(Player player) {
+        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
+        BaseCharacter character = data.getCharacter();
+
+        if (character != BERSERK) return true;
+
+        ItemStack stack = TrinketHandler.findFirstTrinket(player, CSCItems.SHARD, "legs/belt");
+        if (stack.isEmpty()) return true;
+
+        ItemCooldowns cooldowns = player.getCooldowns();
+        boolean isOnCooldown = cooldowns.isOnCooldown(stack);
+
+        if (isOnCooldown) return true;
+        cooldowns.addCooldown(stack, character.getShardCooldown() * 20);
+
+        ShardContext ctx = new ShardContext(player, stack, character);
+        character.onShardTrigger(ctx);
+
+        return false;
     }
 }
