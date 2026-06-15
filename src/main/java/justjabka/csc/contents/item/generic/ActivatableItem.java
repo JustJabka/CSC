@@ -2,6 +2,7 @@ package justjabka.csc.contents.item.generic;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AbilityHandler;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
@@ -46,11 +47,11 @@ public interface ActivatableItem {
             @NonNull TooltipFlag type
     ) {
         if (haveCooldown()) {
-            textConsumer.accept(Component.translatable("other.csc.cooldown", getCooldown()).withStyle(ChatFormatting.YELLOW));
+            textConsumer.accept(Component.translatable("other.csc.cooldown", TimeHandler.autoConvertTicks(getCooldown())).withStyle(ChatFormatting.YELLOW));
         }
 
         if (haveDuration()) {
-            textConsumer.accept(Component.translatable("other.csc.duration", getDuration()).withStyle(ChatFormatting.GREEN));
+            textConsumer.accept(Component.translatable("other.csc.duration", TimeHandler.autoConvertTicks(getDuration())).withStyle(ChatFormatting.GREEN));
         }
     }
 
@@ -82,7 +83,7 @@ public interface ActivatableItem {
     default void applyCooldown(ItemStack item, Player player) {
         if (!haveCooldown()) return;
 
-        player.getCooldowns().addCooldown(item, getCooldown() * 20);
+        player.getCooldowns().addCooldown(item, getCooldown());
     }
 
     default boolean isOnCooldown(ItemStack item, Player player) {

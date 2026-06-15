@@ -4,6 +4,7 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.item.ThornsAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.handlers.TimeHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -15,6 +16,9 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
+
+import static justjabka.csc.handlers.DescriptionHandler.MAGICAL_DAMAGE;
+import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
 public class Thorns extends BaseActiveTrinketItem {
     private final AttributeModifier DAMAGE_REFLECTION_MODIFIER = new AttributeModifier(
@@ -30,19 +34,19 @@ public class Thorns extends BaseActiveTrinketItem {
 
     @Override
     public int getCooldown() {
-        return 45;
+        return TimeHandler.secondsToTicks(45);
     }
 
     @Override
     public int getDuration() {
-        return 5;
+        return TimeHandler.secondsToTicks(5);
     }
 
     @Override
     public BaseActiveAbility getAbility() {
         return new ThornsAbility(
                 getKey(),
-                getSecondsToTicks(getDuration()),
+                getDuration(),
                 DAMAGE_REFLECTION_MODIFIER
         );
     }

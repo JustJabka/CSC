@@ -18,6 +18,8 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
+import static justjabka.csc.handlers.DescriptionHandler.MAX_HEALTH;
+
 public class HealthBook extends BaseBook {
     public HealthBook(Properties properties) {
         super(properties);

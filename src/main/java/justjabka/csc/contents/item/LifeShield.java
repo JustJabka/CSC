@@ -4,7 +4,7 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.LifeShieldAbility;
 import justjabka.csc.contents.item.generic.ActivatableItem;
-import justjabka.csc.contents.item.generic.BaseItem;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;
@@ -17,6 +17,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -29,7 +30,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class LifeShield extends BaseItem implements ActivatableItem {
+import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
+
+public class LifeShield extends Item implements ActivatableItem {
     private static final double DAMAGE_MULTIPLIER_MODIFIER = -0.05;
     private static final float HEAL_AMOUNT = 10;
     private static final float ABSORPTION_AMOUNT = 8;
@@ -54,17 +57,17 @@ public class LifeShield extends BaseItem implements ActivatableItem {
 
     @Override
     public int getCooldown() {
-        return 32;
+        return TimeHandler.secondsToTicks(32);
     }
 
     @Override
     public int getDuration() {
-        return 20;
+        return TimeHandler.secondsToTicks(20);
     }
 
     @Override
     public BaseActiveAbility getAbility() {
-        return new LifeShieldAbility(getKey(), getSecondsToTicks(getDuration()), ACTIVE_MODIFIERS, HEAL_AMOUNT, ABSORPTION_AMOUNT);
+        return new LifeShieldAbility(getKey(), getDuration(), ACTIVE_MODIFIERS, HEAL_AMOUNT, ABSORPTION_AMOUNT);
     }
 
     public LifeShield(Properties properties) {

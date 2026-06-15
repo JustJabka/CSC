@@ -3,10 +3,11 @@ package justjabka.csc.contents.item.generic;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public abstract class BaseConsumable extends BaseItem {
+public abstract class BaseConsumable extends Item {
     public BaseConsumable(Properties properties) {
         super(properties);
     }
@@ -19,7 +20,7 @@ public abstract class BaseConsumable extends BaseItem {
     ) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (isClientSide(player)) return InteractionResult.PASS;
+        if (player.level().isClientSide()) return InteractionResult.PASS;
         if (!canActivate(player, stack, level)) return InteractionResult.PASS;
 
         stack.consume(1, player);

@@ -5,6 +5,7 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.item.DarkCapeAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -23,6 +24,9 @@ import org.jspecify.annotations.NonNull;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
+import static justjabka.csc.handlers.DescriptionHandler.PHYSICAL_DAMAGE;
+import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
 public class DarkCape extends BaseActiveTrinketItem {
     private static final double BASE_HEALTH = 4;
@@ -52,19 +56,19 @@ public class DarkCape extends BaseActiveTrinketItem {
 
     @Override
     public int getCooldown() {
-        return 42;
+        return TimeHandler.secondsToTicks(42);
     }
 
     @Override
     public int getDuration() {
-        return 12;
+        return TimeHandler.secondsToTicks(12);
     }
 
     @Override
     public BaseActiveAbility getAbility() {
         return new DarkCapeAbility(
                 getKey(),
-                getSecondsToTicks(getDuration()),
+                getDuration(),
                 DAMAGE_MULTIPLIER,
                 ACTIVE_MODIFIERS
         );

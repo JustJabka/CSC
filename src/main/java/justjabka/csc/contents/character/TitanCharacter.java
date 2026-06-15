@@ -44,7 +44,7 @@ public class TitanCharacter extends BaseCharacter {
     @Override
     public void getShardDescription(@NonNull ItemStack stack, Item.TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
         textConsumer.accept(Component.translatable("shard.csc.titan.description.1").withStyle(ChatFormatting.GRAY));
-        textConsumer.accept(Component.translatable("shard.csc.titan.description.2").withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("shard.csc.titan.description.2", CSCItems.REDOUBT.getDefaultInstance().getItemName()).withStyle(ChatFormatting.GRAY));
     }
 
     @Override

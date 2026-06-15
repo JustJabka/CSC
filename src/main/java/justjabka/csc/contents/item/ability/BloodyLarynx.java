@@ -3,6 +3,7 @@ package justjabka.csc.contents.item.ability;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.types.AbilityContext;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -33,6 +34,8 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static justjabka.csc.handlers.DescriptionHandler.PHYSICAL_DAMAGE;
+
 public class BloodyLarynx extends BaseActiveTrinketItem {
     private static final double DAMAGE_MULTIPLIER = 2;
     private static final double MIN_RADIUS = 3;
@@ -49,7 +52,7 @@ public class BloodyLarynx extends BaseActiveTrinketItem {
 
     @Override
     public int getCooldown() {
-        return 60;
+        return TimeHandler.minutesToTicks(1);
     }
 
     @Override

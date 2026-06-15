@@ -2,6 +2,7 @@ package justjabka.csc.contents.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;
@@ -31,7 +32,7 @@ public class PhoenixFeather extends BaseActiveTrinketItem {
 
     @Override
     public int getCooldown() {
-        return 35;
+        return TimeHandler.secondsToTicks(35);
     }
 
     @Override

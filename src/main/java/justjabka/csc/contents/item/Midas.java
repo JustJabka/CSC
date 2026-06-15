@@ -4,6 +4,7 @@ import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
@@ -36,7 +37,7 @@ public class Midas extends BaseActiveItem {
 
     @Override
     public int getCooldown() {
-        return 100;
+        return TimeHandler.secondsToTicks(100);
     }
 
     @Override

@@ -8,6 +8,7 @@ import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCItems;
@@ -51,12 +52,12 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
 
     @Override
     public int getShardCooldown() {
-        return 120;
+        return TimeHandler.minutesToTicks(2);
     }
 
     @Override
     public int getShardDuration() {
-        return 10;
+        return TimeHandler.secondsToTicks(10);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
 
         // Apply cooldown
         if (isOnCooldown) return true;
-        cooldowns.addCooldown(stack, getShardCooldown() * 20);
+        cooldowns.addCooldown(stack, getShardCooldown());
 
         // Trigger shard
         ShardContext ctx = new ShardContext(player, stack, this);
@@ -165,7 +166,7 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
 
     private void triggerInvulnerability(Player player, ItemStack shardStack) {
         AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        BaseActiveAbility ability = new BerserkShardAbility(getKey(), getShardDuration() * 20);
+        BaseActiveAbility ability = new BerserkShardAbility(getKey(), getShardDuration());
         AbilityContext ctx = new AbilityContext(player, shardStack);
 
         handler.addAbility(ability, ctx);

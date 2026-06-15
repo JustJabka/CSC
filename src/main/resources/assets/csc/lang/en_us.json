@@ -80,9 +80,12 @@
     "key.csc.ablility_activation.0": "Use Ability 1",
     "key.csc.ablility_activation.1": "Use Ability 2",
 
-    "other.csc.cooldown": "⌛ Cooldown: %s sec.",
-    "other.csc.duration": "⌚ Duration: %s sec.",
+    "other.csc.cooldown": "⌛ Cooldown: %s",
+    "other.csc.duration": "⌚ Duration: %s",
     "other.csc.reveal_details": "ⓘ Hold %s to reveal details",
+    "other.csc.time.seconds": "%s sec.",
+    "other.csc.time.minutes": "%s min.",
+    "other.csc.time.hours": "%s h.",
 
     "damageType.csc.physical": "Physical Damage",
     "damageType.csc.magical": "Magical Damage",

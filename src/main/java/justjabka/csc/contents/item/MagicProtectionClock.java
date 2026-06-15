@@ -5,6 +5,7 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.item.MagicProtectionClockAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -22,6 +23,9 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import static justjabka.csc.handlers.DescriptionHandler.MAGICAL_DAMAGE;
+import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
+
 public class MagicProtectionClock extends BaseActiveTrinketItem {
     private static final double BASE_MAGIC_RESISTANCE = 0.25;
 
@@ -38,19 +42,19 @@ public class MagicProtectionClock extends BaseActiveTrinketItem {
 
     @Override
     public int getCooldown() {
-        return 60;
+        return TimeHandler.minutesToTicks(1);
     }
 
     @Override
     public int getDuration() {
-        return 10;
+        return TimeHandler.secondsToTicks(10);
     }
 
     @Override
     public BaseActiveAbility getAbility() {
         return new MagicProtectionClockAbility(
                 getKey(),
-                getSecondsToTicks(getDuration()),
+                getDuration(),
                 MAGIC_RESISTANCE_MODIFIER
         );
     }

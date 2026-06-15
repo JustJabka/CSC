@@ -2,6 +2,7 @@ package justjabka.csc.contents.character;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.character.generic.BaseCharacter;
+import justjabka.csc.contents.item.ability.SpinningSwords;
 import justjabka.csc.registries.CSCItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -18,6 +19,9 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.function.Consumer;
+
+import static justjabka.csc.handlers.DescriptionHandler.MAGICAL_DAMAGE;
+import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
 public class SwordsmanCharacter extends BaseCharacter {
     @Override
@@ -42,7 +46,12 @@ public class SwordsmanCharacter extends BaseCharacter {
 
     @Override
     public void getShardDescription(@NonNull ItemStack stack, Item.TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        textConsumer.accept(Component.translatable("shard.csc.swordsman.description").withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("shard.csc.swordsman.description",
+                MAGICAL_DAMAGE,
+                CSCItems.SPINNING_SWORDS.getDefaultInstance().getItemName(),
+                wrapDecimalAsPercent(SpinningSwords.DAMAGE_PERCENT),
+                wrapDecimalAsPercent(SpinningSwords.DAMAGE_PERCENT + SpinningSwords.DAMAGE_PERCENT_SHARD_BONUS)
+        ).withStyle(ChatFormatting.GRAY));
     }
 
     @Override

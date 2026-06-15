@@ -4,6 +4,7 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.RedoubtAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.handlers.TimeHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -13,6 +14,8 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
+
+import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
 public class Redoubt extends BaseActiveTrinketItem {
     private static final double INCOMING_DAMAGE_MULTIPLIER_MODIFIER = -0.35;
@@ -30,19 +33,19 @@ public class Redoubt extends BaseActiveTrinketItem {
 
     @Override
     public int getCooldown() {
-        return 45;
+        return TimeHandler.secondsToTicks(45);
     }
 
     @Override
     public int getDuration() {
-        return 7;
+        return TimeHandler.secondsToTicks(7);
     }
 
     @Override
     public BaseActiveAbility getAbility() {
         return new RedoubtAbility(
                 getKey(),
-                getSecondsToTicks(getDuration()),
+                getDuration(),
                 INCOMING_DAMAGE_MULTIPLIER_MODIFIER,
                 KNOCKBACK_RESISTANCE_MODIFIER,
                 ABSORPTION_AMOUNT_SHARD_BONUS

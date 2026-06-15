@@ -1,30 +1,15 @@
-package justjabka.csc.contents.item.generic;
+package justjabka.csc.handlers;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 
-public abstract class BaseItem extends Item {
+public class DescriptionHandler {
     public static final Component PHYSICAL_DAMAGE = Component.translatable("damageType.csc.physical").withStyle(ChatFormatting.RED);
     public static final Component MAGICAL_DAMAGE = Component.translatable("damageType.csc.magical").withStyle(ChatFormatting.LIGHT_PURPLE);
     public static final Component MAX_HEALTH = Component.translatable("attribute.name.max_health").withStyle(ChatFormatting.GREEN);
 
-    public BaseItem(Properties properties) {
-        super(properties);
-    }
-
-    // Utils
-    protected int getSecondsToTicks(int seconds) {
-        return seconds * 20;
-    }
-
-    protected String wrapDecimalAsPercent(double value) {
+    public static String wrapDecimalAsPercent(double value) {
         int percent = Math.toIntExact(Math.round(value * 100));
         return percent + "%";
-    }
-
-    protected boolean isClientSide(Player player) {
-        return player.level().isClientSide();
     }
 }

@@ -4,6 +4,7 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.SpinningSwordsAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.handlers.TimeHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -14,10 +15,13 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
+import static justjabka.csc.handlers.DescriptionHandler.MAGICAL_DAMAGE;
+import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
+
 public class SpinningSwords extends BaseActiveTrinketItem {
-    private static final double RADIUS = 1.5;
-    private static final double DAMAGE_PERCENT = 0.08;
-    private static final double DAMAGE_PERCENT_SHARD_BONUS = 0.02;
+    public static final double RADIUS = 1.5;
+    public static final double DAMAGE_PERCENT = 0.08;
+    public static final double DAMAGE_PERCENT_SHARD_BONUS = 0.02;
 
     public SpinningSwords(Properties properties) {
         super(properties);
@@ -30,19 +34,19 @@ public class SpinningSwords extends BaseActiveTrinketItem {
 
     @Override
     public int getCooldown() {
-        return 32;
+        return TimeHandler.secondsToTicks(32);
     }
 
     @Override
     public int getDuration() {
-        return 5;
+        return TimeHandler.secondsToTicks(5);
     }
 
     @Override
     public BaseActiveAbility getAbility() {
         return new SpinningSwordsAbility(
                 getKey(),
-                getSecondsToTicks(getDuration()),
+                getDuration(),
                 RADIUS,
                 DAMAGE_PERCENT,
                 DAMAGE_PERCENT_SHARD_BONUS

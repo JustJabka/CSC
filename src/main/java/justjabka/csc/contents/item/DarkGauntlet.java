@@ -4,6 +4,7 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.item.DarkGauntletAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -26,6 +27,8 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.function.Consumer;
+
+import static justjabka.csc.handlers.DescriptionHandler.*;
 
 public class DarkGauntlet extends BaseActiveItem {
     private static final double BASE_DAMAGE = 2.0;
@@ -53,7 +56,7 @@ public class DarkGauntlet extends BaseActiveItem {
 
     @Override
     public int getCooldown() {
-        return 1;
+        return TimeHandler.secondsToTicks(1);
     }
 
     @Override
@@ -65,7 +68,7 @@ public class DarkGauntlet extends BaseActiveItem {
     public BaseActiveAbility getAbility() {
         return new DarkGauntletAbility(
                 getKey(),
-                getSecondsToTicks(getDuration()),
+                getDuration(),
                 TICKING_DAMAGE,
                 ACTIVE_MODIFIERS
         );
@@ -97,7 +100,11 @@ public class DarkGauntlet extends BaseActiveItem {
                 .withStyle(ChatFormatting.GRAY)
         );
         textConsumer.accept(Component
-                .translatable("item.csc.dark_gauntlet.description.2", wrapDecimalAsPercent(VULNERABILITY_MODIFIER), MAGICAL_DAMAGE, wrapDecimalAsPercent(TICKING_DAMAGE))
+                .translatable("item.csc.dark_gauntlet.description.2",
+                        wrapDecimalAsPercent(VULNERABILITY_MODIFIER),
+                        MAGICAL_DAMAGE,
+                        wrapDecimalAsPercent(TICKING_DAMAGE)
+                )
                 .withStyle(ChatFormatting.GRAY)
         );
     }

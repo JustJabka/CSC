@@ -18,6 +18,8 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
+import static justjabka.csc.handlers.DescriptionHandler.PHYSICAL_DAMAGE;
+
 public class DamageBook extends BaseBook {
     public DamageBook(Properties properties) {
         super(properties);
