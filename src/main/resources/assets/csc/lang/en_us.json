@@ -30,6 +30,11 @@
     "item.csc.vampiric_cape": "Vampiric Cape",
     "item.csc.vampiric_cape.description": "With a %s chance, heals %s of the damage dealt",
 
+    "item.csc.life_shield": "Life Shield",
+    "item.csc.life_shield.description.1": "When attack blocked, heals %s health",
+    "item.csc.life_shield.description.2": "Gives %s Absorption",
+    "item.csc.life_shield.description.3": "And decreases incoming damage by %s",
+
     "item.csc.health_book": "Book of Health",
     "item.csc.health_book.description": "When used, increases %s by %s for the end of the game",
     "item.csc.damage_book": "Book of Damage",

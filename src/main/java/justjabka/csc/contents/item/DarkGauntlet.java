@@ -47,17 +47,17 @@ public class DarkGauntlet extends BaseActiveItem {
     );
 
     @Override
-    protected Identifier getKey() {
+    public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_gauntlet");
     }
 
     @Override
-    protected int getCooldown() {
+    public int getCooldown() {
         return 1;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 0;
     }
 

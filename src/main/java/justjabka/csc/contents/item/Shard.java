@@ -20,12 +20,12 @@ public class Shard extends BaseActiveTrinketItem {
     }
 
     @Override
-    protected Identifier getKey() {
+    public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "shard");
     }
 
     @Override
-    protected int getCooldown() {
+    public int getCooldown() {
         BaseCharacter character = CharacterHandler.getClientCharacter();
         if (character == null) return 0;
 
@@ -33,7 +33,7 @@ public class Shard extends BaseActiveTrinketItem {
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         BaseCharacter character = CharacterHandler.getClientCharacter();
         if (character == null) return 0;
 
@@ -41,7 +41,7 @@ public class Shard extends BaseActiveTrinketItem {
     }
 
     @Override
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return null;
     }
 

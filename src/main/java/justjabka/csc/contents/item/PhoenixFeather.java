@@ -7,6 +7,7 @@ import justjabka.csc.registries.CSCSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -24,17 +25,22 @@ public class PhoenixFeather extends BaseActiveTrinketItem {
     private static final double VERTICAL_STRENGTH = 0.6;
 
     @Override
-    protected int getCooldown() {
+    public Identifier getKey() {
+        return null;
+    }
+
+    @Override
+    public int getCooldown() {
         return 35;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 0;
     }
 
     @Override
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return null;
     }
 
@@ -49,7 +55,7 @@ public class PhoenixFeather extends BaseActiveTrinketItem {
     }
 
     @Override
-    protected void onUse(AbilityContext ctx) {
+    public void onUse(AbilityContext ctx) {
         Player player = ctx.player;
 
         // Server-side logic

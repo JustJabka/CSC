@@ -4,11 +4,12 @@ import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
-import justjabka.csc.types.AbilityContext;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -29,17 +30,22 @@ public class Midas extends BaseActiveItem {
     private static final int GOLD_REWARD = 250;
 
     @Override
-    protected int getCooldown() {
+    public Identifier getKey() {
+        return null;
+    }
+
+    @Override
+    public int getCooldown() {
         return 100;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 0;
     }
 
     @Override
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return null;
     }
 
@@ -64,7 +70,7 @@ public class Midas extends BaseActiveItem {
     }
 
     @Override
-    protected boolean canActivate(AbilityContext ctx) {
+    public boolean canActivate(AbilityContext ctx) {
         Optional<LivingEntity> target = ctx.getTarget();
 
         return target.map(entity ->
@@ -73,7 +79,7 @@ public class Midas extends BaseActiveItem {
     }
 
     @Override
-    protected void onUse(AbilityContext ctx) {
+    public void onUse(AbilityContext ctx) {
         if (ctx.getTarget().isEmpty()) return;
 
         Player player = ctx.player;

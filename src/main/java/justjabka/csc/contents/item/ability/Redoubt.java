@@ -24,22 +24,22 @@ public class Redoubt extends BaseActiveTrinketItem {
     }
 
     @Override
-    protected Identifier getKey() {
+    public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "redoubt");
     }
 
     @Override
-    protected int getCooldown() {
+    public int getCooldown() {
         return 45;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 7;
     }
 
     @Override
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return new RedoubtAbility(
                 getKey(),
                 getSecondsToTicks(getDuration()),

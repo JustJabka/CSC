@@ -48,6 +48,13 @@
             }
         ]
     },
+    "item.life_shield.block": {
+        "sounds": [
+            {
+                "name": "csc:item/life_shield"
+            }
+        ]
+    },
     "entity.player.dodge": {
         "sounds": [
             {

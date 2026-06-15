@@ -43,22 +43,22 @@ public class BloodyLarynx extends BaseActiveTrinketItem {
     }
 
     @Override
-    protected Identifier getKey() {
+    public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "bloody_larynx");
     }
 
     @Override
-    protected int getCooldown() {
+    public int getCooldown() {
         return 60;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 0;
     }
 
     @Override
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return null;
     }
 
@@ -103,7 +103,7 @@ public class BloodyLarynx extends BaseActiveTrinketItem {
     }
 
     @Override
-    protected void onUse(AbilityContext ctx) {
+    public void onUse(AbilityContext ctx) {
         Player player = ctx.player;
         Level level = ctx.level;
 

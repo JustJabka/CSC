@@ -32,17 +32,17 @@ public class MagicProtectionClock extends BaseActiveTrinketItem {
     );
 
     @Override
-    protected Identifier getKey() {
+    public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "magic_protection_clock");
     }
 
     @Override
-    protected int getCooldown() {
+    public int getCooldown() {
         return 60;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 10;
     }
 

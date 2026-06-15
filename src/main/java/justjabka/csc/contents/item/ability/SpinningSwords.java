@@ -24,22 +24,22 @@ public class SpinningSwords extends BaseActiveTrinketItem {
     }
 
     @Override
-    protected Identifier getKey() {
+    public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "spinning_swords");
     }
 
     @Override
-    protected int getCooldown() {
+    public int getCooldown() {
         return 32;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 5;
     }
 
     @Override
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return new SpinningSwordsAbility(
                 getKey(),
                 getSecondsToTicks(getDuration()),

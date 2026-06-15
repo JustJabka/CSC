@@ -1,11 +1,17 @@
 package justjabka.csc.mixin;
 
+import justjabka.csc.contents.item.LifeShield;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.types.AbilityContext;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
@@ -20,5 +26,18 @@ public abstract class PlayerMixin {
                 .add(CSCAttributes.MAGIC_DAMAGE)
                 .add(CSCAttributes.DAMAGE_BOOK_BONUS)
                 .add(CSCAttributes.HEALTH_BOOK_BONUS);
+    }
+
+    @Inject(method = "blockUsingItem", at = @At("TAIL"))
+    private void usedLifeShield(ServerLevel level, LivingEntity attacker, CallbackInfo ci) {
+        Player player = (Player) (Object) this;
+
+        ItemStack blockedStack = player.getItemBlockingWith();
+        if (blockedStack == null || blockedStack.isEmpty()) return;
+
+        if (!(blockedStack.getItem() instanceof LifeShield lifeShield)) return;
+
+        AbilityContext ctx = new AbilityContext(player, blockedStack);
+        lifeShield.tryActivate(ctx);
     }
 }

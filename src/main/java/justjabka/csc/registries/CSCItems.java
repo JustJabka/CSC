@@ -32,6 +32,7 @@ public class CSCItems {
     public static final Item DARK_GAUNTLET = register("dark_gauntlet", DarkGauntlet::new, new Item.Properties());
     public static final Item DARK_CAPE = register("dark_cape", DarkCape::new, new Item.Properties());
     public static final Item WILD_FOX_CAPE = register("wild_fox_cape", WildFoxCape::new, new Item.Properties());
+    public static final Item LIFE_SHIELD = register("life_shield", LifeShield::new, new Item.Properties());
     public static final Item DAMAGE_BOOK = register("damage_book", DamageBook::new, new Item.Properties());
     public static final Item HEALTH_BOOK = register("health_book", HealthBook::new, new Item.Properties());
     public static final Item ASTRAL_DUST = register("astral_dust", AstralDust::new, new Item.Properties());

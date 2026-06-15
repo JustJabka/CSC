@@ -24,17 +24,22 @@ public class WildFoxCape extends BaseActiveTrinketItem {
     }
 
     @Override
-    protected int getCooldown() {
+    public Identifier getKey() {
+        return null;
+    }
+
+    @Override
+    public int getCooldown() {
         return 0;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 0;
     }
 
     @Override
-    protected BaseActiveAbility getAbility() {
+    public BaseActiveAbility getAbility() {
         return null;
     }
 

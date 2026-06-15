@@ -46,17 +46,17 @@ public class DarkCape extends BaseActiveTrinketItem {
     );
 
     @Override
-    protected Identifier getKey() {
+    public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_cape");
     }
 
     @Override
-    protected int getCooldown() {
+    public int getCooldown() {
         return 42;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 12;
     }
 

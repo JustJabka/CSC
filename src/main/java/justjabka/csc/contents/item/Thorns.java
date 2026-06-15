@@ -24,17 +24,17 @@ public class Thorns extends BaseActiveTrinketItem {
     );
 
     @Override
-    protected Identifier getKey() {
+    public Identifier getKey() {
         return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "thorns");
     }
 
     @Override
-    protected int getCooldown() {
+    public int getCooldown() {
         return 45;
     }
 
     @Override
-    protected int getDuration() {
+    public int getDuration() {
         return 5;
     }
 
