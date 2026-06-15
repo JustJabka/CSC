@@ -51,7 +51,6 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
 
     @Override
     public boolean shouldEnd() {
-        // End if gauntlet is not in hands
         return !ctx.getItem().is(CSCItems.DARK_GAUNTLET);
     }
 

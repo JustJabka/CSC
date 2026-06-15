@@ -54,9 +54,16 @@ public class AbilityHandler {
         while (iterator.hasNext()) {
             BaseActiveAbility ability = iterator.next();
 
+            if (!ability.isPlayerValid()) {
+                ability.end();
+                iterator.remove();
+                continue;
+            }
+
             ability.tick();
 
-            if (ability.isEnded() || ability.shouldEnd()) {
+            boolean isEnded = ability.isEnded() || ability.shouldEnd();
+            if (isEnded) {
                 ability.end();
                 iterator.remove();
             }

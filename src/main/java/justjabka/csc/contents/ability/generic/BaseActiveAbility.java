@@ -53,6 +53,10 @@ public abstract class BaseActiveAbility {
         return false;
     }
 
+    public boolean isPlayerValid() {
+        return !ctx.player.isDeadOrDying();
+    }
+
     public abstract void onStart();
     public abstract void onTick();
     public abstract void onEnd();
