@@ -103,7 +103,8 @@ public class DarkGauntlet extends BaseActiveItem {
                 .translatable("item.csc.dark_gauntlet.description.2",
                         wrapDecimalAsPercent(VULNERABILITY_MODIFIER),
                         MAGICAL_DAMAGE,
-                        wrapDecimalAsPercent(TICKING_DAMAGE)
+                        wrapDecimalAsPercent(TICKING_DAMAGE),
+                        MAX_HEALTH
                 )
                 .withStyle(ChatFormatting.GRAY)
         );

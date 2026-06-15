@@ -15,8 +15,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
-import static justjabka.csc.handlers.DescriptionHandler.MAGICAL_DAMAGE;
-import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
+import static justjabka.csc.handlers.DescriptionHandler.*;
 
 public class SpinningSwords extends BaseActiveTrinketItem {
     public static final double RADIUS = 1.5;
@@ -61,7 +60,8 @@ public class SpinningSwords extends BaseActiveTrinketItem {
                 "item.csc.spinning_swords.description.2",
                 wrapDecimalAsPercent(DAMAGE_PERCENT),
                 MAGICAL_DAMAGE,
-                RADIUS
+                RADIUS,
+                MAX_HEALTH
         ).withStyle(ChatFormatting.GRAY));
     }
 }

@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.function.Consumer;
 
+import static justjabka.csc.handlers.DescriptionHandler.MAX_HEALTH;
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
 public class HealingStew extends Item {
@@ -61,6 +62,9 @@ public class HealingStew extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> textConsumer, TooltipFlag tooltipFlag) {
-        textConsumer.accept(Component.translatable("item.csc.healing_stew.description", wrapDecimalAsPercent(HEAL_PERCENT)).withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("item.csc.healing_stew.description",
+                wrapDecimalAsPercent(HEAL_PERCENT),
+                MAX_HEALTH
+        ).withStyle(ChatFormatting.GRAY));
     }
 }
