@@ -122,5 +122,7 @@
 
     "message.csc.command.setgold": "Set %s gold for %s",
     "message.csc.command.setcharacter": "Set %s character for %s",
+
+    "block.csc.shop": "Shop",
     "container.shop": "Shop"
 }

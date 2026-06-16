@@ -10,7 +10,7 @@ public enum ShopCategory {
     MAGIC(Items.ENDER_EYE.getDefaultInstance()),
     SURVIVABILITY(Items.SHIELD.getDefaultInstance()),
     ANTI_MAGE(Items.MILK_BUCKET.getDefaultInstance()),
-    TACTIC(Items.EMERALD.getDefaultInstance());
+    TACTIC(Items.LIGHT.getDefaultInstance());
 
     private final String id;
     private final String translationKey;
