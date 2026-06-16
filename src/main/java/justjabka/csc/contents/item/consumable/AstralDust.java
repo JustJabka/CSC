@@ -1,6 +1,8 @@
 package justjabka.csc.contents.item.consumable;
 
 import justjabka.csc.contents.item.generic.BaseConsumable;
+import justjabka.csc.contents.item.generic.ShopItem;
+import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,9 +21,19 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class AstralDust extends BaseConsumable {
+public class AstralDust extends BaseConsumable implements ShopItem {
     private static final double RADIUS = 15;
     private static final int COOLDOWN = 32;
+
+    @Override
+    public int getPrice() {
+        return 100;
+    }
+
+    @Override
+    public ShopCategory getCategory() {
+        return ShopCategory.TACTIC;
+    }
 
     public AstralDust(Properties properties) {
         super(properties.useCooldown(COOLDOWN));
