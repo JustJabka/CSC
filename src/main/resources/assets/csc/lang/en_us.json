@@ -121,5 +121,6 @@
     "ui.csc.wave.slimes": "Slimes",
 
     "message.csc.command.setgold": "Set %s gold for %s",
-    "message.csc.command.setcharacter": "Set %s character for %s"
+    "message.csc.command.setcharacter": "Set %s character for %s",
+    "container.shop": "Shop"
 }

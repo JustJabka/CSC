@@ -20,5 +20,8 @@ public class CSC implements ModInitializer {
 		CSCCharacters.initialize();
 		CSCEvents.initialize();
 		CSCCommands.initialize();
+		CSCBlocks.initialize();
+		CSCBlockEntities.initialize();
+		CSCMenuTypes.initialize();
 	}
 }

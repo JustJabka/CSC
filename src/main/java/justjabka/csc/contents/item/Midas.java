@@ -3,11 +3,13 @@ package justjabka.csc.contents.item;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
+import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
+import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -27,7 +29,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class Midas extends BaseActiveItem {
+public class Midas extends BaseActiveItem implements ShopItem {
     private static final int GOLD_REWARD = 250;
 
     @Override
@@ -48,6 +50,16 @@ public class Midas extends BaseActiveItem {
     @Override
     public BaseActiveAbility getAbility() {
         return null;
+    }
+
+    @Override
+    public int getPrice() {
+        return 1250;
+    }
+
+    @Override
+    public ShopCategory getCategory() {
+        return ShopCategory.MAGIC;
     }
 
     public Midas(Properties properties) {
