@@ -19,7 +19,7 @@
 
     "item.csc.dark_gauntlet": "Dark Gauntlet",
     "item.csc.dark_gauntlet.description.1": "When used, increases %s by %s",
-    "item.csc.dark_gauntlet.description.2": "incoming damage by %s, and deals %s %s of %s to the user every second",
+    "item.csc.dark_gauntlet.description.2": "Incoming damage by %s, and deals %s %s of %s to the user every second",
 
     "item.csc.dark_cape": "Dark Cape",
     "item.csc.dark_cape.description.1": "When used, increases movement speed by %s and incoming damage by %s",
@@ -34,6 +34,11 @@
     "item.csc.life_shield.description.1": "When attack blocked, heals %s health",
     "item.csc.life_shield.description.2": "Gives %s Absorption",
     "item.csc.life_shield.description.3": "And decreases incoming damage by %s",
+
+    "item.csc.steel_boots": "Steel Boots",
+    "item.csc.steel_boots.description.1": "When used, gives full knockback resistance",
+    "item.csc.steel_boots.description.2": "And increases %s by %s",
+    "item.csc.steel_boots.description.3": "But makes user very heavy and removes ability to jump",
 
     "item.csc.health_book": "Book of Health",
     "item.csc.health_book.description": "When used, increases %s by %s for the end of the game",
