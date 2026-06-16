@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,10 +33,9 @@ public class ShopMenu extends AbstractContainerMenu {
     private static final int INVENTORY_START_Y = 86;
 
     private final Container container;
-
     private ShopCategory currentCategory = ShopCategory.DAMAGE;
-
     private String searchQuery = "";
+
     public ShopMenu(final int containerId, final Inventory inventory) {
         this(containerId, inventory, new SimpleContainer(VISIBLE_SLOTS));
     }
@@ -45,10 +45,22 @@ public class ShopMenu extends AbstractContainerMenu {
         this.container = container;
 
         add5x9GridSlots();
-
         container.startOpen(inventory.player);
-
         this.addStandardInventorySlots(inventory, INVENTORY_START_X, INVENTORY_START_Y);
+
+        this.addDataSlot(new DataSlot() {
+            @Override
+            public int get() {
+                return currentCategory.ordinal();
+            }
+
+            @Override
+            public void set(int value) {
+                if (value >= 0 && value < ShopCategory.values().length) {
+                    currentCategory = ShopCategory.values()[value];
+                }
+            }
+        });
 
         this.refreshShopItems();
     }
@@ -91,6 +103,7 @@ public class ShopMenu extends AbstractContainerMenu {
     public void changeCategory(ShopCategory newCategory) {
         this.currentCategory = newCategory;
         this.refreshShopItems();
+        this.broadcastChanges();
     }
 
     @Override
@@ -105,8 +118,6 @@ public class ShopMenu extends AbstractContainerMenu {
     public void changeSearchQuery(String query) {
         this.searchQuery = query;
         this.refreshShopItems();
-
-        this.broadcastChanges();
     }
 
     @Override
