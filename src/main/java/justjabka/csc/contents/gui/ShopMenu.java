@@ -34,8 +34,8 @@ public class ShopMenu extends AbstractContainerMenu {
     private final Container container;
 
     private ShopCategory currentCategory = ShopCategory.DAMAGE;
-    private String searchQuery = "";
 
+    private String searchQuery = "";
     public ShopMenu(final int containerId, final Inventory inventory) {
         this(containerId, inventory, new SimpleContainer(VISIBLE_SLOTS));
     }
@@ -138,6 +138,10 @@ public class ShopMenu extends AbstractContainerMenu {
 
         ShopHandler.tryPurchase(player, shopItem, clickedItem);
         this.sendAllDataToRemote();
+    }
+
+    public ShopCategory getCurrentCategory() {
+        return currentCategory;
     }
 
     private static class ShopSlot extends Slot {
