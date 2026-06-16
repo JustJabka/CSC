@@ -17,28 +17,27 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 public class ShopMenu extends AbstractContainerMenu {
-    private static final int SLOTS_ROWS = 5;
+    private static final int SLOTS_ROWS = 3;
     private static final int SLOTS_COLUMNS = 9;
-    private static final int SLOTS_COUNT = SLOTS_ROWS * SLOTS_COLUMNS;
+    private static final int VISIBLE_SLOTS = SLOTS_ROWS * SLOTS_COLUMNS;
 
     private static final int CONTAINER_START = 0;
-    private static final int CONTAINER_END = SLOTS_COUNT;
+    private static final int CONTAINER_END = VISIBLE_SLOTS;
     private static final int INVENTORY_START = CONTAINER_END;
     private static final int INVENTORY_END = INVENTORY_START + Inventory.INVENTORY_SIZE;
 
     private static final int CONTAINER_START_X = 8;
     private static final int CONTAINER_START_Y = 18;
     private static final int INVENTORY_START_X = 8;
-    private static final int INVENTORY_START_Y = 122;
+    private static final int INVENTORY_START_Y = 86;
 
     private final Container container;
 
-    // Стан вікна для конкретного гравця (за замовчуванням відкриваємо ФІЗ-урон)
     private ShopCategory currentCategory = ShopCategory.DAMAGE;
     private String searchQuery = "";
 
     public ShopMenu(final int containerId, final Inventory inventory) {
-        this(containerId, inventory, new SimpleContainer(SLOTS_COUNT));
+        this(containerId, inventory, new SimpleContainer(VISIBLE_SLOTS));
     }
 
     public ShopMenu(final int containerId, final Inventory inventory, final Container container) {
@@ -79,12 +78,13 @@ public class ShopMenu extends AbstractContainerMenu {
                 .map(ItemStack::new)
                 .toList();
 
-        for (int i = 0; i < SLOTS_COUNT; i++) {
+        for (int i = 0; i < VISIBLE_SLOTS; i++) {
             if (i < filteredItems.size()) {
                 this.container.setItem(i, filteredItems.get(i));
-            } else {
-                this.container.setItem(i, ItemStack.EMPTY);
+                continue;
             }
+
+            this.container.setItem(i, ItemStack.EMPTY);
         }
     }
 
@@ -93,13 +93,24 @@ public class ShopMenu extends AbstractContainerMenu {
         this.refreshShopItems();
     }
 
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        if (id >= 0 && id < ShopCategory.values().length) {
+            this.changeCategory(ShopCategory.values()[id]);
+            return true;
+        }
+        return false;
+    }
+
     public void changeSearchQuery(String query) {
         this.searchQuery = query;
         this.refreshShopItems();
+
+        this.broadcastChanges();
     }
 
     @Override
-    public boolean stillValid(net.minecraft.world.entity.player.Player player) {
+    public boolean stillValid(Player player) {
         return this.container.stillValid(player);
     }
 
