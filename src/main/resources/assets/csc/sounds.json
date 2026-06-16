@@ -75,5 +75,19 @@
                 "name": "csc:ability/redoubt"
             }
         ]
+    },
+    "ui.shop.purchase.success": {
+        "sounds": [
+            {
+                "name": "csc:ui/shop/purchase/success"
+            }
+        ]
+    },
+    "ui.shop.purchase.fail": {
+        "sounds": [
+            {
+                "name": "csc:ui/shop/purchase/fail"
+            }
+        ]
     }
 }

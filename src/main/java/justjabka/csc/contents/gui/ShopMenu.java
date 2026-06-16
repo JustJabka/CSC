@@ -1,13 +1,17 @@
 package justjabka.csc.contents.gui;
 
+import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.ShopHandler;
 import justjabka.csc.registries.CSCMenuTypes;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -54,7 +58,7 @@ public class ShopMenu extends AbstractContainerMenu {
         for (int y = 0; y < SLOTS_ROWS; y++) {
             for (int x = 0; x < SLOTS_COLUMNS; x++) {
                 final int slot = x + y * SLOTS_COLUMNS;
-                this.addSlot(new Slot(
+                this.addSlot(new ShopSlot(
                         this.container,
                         slot,
                         CONTAINER_START_X + x * SLOT_SIZE,
@@ -102,5 +106,42 @@ public class ShopMenu extends AbstractContainerMenu {
     @Override
     public ItemStack quickMoveStack(net.minecraft.world.entity.player.Player player, int index) {
         return ItemStack.EMPTY;
+    }
+
+    @Override
+    public void clicked(int slotIndex, int buttonNum, ContainerInput containerInput, Player player) {
+        if (slotIndex < CONTAINER_START || slotIndex >= CONTAINER_END) {
+            super.clicked(slotIndex, buttonNum, containerInput, player);
+            return;
+        }
+
+        Slot slot = this.slots.get(slotIndex);
+
+        if (player.level().isClientSide()) return;
+        if (!slot.hasItem()) return;
+
+        ItemStack clickedStack = slot.getItem();
+        Item clickedItem = clickedStack.getItem();
+
+        if (!(clickedItem instanceof ShopItem shopItem)) return;
+
+        ShopHandler.tryPurchase(player, shopItem, clickedItem);
+        this.sendAllDataToRemote();
+    }
+
+    private static class ShopSlot extends Slot {
+        public ShopSlot(Container container, int slot, int x, int y) {
+            super(container, slot, x, y);
+        }
+
+        @Override
+        public boolean mayPickup(net.minecraft.world.entity.player.Player player) {
+            return false;
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return false;
+        }
     }
 }

@@ -47,6 +47,10 @@ public record PlayerData(
         return new PlayerData(this.gold + amount, this.abilities, this.character);
     }
 
+    public PlayerData removeGold(int amount) {
+        return new PlayerData(this.gold - amount, this.abilities, this.character);
+    }
+
     public PlayerData setGold(int value) {
         return new PlayerData(value, this.abilities, this.character);
     }

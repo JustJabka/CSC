@@ -25,6 +25,10 @@ public class CSCSounds {
     public static final SoundEvent ABILITY_SPINNING_SWORDS = registerSound("ability.spinning_swords.use");
     public static final SoundEvent ABILITY_REDOUBT = registerSound("ability.redoubt.use");
 
+    // UI
+    public static final SoundEvent UI_SHOP_PURCHASE_SUCCESS = registerSound("ui.shop.purchase.success");
+    public static final SoundEvent UI_SHOP_PURCHASE_FAIL = registerSound("ui.shop.purchase.fail");
+
     private static SoundEvent registerSound(String id) {
         Identifier identifier = Identifier.fromNamespaceAndPath(CSC.MOD_ID, id);
         return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier, SoundEvent.createVariableRangeEvent(identifier));
