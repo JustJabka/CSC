@@ -5,8 +5,10 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.item.DarkCapeAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -28,7 +30,7 @@ import java.util.function.Consumer;
 import static justjabka.csc.handlers.DescriptionHandler.PHYSICAL_DAMAGE;
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
-public class DarkCape extends BaseActiveTrinketItem {
+public class DarkCape extends BaseActiveTrinketItem implements ShopItem {
     private static final double BASE_HEALTH = 4;
     private static final double BASE_DAMAGE = 1;
 
@@ -72,6 +74,16 @@ public class DarkCape extends BaseActiveTrinketItem {
                 DAMAGE_MULTIPLIER,
                 ACTIVE_MODIFIERS
         );
+    }
+
+    @Override
+    public int getPrice() {
+        return 3200;
+    }
+
+    @Override
+    public ShopCategory getCategory() {
+        return ShopCategory.DAMAGE;
     }
 
     public DarkCape(Properties properties) {

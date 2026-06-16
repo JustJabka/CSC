@@ -4,8 +4,10 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.SteelBootsAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TimeHandler;
+import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -21,7 +23,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class SteelBoots extends BaseActiveTrinketItem {
+public class SteelBoots extends BaseActiveTrinketItem implements ShopItem {
     private static final double GRAVITY_MODIFIER = Integer.MAX_VALUE;
     private static final double KNOCKBACK_RESISTANCE_MODIFIER = Integer.MAX_VALUE;
     private static final double JUMP_STRENGTH_MODIFIER = Integer.MIN_VALUE;
@@ -72,6 +74,16 @@ public class SteelBoots extends BaseActiveTrinketItem {
     @Override
     public BaseActiveAbility getAbility() {
         return new SteelBootsAbility(getKey(), getDuration(), ACTIVE_MODIFIERS);
+    }
+
+    @Override
+    public int getPrice() {
+        return 2500;
+    }
+
+    @Override
+    public ShopCategory getCategory() {
+        return ShopCategory.TACTIC;
     }
 
     @Override

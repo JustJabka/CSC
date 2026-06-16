@@ -4,9 +4,11 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.LifeShieldAbility;
 import justjabka.csc.contents.item.generic.ActivatableItem;
+import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -32,7 +34,7 @@ import java.util.function.Consumer;
 
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
-public class LifeShield extends Item implements ActivatableItem {
+public class LifeShield extends Item implements ActivatableItem, ShopItem {
     private static final double DAMAGE_MULTIPLIER_MODIFIER = -0.05;
     private static final float HEAL_AMOUNT = 10;
     private static final float ABSORPTION_AMOUNT = 8;
@@ -68,6 +70,16 @@ public class LifeShield extends Item implements ActivatableItem {
     @Override
     public BaseActiveAbility getAbility() {
         return new LifeShieldAbility(getKey(), getDuration(), ACTIVE_MODIFIERS, HEAL_AMOUNT, ABSORPTION_AMOUNT);
+    }
+
+    @Override
+    public int getPrice() {
+        return 2500;
+    }
+
+    @Override
+    public ShopCategory getCategory() {
+        return ShopCategory.SURVIVABILITY;
     }
 
     public LifeShield(Properties properties) {

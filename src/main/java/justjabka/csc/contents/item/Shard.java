@@ -4,7 +4,9 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.character.generic.BaseCharacter;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.CharacterHandler;
+import justjabka.csc.types.ShopCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +16,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
-public class Shard extends BaseActiveTrinketItem {
+public class Shard extends BaseActiveTrinketItem implements ShopItem {
     public Shard(Properties properties) {
         super(properties);
     }
@@ -43,6 +45,16 @@ public class Shard extends BaseActiveTrinketItem {
     @Override
     public BaseActiveAbility getAbility() {
         return null;
+    }
+
+    @Override
+    public int getPrice() {
+        return 2300;
+    }
+
+    @Override
+    public ShopCategory getCategory() {
+        return ShopCategory.MAGIC;
     }
 
     @Override

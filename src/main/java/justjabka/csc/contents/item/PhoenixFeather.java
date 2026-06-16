@@ -2,9 +2,11 @@ package justjabka.csc.contents.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -21,7 +23,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
-public class PhoenixFeather extends BaseActiveTrinketItem {
+public class PhoenixFeather extends BaseActiveTrinketItem implements ShopItem {
     private static final double HORIZONTAL_STRENGTH = 1.6;
     private static final double VERTICAL_STRENGTH = 0.6;
 
@@ -43,6 +45,16 @@ public class PhoenixFeather extends BaseActiveTrinketItem {
     @Override
     public BaseActiveAbility getAbility() {
         return null;
+    }
+
+    @Override
+    public int getPrice() {
+        return 1300;
+    }
+
+    @Override
+    public ShopCategory getCategory() {
+        return ShopCategory.TACTIC;
     }
 
     public PhoenixFeather(Properties properties) {
