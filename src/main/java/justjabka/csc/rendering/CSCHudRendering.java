@@ -48,7 +48,7 @@ public class CSCHudRendering {
 
         // TODO: Add attributes in hud
         CSCHealthRendering.render(graphics, font, player, sw, sh);
-        CSCInterestRendering.render(graphics, font, player, sw, sh);
+        CSCMagicalResistanceRendering.render(graphics, font, player, sw, sh);
         CSCGoldRendering.render(graphics, font, player, sw, sh);
         CSCArmorRendering.render(graphics, font, player, sw, sh);
         CSCCooldownRendering.render(graphics, font, player, sw, sh);

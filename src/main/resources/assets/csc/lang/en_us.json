@@ -100,7 +100,7 @@
     "ui.csc.healthBar": "%s/%s",
     "ui.csc.armorBar": "%s%%",
     "ui.csc.goldBar": "%s",
-    "ui.csc.interestBar": "%s",
+    "ui.csc.magicalResistance": "%s%%",
     "ui.csc.cooldown": "%s",
     "ui.csc.abilityBar": "%s sec.",
 

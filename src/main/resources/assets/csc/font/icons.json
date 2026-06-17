@@ -11,7 +11,7 @@
     },
     {
       "type": "bitmap",
-      "file": "csc:gui/sprites/hud/interest_bar_icon.png",
+      "file": "csc:gui/sprites/hud/magical_resistance_bar_icon.png",
       "ascent": 7,
       "height": 9,
       "chars": [
