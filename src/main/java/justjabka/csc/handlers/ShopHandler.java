@@ -63,4 +63,29 @@ public class ShopHandler {
                 1
         );
     }
+
+    public static void trySell(Player player, ShopItem shopItem, ItemStack item) {
+        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
+
+        int usedItemPenalty = 2;
+        int price = shopItem.getPrice() / usedItemPenalty;
+
+        player.setAttached(
+                CSCAttachments.PLAYER_DATA,
+                data.addGold(price)
+        );
+
+        item.shrink(1);
+
+        player.level().playSound(
+                null,
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                CSCSounds.UI_SHOP_PURCHASE_SUCCESS,
+                SoundSource.UI,
+                1,
+                1
+        );
+    }
 }

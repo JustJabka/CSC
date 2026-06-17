@@ -14,6 +14,7 @@ import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -126,31 +127,54 @@ public class ShopMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(net.minecraft.world.entity.player.Player player, int index) {
-        return ItemStack.EMPTY;
+    public ItemStack quickMoveStack(Player player, int slotIndex) {
+        if (!slotInInventory(slotIndex)) return ItemStack.EMPTY;
+        
+        if (player.level().isClientSide()) return ItemStack.EMPTY;
+
+        ItemStack clickedStack = getClickedStack(slotIndex);
+        if (clickedStack == null) return ItemStack.EMPTY;
+
+        Item clickedItem = clickedStack.getItem();
+        if (!(clickedItem instanceof ShopItem shopItem)) return ItemStack.EMPTY;
+
+        ItemStack clickedStackCopy = clickedStack.copy();
+
+        ShopHandler.trySell(player, shopItem, clickedStack);
+        this.sendAllDataToRemote();
+
+        return clickedStackCopy;
     }
 
     @Override
     public void clicked(int slotIndex, int buttonNum, ContainerInput containerInput, Player player) {
-        if (slotIndex < CONTAINER_START || slotIndex >= CONTAINER_END) {
+        if (slotInInventory(slotIndex)) {
             super.clicked(slotIndex, buttonNum, containerInput, player);
             return;
         }
 
         if (containerInput != ContainerInput.PICKUP) return;
-
-        Slot slot = this.slots.get(slotIndex);
-
         if (player.level().isClientSide()) return;
-        if (!slot.hasItem()) return;
 
-        ItemStack clickedStack = slot.getItem();
+        ItemStack clickedStack = getClickedStack(slotIndex);
+        if (clickedStack == null) return;
+
         Item clickedItem = clickedStack.getItem();
-
         if (!(clickedItem instanceof ShopItem shopItem)) return;
 
         ShopHandler.tryPurchase(player, shopItem, clickedItem);
         this.sendAllDataToRemote();
+    }
+
+    private @Nullable ItemStack getClickedStack(int slotIndex) {
+        Slot slot = this.slots.get(slotIndex);
+        if (!slot.hasItem()) return null;
+
+        return slot.getItem();
+    }
+
+    private static boolean slotInInventory(int slotIndex) {
+        return slotIndex < CONTAINER_START || slotIndex >= CONTAINER_END;
     }
 
     public ShopCategory getCurrentCategory() {
