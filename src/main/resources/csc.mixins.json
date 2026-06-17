@@ -16,6 +16,7 @@
   },
   "client": [
     "AbstractContainerScreenMixin",
+    "EntityRendererMixin",
     "GuiMixin",
     "MinecraftClientMixin"
   ]
