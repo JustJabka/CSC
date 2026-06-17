@@ -118,7 +118,8 @@ public class LifeShield extends Item implements ActivatableItem, ShopItem {
             Consumer<Component> textConsumer,
             @NonNull TooltipFlag type
     ) {
-        getDescription(stack, context, displayComponent, textConsumer, type);
+        getPriceDescription(stack, context, displayComponent, textConsumer, type);
+        getAbilityDescription(stack, context, displayComponent, textConsumer, type);
         textConsumer.accept(Component.translatable("item.csc.life_shield.description.1", HEAL_AMOUNT).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("item.csc.life_shield.description.2", ABSORPTION_AMOUNT).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("item.csc.life_shield.description.3", wrapDecimalAsPercent(DAMAGE_MULTIPLIER_MODIFIER)).withStyle(ChatFormatting.GRAY));

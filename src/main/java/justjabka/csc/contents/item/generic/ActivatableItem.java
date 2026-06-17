@@ -39,7 +39,7 @@ public interface ActivatableItem {
     }
 
     // Description
-    default void getDescription(
+    default void getAbilityDescription(
             @NonNull ItemStack stack,
             Item.@NonNull TooltipContext context,
             @NonNull TooltipDisplay displayComponent,

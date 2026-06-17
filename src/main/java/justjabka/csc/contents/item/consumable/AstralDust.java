@@ -55,6 +55,7 @@ public class AstralDust extends BaseConsumable implements ShopItem {
 
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
+        super.appendHoverText(stack, context, displayComponent, textConsumer, type);
         textConsumer.accept(Component.translatable("item.csc.astral_dust.description", RADIUS).withStyle(ChatFormatting.GRAY));
     }
 

@@ -85,6 +85,7 @@
     "key.csc.ablility_activation.0": "Use Ability 1",
     "key.csc.ablility_activation.1": "Use Ability 2",
 
+    "other.csc.price": "$ Price: %s",
     "other.csc.cooldown": "⌛ Cooldown: %s",
     "other.csc.duration": "⌚ Duration: %s",
     "other.csc.reveal_details": "ⓘ Hold %s to reveal details",
