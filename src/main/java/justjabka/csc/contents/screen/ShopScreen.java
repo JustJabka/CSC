@@ -2,7 +2,9 @@ package justjabka.csc.contents.screen;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.gui.ShopMenu;
+import justjabka.csc.payloads.ShopSyncContentPayload;
 import justjabka.csc.types.ShopCategory;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -93,7 +95,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
         this.searchBox.setTextColor(-1);
         this.searchBox.setInvertHighlightedTextColor(false);
 
-        this.searchBox.setResponder(this.menu::changeSearchQuery);
+        this.searchBox.setResponder(query -> ClientPlayNetworking.send(new ShopSyncContentPayload(query)));
 
         this.addRenderableWidget(this.searchBox);
     }

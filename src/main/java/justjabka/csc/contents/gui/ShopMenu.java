@@ -81,19 +81,25 @@ public class ShopMenu extends AbstractContainerMenu {
     }
 
     public void refreshShopItems() {
-        List<ItemStack> filteredItems = ShopHandler
-                .getItemsByCategory(currentCategory).stream()
-                .filter(shopItem -> {
-                    if (searchQuery.isEmpty()) return true;
-                    String name = shopItem.getDefaultInstance().getDisplayName().getString().toLowerCase();
+        List<Item> itemsToFilter;
+
+        if (this.searchQuery.isBlank()) {
+            itemsToFilter = ShopHandler.getItemsByCategory(this.currentCategory);
+        } else {
+            itemsToFilter = ShopHandler.getAllItems();
+        }
+
+        List<ItemStack> visibleItems = itemsToFilter.stream()
+                .map(ItemStack::new)
+                .filter(item -> {
+                    String name = item.getItemName().getString().toLowerCase();
                     return name.contains(searchQuery.toLowerCase());
                 })
-                .map(ItemStack::new)
                 .toList();
 
         for (int i = 0; i < VISIBLE_SLOTS; i++) {
-            if (i < filteredItems.size()) {
-                this.container.setItem(i, filteredItems.get(i));
+            if (i < visibleItems.size()) {
+                this.container.setItem(i, visibleItems.get(i));
                 continue;
             }
 

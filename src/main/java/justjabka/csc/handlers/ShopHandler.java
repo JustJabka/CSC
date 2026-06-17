@@ -15,9 +15,14 @@ import java.util.List;
 
 public class ShopHandler {
     public static List<Item> getItemsByCategory(ShopCategory category) {
+        return getAllItems().stream()
+                .filter(item -> ((ShopItem) item).getCategory() == category)
+                .toList();
+    }
+
+    public static List<Item> getAllItems() {
         return BuiltInRegistries.ITEM.stream()
                 .filter(item -> item instanceof ShopItem)
-                .filter(item -> ((ShopItem) item).getCategory() == category)
                 .toList();
     }
 
