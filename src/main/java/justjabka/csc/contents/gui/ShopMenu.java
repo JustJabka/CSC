@@ -137,6 +137,8 @@ public class ShopMenu extends AbstractContainerMenu {
             return;
         }
 
+        if (containerInput != ContainerInput.PICKUP) return;
+
         Slot slot = this.slots.get(slotIndex);
 
         if (player.level().isClientSide()) return;
