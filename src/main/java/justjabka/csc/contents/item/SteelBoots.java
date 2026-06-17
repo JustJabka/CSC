@@ -1,5 +1,6 @@
 package justjabka.csc.contents.item;
 
+import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.SteelBootsAbility;
@@ -12,6 +13,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,9 +23,13 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class SteelBoots extends BaseActiveTrinketItem implements ShopItem {
+    private static final double BASE_HEALTH = 4;
+    private static final double BASE_DAMAGE = 1;
+
     private static final double GRAVITY_MODIFIER = Integer.MAX_VALUE;
     private static final double KNOCKBACK_RESISTANCE_MODIFIER = Integer.MAX_VALUE;
     private static final double JUMP_STRENGTH_MODIFIER = Integer.MIN_VALUE;
@@ -78,7 +84,7 @@ public class SteelBoots extends BaseActiveTrinketItem implements ShopItem {
 
     @Override
     public int getPrice() {
-        return 2500;
+        return 3500;
     }
 
     @Override
@@ -95,5 +101,28 @@ public class SteelBoots extends BaseActiveTrinketItem implements ShopItem {
                 DescriptionHandler.wrapDecimalAsPercent(MOVEMENT_SPEED_MODIFIER)
         ).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("item.csc.steel_boots.description.3").withStyle(ChatFormatting.GRAY));
+    }
+
+    @Override
+    public void forEachTrinketModifier(
+            ItemStack stack,
+            TrinketSlotAccess slot,
+            LivingEntity entity,
+            Identifier key,
+            BiConsumer<Holder<Attribute>, AttributeModifier> consumer
+    ) {
+        AttributeModifier healthModifier = new AttributeModifier(
+                key.withSuffix("%s/max_health".formatted(CSC.MOD_ID)),
+                BASE_HEALTH,
+                AttributeModifier.Operation.ADD_VALUE
+        );
+        AttributeModifier damageModifier = new AttributeModifier(
+                key.withSuffix("%s/attack_damage".formatted(CSC.MOD_ID)),
+                BASE_DAMAGE,
+                AttributeModifier.Operation.ADD_VALUE
+        );
+
+        consumer.accept(Attributes.MAX_HEALTH, healthModifier);
+        consumer.accept(Attributes.ATTACK_DAMAGE, damageModifier);
     }
 }

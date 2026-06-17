@@ -49,7 +49,7 @@ public class PhoenixFeather extends BaseActiveTrinketItem implements ShopItem {
 
     @Override
     public int getPrice() {
-        return 1300;
+        return 1500;
     }
 
     @Override

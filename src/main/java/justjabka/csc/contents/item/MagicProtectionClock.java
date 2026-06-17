@@ -16,6 +16,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -29,6 +30,7 @@ import static justjabka.csc.handlers.DescriptionHandler.MAGICAL_DAMAGE;
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
 public class MagicProtectionClock extends BaseActiveTrinketItem implements ShopItem {
+    private static final double BASE_HEALTH = 10;
     private static final double BASE_MAGIC_RESISTANCE = 0.25;
 
     private final AttributeModifier MAGIC_RESISTANCE_MODIFIER = new AttributeModifier(
@@ -83,12 +85,18 @@ public class MagicProtectionClock extends BaseActiveTrinketItem implements ShopI
             Identifier key,
             BiConsumer<Holder<Attribute>, AttributeModifier> consumer
     ) {
+        AttributeModifier maxHealthModifier = new AttributeModifier(
+                key.withSuffix("%s/max_health".formatted(CSC.MOD_ID)),
+                BASE_HEALTH,
+                AttributeModifier.Operation.ADD_VALUE
+        );
         AttributeModifier magicResistanceModifier = new AttributeModifier(
                 key.withSuffix("%s/magic_resistance".formatted(CSC.MOD_ID)),
                 BASE_MAGIC_RESISTANCE,
                 AttributeModifier.Operation.ADD_VALUE
         );
 
+        consumer.accept(Attributes.MAX_HEALTH, maxHealthModifier);
         consumer.accept(CSCAttributes.MAGIC_RESISTANCE, magicResistanceModifier);
     }
 

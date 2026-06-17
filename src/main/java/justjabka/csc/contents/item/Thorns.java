@@ -55,7 +55,7 @@ public class Thorns extends BaseActiveTrinketItem implements ShopItem {
 
     @Override
     public int getPrice() {
-        return 2300;
+        return 2800;
     }
 
     @Override

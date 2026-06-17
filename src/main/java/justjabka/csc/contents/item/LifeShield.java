@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.BlocksAttacks;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NonNull;
 
@@ -35,6 +37,8 @@ import java.util.function.Consumer;
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
 public class LifeShield extends Item implements ActivatableItem, ShopItem {
+    private static final double BASE_HEALTH = 10;
+
     private static final double DAMAGE_MULTIPLIER_MODIFIER = -0.05;
     private static final float HEAL_AMOUNT = 10;
     private static final float ABSORPTION_AMOUNT = 8;
@@ -106,6 +110,18 @@ public class LifeShield extends Item implements ActivatableItem, ShopItem {
                                 Optional.of(CSCSounds.ITEM_LIFE_SHIELD_BLOCK),
                                 Optional.of(CSCSounds.ITEM_LIFE_SHIELD_BLOCK)
                         )
+                )
+                .attributes(ItemAttributeModifiers.builder()
+                        .add(
+                                Attributes.MAX_HEALTH,
+                                new AttributeModifier(
+                                        Identifier.withDefaultNamespace("base_max_health"),
+                                        BASE_HEALTH,
+                                        AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.HAND
+                        )
+                        .build()
                 )
         );
     }
