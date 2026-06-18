@@ -17,12 +17,12 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.BiConsumer;
 
-public class WildFoxCape extends BaseActiveTrinketItem implements ShopItem {
-    private static final double BASE_DODGE_CHANCE = 0.25;
-    private static final double BASE_MOVEMENT_SPEED = 0.05;
-    private static final double BASE_ATTACK_SPEED = 0.05;
+public class VampiricCape extends BaseActiveTrinketItem implements ShopItem {
+    private static final double BASE_HEALTH = 10;
+    private static final double BASE_DAMAGE = 2;
+    private static final double BASE_PHYSICAL_LIFE_STEAL = 0.1;
 
-    public WildFoxCape(Properties properties) {
+    public VampiricCape(Properties properties) {
         super(properties);
     }
 
@@ -59,19 +59,19 @@ public class WildFoxCape extends BaseActiveTrinketItem implements ShopItem {
     @Override
     public void forEachTrinketModifier(ItemStack stack, TrinketSlotAccess slot, LivingEntity entity, Identifier key, BiConsumer<Holder<Attribute>, AttributeModifier> consumer) {
         AttributeHandler.addTrinketModifier(
-                BASE_DODGE_CHANCE,
-                CSCAttributes.DODGE_CHANCE,
+                BASE_HEALTH,
+                Attributes.MAX_HEALTH,
                 AttributeModifier.Operation.ADD_VALUE, key, consumer
         );
         AttributeHandler.addTrinketModifier(
-                BASE_ATTACK_SPEED,
-                Attributes.ATTACK_SPEED,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, key, consumer
+                BASE_DAMAGE,
+                Attributes.ATTACK_DAMAGE,
+                AttributeModifier.Operation.ADD_VALUE, key, consumer
         );
         AttributeHandler.addTrinketModifier(
-                BASE_MOVEMENT_SPEED,
-                Attributes.MOVEMENT_SPEED,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, key, consumer
+                BASE_PHYSICAL_LIFE_STEAL,
+                CSCAttributes.PHYSICAL_LIFE_STEAL,
+                AttributeModifier.Operation.ADD_VALUE, key, consumer
         );
     }
 }

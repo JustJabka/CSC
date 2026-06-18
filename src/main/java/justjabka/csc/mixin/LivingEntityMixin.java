@@ -12,7 +12,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
@@ -116,22 +115,42 @@ public abstract class LivingEntityMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;actuallyHurt(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)V")
 	)
 	public void hurtServer(ServerLevel level, DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
-		LivingEntity self = (LivingEntity) (Object) this;
+		LivingEntity victim = (LivingEntity) (Object) this;
 
-		handleDodgeLogic(source, cir, self);
-		handleDamageReflectionLogic(level, source, damage, self);
+		if (handleDodgeLogic(source, cir, victim)) return;
+		handleDamageReflectionLogic(level, source, damage, victim);
+	}
+
+	@Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
+	public void actuallyHurt(ServerLevel level, DamageSource source, float dmg, CallbackInfo ci) {
+		handlerPhysicalLifeStealLogic(source, dmg);
 	}
 
 	@Unique
-    private static void handleDamageReflectionLogic(ServerLevel level, DamageSource damageSource, float damage, LivingEntity self) {
-		AttributeInstance damageReflectionPercentInstance = self.getAttribute(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
+    private static void handlerPhysicalLifeStealLogic(DamageSource source, float damage) {
+		if (!source.is(DamageTypes.PLAYER_ATTACK)) return;
+
+		if (!(source.getEntity() instanceof LivingEntity attacker)) return;
+		AttributeInstance physicalLifeStealInstance = attacker.getAttribute(CSCAttributes.PHYSICAL_LIFE_STEAL);
+
+		if (physicalLifeStealInstance == null) return;
+		double physicalLifeSteal = physicalLifeStealInstance.getValue();
+
+		if (physicalLifeSteal == 0) return;
+
+		float lifeStealAmount = (float) (damage * physicalLifeSteal);
+		attacker.heal(lifeStealAmount);
+	}
+
+	@Unique
+    private static void handleDamageReflectionLogic(ServerLevel level, DamageSource source, float damage, LivingEntity victim) {
+		AttributeInstance damageReflectionPercentInstance = victim.getAttribute(CSCAttributes.DAMAGE_REFLECTION_PERCENT);
 		if (damageReflectionPercentInstance == null) return;
 		float damageReflectionPercent = (float) damageReflectionPercentInstance.getValue();
 
-		Entity attacker = damageSource.getEntity();
-		if (!(attacker instanceof LivingEntity livingAttacker)) return;
+		if (!(source.getEntity() instanceof LivingEntity attacker)) return;
 
-		boolean isSelfDamage = attacker == self;
+		boolean isSelfDamage = attacker == victim;
 		boolean isValidDamage = damageReflectionPercent > 0;
 
 		if (isSelfDamage || !isValidDamage) return;
@@ -139,23 +158,24 @@ public abstract class LivingEntityMixin {
 		DamageSources damageSources = level.damageSources();
 		DamageSource reflectedDamage = damageSources.magic();
 
-		livingAttacker.hurtServer(level, reflectedDamage, damage * damageReflectionPercent);
+		attacker.hurtServer(level, reflectedDamage, damage * damageReflectionPercent);
 	}
 
 	@Unique
-    private static void handleDodgeLogic(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, LivingEntity self) {
-		AttributeInstance dodgeChanceInstance = self.getAttribute(CSCAttributes.DODGE_CHANCE);
-		if (dodgeChanceInstance == null) return;
+    private static boolean handleDodgeLogic(DamageSource source, CallbackInfoReturnable<Boolean> cir, LivingEntity victim) {
+		AttributeInstance dodgeChanceInstance = victim.getAttribute(CSCAttributes.DODGE_CHANCE);
+		if (dodgeChanceInstance == null) return false;
 
 		double dodgeChance = dodgeChanceInstance.getValue();
-		boolean bypassesDodge = damageSource.is(CSCDamageTypeTagProvider.BYPASSES_DODGE);
+		boolean bypassesDodge = source.is(CSCDamageTypeTagProvider.BYPASSES_DODGE);
 
-		boolean isDodgeTriggered = self.getRandom().nextDouble() < dodgeChance;
+		boolean isDodgeTriggered = victim.getRandom().nextDouble() < dodgeChance;
 		boolean canDodge = isDodgeTriggered  && !bypassesDodge;
 
-		if (!canDodge) return;
+		if (!canDodge) return false;
 
-		self.level().playSound(null, self.blockPosition(), CSCSounds.PLAYER_DODGE, SoundSource.PLAYERS, 1f, 1f);
+		victim.level().playSound(null, victim.blockPosition(), CSCSounds.PLAYER_DODGE, SoundSource.PLAYERS, 1f, 1f);
 		cir.setReturnValue(false);
+		return true;
 	}
 }

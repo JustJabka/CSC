@@ -14,55 +14,60 @@ public class CSCAttributes {
             "dodge_chance",
             0.0,
             0.0,
-            1.0,
-            true
+            1.0
     );
 
     public static final Holder<Attribute> DAMAGE_REFLECTION_PERCENT = register(
             "damage_reflection_percent",
             0.0,
             0.0,
-            1.0,
-            true
+            1.0
     );
 
     public static final Holder<Attribute> INCOMING_DAMAGE_MULTIPLIER = register(
             "incoming_damage_multiplier",
             1,
             0,
-            1024,
-            true
+            1024
     );
 
     public static final Holder<Attribute> MAGIC_RESISTANCE = register(
             "magic_resistance",
             0,
             -1,
-            1,
-            true
+            1
     );
 
     public static final Holder<Attribute> MAGIC_DAMAGE = register(
             "magic_damage",
             1,
             0,
-            1024,
-            true
+            1024
     );
 
     public static final Holder<Attribute> DAMAGE_BOOK_BONUS = register(
             "damage_book_bonus",
             0,
             0,
-            1024,
-            true
+            1024
     );
     public static final Holder<Attribute> HEALTH_BOOK_BONUS = register(
             "health_book_bonus",
             0,
             0,
-            1024,
-            true
+            1024
+    );
+    public static final Holder<Attribute> PHYSICAL_LIFE_STEAL = register(
+            "physical_life_steal",
+            0,
+            0,
+            1024
+    );
+    public static final Holder<Attribute> MAGICAL_LIFE_STEAL = register(
+            "magical_life_steal",
+            0,
+            0,
+            1024
     );
 
     public static void initialize() {
@@ -76,7 +81,7 @@ public class CSCAttributes {
     }
 
     private static Holder<Attribute> register(
-            String name, double defaultValue, double minValue, double maxValue, boolean syncedWithClient
+            String name, double defaultValue, double minValue, double maxValue
     ) {
         Identifier identifier = Identifier.fromNamespaceAndPath(CSC.MOD_ID, name);
         Attribute entityAttribute = new RangedAttribute(
@@ -84,7 +89,7 @@ public class CSCAttributes {
                 defaultValue,
                 minValue,
                 maxValue
-        ).setSyncable(syncedWithClient);
+        ).setSyncable(true);
 
         return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, identifier, entityAttribute);
     }

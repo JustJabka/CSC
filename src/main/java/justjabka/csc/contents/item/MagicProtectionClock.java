@@ -2,10 +2,11 @@ package justjabka.csc.contents.item;
 
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.item.MagicProtectionClockAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.item.MagicProtectionClockAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.contents.item.generic.ShopItem;
+import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.types.ShopCategory;
@@ -85,19 +86,16 @@ public class MagicProtectionClock extends BaseActiveTrinketItem implements ShopI
             Identifier key,
             BiConsumer<Holder<Attribute>, AttributeModifier> consumer
     ) {
-        AttributeModifier maxHealthModifier = new AttributeModifier(
-                key.withSuffix("%s/max_health".formatted(CSC.MOD_ID)),
+        AttributeHandler.addTrinketModifier(
                 BASE_HEALTH,
-                AttributeModifier.Operation.ADD_VALUE
+                Attributes.MAX_HEALTH,
+                AttributeModifier.Operation.ADD_VALUE, key, consumer
         );
-        AttributeModifier magicResistanceModifier = new AttributeModifier(
-                key.withSuffix("%s/magic_resistance".formatted(CSC.MOD_ID)),
+        AttributeHandler.addTrinketModifier(
                 BASE_MAGIC_RESISTANCE,
-                AttributeModifier.Operation.ADD_VALUE
+                CSCAttributes.MAGIC_RESISTANCE,
+                AttributeModifier.Operation.ADD_VALUE, key, consumer
         );
-
-        consumer.accept(Attributes.MAX_HEALTH, maxHealthModifier);
-        consumer.accept(CSCAttributes.MAGIC_RESISTANCE, magicResistanceModifier);
     }
 
     @Override

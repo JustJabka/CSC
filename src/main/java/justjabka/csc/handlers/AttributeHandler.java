@@ -1,6 +1,8 @@
 package justjabka.csc.handlers;
 
+import justjabka.csc.CSC;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -10,8 +12,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 public class AttributeHandler {
+    public static final Identifier BASE_MAX_HEALTH_ID = Identifier.withDefaultNamespace("base_max_health");
+
     public static void addTransientModifier(Player player, Holder<Attribute> attribute, AttributeModifier modifier) {
         AttributeInstance instance = player.getAttribute(attribute);
 
@@ -80,5 +85,17 @@ public class AttributeHandler {
 
             player.getAttributes().resetBaseValue(instance.getAttribute());
         });
+    }
+
+    public static void addTrinketModifier(double value, Holder<Attribute> attribute, AttributeModifier.Operation operation, Identifier key, BiConsumer<Holder<Attribute>, AttributeModifier> consumer) {
+        String attributeName = attribute.getRegisteredName().replace(":", "_");
+
+        AttributeModifier modifier = new AttributeModifier(
+                key.withSuffix("%s/%s".formatted(CSC.MOD_ID, attributeName)),
+                value,
+                operation
+        );
+
+        consumer.accept(attribute, modifier);
     }
 }

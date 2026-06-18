@@ -25,7 +25,9 @@ public abstract class PlayerMixin {
                 .add(CSCAttributes.MAGIC_RESISTANCE)
                 .add(CSCAttributes.MAGIC_DAMAGE)
                 .add(CSCAttributes.DAMAGE_BOOK_BONUS)
-                .add(CSCAttributes.HEALTH_BOOK_BONUS);
+                .add(CSCAttributes.HEALTH_BOOK_BONUS)
+                .add(CSCAttributes.PHYSICAL_LIFE_STEAL)
+                .add(CSCAttributes.MAGICAL_LIFE_STEAL);
     }
 
     @Inject(method = "blockUsingItem", at = @At("TAIL"))

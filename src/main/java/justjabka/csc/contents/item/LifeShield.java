@@ -5,6 +5,7 @@ import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.LifeShieldAbility;
 import justjabka.csc.contents.item.generic.ActivatableItem;
 import justjabka.csc.contents.item.generic.ShopItem;
+import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
@@ -115,7 +116,7 @@ public class LifeShield extends Item implements ActivatableItem, ShopItem {
                         .add(
                                 Attributes.MAX_HEALTH,
                                 new AttributeModifier(
-                                        Identifier.withDefaultNamespace("base_max_health"),
+                                        AttributeHandler.BASE_MAX_HEALTH_ID,
                                         BASE_HEALTH,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),

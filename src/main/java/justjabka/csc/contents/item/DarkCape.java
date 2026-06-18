@@ -2,10 +2,11 @@ package justjabka.csc.contents.item;
 
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.item.DarkCapeAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.item.DarkCapeAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.contents.item.generic.ShopItem;
+import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.types.ShopCategory;
@@ -32,7 +33,7 @@ import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
 public class DarkCape extends BaseActiveTrinketItem implements ShopItem {
     private static final double BASE_HEALTH = 4;
-    private static final double BASE_DAMAGE = 1;
+    private static final double BASE_DAMAGE = 4;
 
     private final double DAMAGE_MULTIPLIER = 2;
     private static final double VULNERABILITY_MODIFIER = 0.02;
@@ -78,7 +79,7 @@ public class DarkCape extends BaseActiveTrinketItem implements ShopItem {
 
     @Override
     public int getPrice() {
-        return 3200;
+        return 3800;
     }
 
     @Override
@@ -98,19 +99,16 @@ public class DarkCape extends BaseActiveTrinketItem implements ShopItem {
             Identifier key,
             BiConsumer<Holder<Attribute>, AttributeModifier> consumer
     ) {
-        AttributeModifier healthModifier = new AttributeModifier(
-                key.withSuffix("%s/max_health".formatted(CSC.MOD_ID)),
+        AttributeHandler.addTrinketModifier(
                 BASE_HEALTH,
-                AttributeModifier.Operation.ADD_VALUE
+                Attributes.MAX_HEALTH,
+                AttributeModifier.Operation.ADD_VALUE, key, consumer
         );
-        AttributeModifier damageModifier = new AttributeModifier(
-                key.withSuffix("%s/attack_damage".formatted(CSC.MOD_ID)),
+        AttributeHandler.addTrinketModifier(
                 BASE_DAMAGE,
-                AttributeModifier.Operation.ADD_VALUE
+                Attributes.ATTACK_DAMAGE,
+                AttributeModifier.Operation.ADD_VALUE, key, consumer
         );
-
-        consumer.accept(Attributes.MAX_HEALTH, healthModifier);
-        consumer.accept(Attributes.ATTACK_DAMAGE, damageModifier);
     }
 
     @Override

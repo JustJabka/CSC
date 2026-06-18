@@ -28,7 +28,6 @@
     "item.csc.wild_fox_cape": "Wild Fox Cape",
 
     "item.csc.vampiric_cape": "Vampiric Cape",
-    "item.csc.vampiric_cape.description": "With a %s chance, heals %s of the damage dealt",
 
     "item.csc.life_shield": "Life Shield",
     "item.csc.life_shield.description.1": "When attack blocked, heals %s health",
@@ -74,6 +73,8 @@
     "csc.incoming_damage_multiplier": "Incoming Damage Multiplier",
     "csc.magic_resistance": "Magic Resistance",
     "csc.magic_damage": "Magic Damage",
+    "csc.physical_life_steal": "Physical Life Steal",
+    "csc.magical_life_steal": "Magical Life Steal",
 
     "key.category.csc.activation": "Trinket Activation",
     "key.csc.face_activation": "Use Face Slot",
