@@ -60,7 +60,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
     @Override
     protected void init() {
         super.init();
-//        this.inventoryLabelY = this.height - 94;
+        this.inventoryLabelY = this.imageHeight - 92;
 
         initSearchBox();
         initTopTabs();

@@ -1,25 +1,15 @@
 package justjabka.csc;
 
-import justjabka.csc.contents.screen.ShopScreen;
-import justjabka.csc.registries.CSCKeyMappings;
-import justjabka.csc.registries.CSCMenuTypes;
+import justjabka.csc.registries.client.CSCKeyMappings;
+import justjabka.csc.registries.client.CSCScreens;
 import justjabka.csc.rendering.CSCHudRendering;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
-import net.minecraft.client.gui.screens.MenuScreens;
 
 public class CSCClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         CSCHudRendering.initialize();
         CSCKeyMappings.initialize();
-        MenuScreens.register(CSCMenuTypes.SHOP_MENU, ShopScreen::new);
-
-        // Prevent item drop in opened inventory
-        ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-            ScreenKeyboardEvents.allowKeyPress(screen).register((scr, event) ->
-                    !client.options.keyDrop.matches(event));
-        });
+        CSCScreens.initialize();
     }
 }

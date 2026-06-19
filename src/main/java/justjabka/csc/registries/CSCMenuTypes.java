@@ -1,6 +1,7 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
+import justjabka.csc.contents.gui.ItemSelectionMenu;
 import justjabka.csc.contents.gui.ShopMenu;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -11,6 +12,7 @@ import net.minecraft.world.inventory.MenuType;
 
 public class CSCMenuTypes {
     public static final MenuType<ShopMenu> SHOP_MENU = register("shop", ShopMenu::new);
+    public static final MenuType<ItemSelectionMenu> ITEM_SELECTION_MENU = register("item_selection_menu", ItemSelectionMenu::new);
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Menu Types");

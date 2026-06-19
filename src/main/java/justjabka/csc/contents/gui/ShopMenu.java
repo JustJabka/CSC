@@ -193,7 +193,7 @@ public class ShopMenu extends AbstractContainerMenu {
         }
 
         @Override
-        public boolean mayPickup(net.minecraft.world.entity.player.Player player) {
+        public boolean mayPickup(Player player) {
             return false;
         }
 

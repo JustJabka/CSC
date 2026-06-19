@@ -1,4 +1,4 @@
-package justjabka.csc.registries;
+package justjabka.csc.registries.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import justjabka.csc.CSC;

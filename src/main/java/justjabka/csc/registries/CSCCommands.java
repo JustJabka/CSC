@@ -1,6 +1,7 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
+import justjabka.csc.contents.command.OpenItemSelection;
 import justjabka.csc.contents.command.SetCharacter;
 import justjabka.csc.contents.command.SetGold;
 import justjabka.csc.contents.command.argument.CharacterArgumentType;
@@ -30,6 +31,7 @@ public class CSCCommands {
                 (dispatcher, registryAccess, environment) -> {
                     SetGold.register(dispatcher);
                     SetCharacter.register(dispatcher);
+                    OpenItemSelection.register(dispatcher);
                 }
         );
     }
