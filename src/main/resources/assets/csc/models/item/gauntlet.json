@@ -2,9 +2,6 @@
 	"format_version": "1.21.6",
 	"credit": "Made by JustJabka",
 	"texture_size": [32, 32],
-	"textures": {
-		"layer0": "csc:item/dark_gauntlet_model"
-	},
 	"elements": [
 		{
 			"from": [6, 0, 6],
@@ -36,12 +33,12 @@
 		"thirdperson_righthand": {
 			"rotation": [90, 0, 0],
 			"translation": [0, -2, 8],
-			"scale": [1.01, 1.01, 1.01]
+			"scale": [1.011, 1.011, 1.011]
 		},
 		"firstperson_righthand": {
 			"rotation": [130, -15, 20],
 			"translation": [0, -2.25, 2],
-			"scale": [1.01, 1.01, 1.01]
+			"scale": [1.011, 1.011, 1.011]
 		}
 	}
 }

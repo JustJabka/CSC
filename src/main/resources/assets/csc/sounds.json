@@ -55,6 +55,13 @@
             }
         ]
     },
+    "item.holy_blanket.break": {
+        "sounds": [
+            {
+                "name": "csc:item/holy_blanket"
+            }
+        ]
+    },
     "entity.player.dodge": {
         "sounds": [
             {

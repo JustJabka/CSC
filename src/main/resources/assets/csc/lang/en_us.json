@@ -29,6 +29,13 @@
 
     "item.csc.vampiric_cape": "Vampiric Cape",
 
+    "item.csc.holy_blanket": "Holy Blanket",
+    "item.csc.holy_blanket.description.1": "Activates upon death. But can be used manually",
+    "item.csc.holy_blanket.description.2": "When triggered automatically heals %s of %s",
+    "item.csc.holy_blanket.description.3": "When used manually before fatal strike",
+    "item.csc.holy_blanket.description.4": "Heals %s of %s and grants additional absorption health",
+    "item.csc.holy_blanket.description.5": "Equal to the amount of fatal damage dealt",
+
     "item.csc.life_shield": "Life Shield",
     "item.csc.life_shield.description.1": "When attack blocked, heals %s health",
     "item.csc.life_shield.description.2": "Gives %s Absorption",

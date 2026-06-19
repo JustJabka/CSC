@@ -98,14 +98,12 @@ public abstract class LivingEntityMixin {
 		if (!source.is(DamageTypes.PLAYER_ATTACK)) return damage;
 
 		AbilityHandler handler = attacker.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-		if (!handler.hasAbility(DarkCapeAbility.class)) return damage;
+		Class<DarkCapeAbility> abilityClass = DarkCapeAbility.class;
 
-		DarkCapeAbility darkCapeAbility = handler.getAbility(DarkCapeAbility.class);
+		DarkCapeAbility darkCapeAbility = handler.getAbility(abilityClass);
 		if (darkCapeAbility == null) return damage;
 
-		// End ability
-		darkCapeAbility.end();
-		handler.getActiveAbilities().remove(darkCapeAbility);
+		handler.stopAbility(abilityClass);
 
         return (float) (damage * darkCapeAbility.damageMultiplier);
 	}

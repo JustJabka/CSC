@@ -1,6 +1,7 @@
 {
 	"parent": "csc:item/gauntlet",
 	"textures": {
-		"layer0": "csc:item/dark_gauntlet_model"
+		"layer0": "csc:item/dark_gauntlet_model",
+		"particle": "csc:item/dark_gauntlet_model"
 	}
 }

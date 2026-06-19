@@ -17,6 +17,7 @@ public class CSCSounds {
     public static final SoundEvent ITEM_DARK_GAUNTLET_ACTIVATE = registerSound("item.dark_gauntlet.activate");
     public static final SoundEvent ITEM_DARK_GAUNTLET_DEACTIVATE = registerSound("item.dark_gauntlet.deactivate");
     public static final Holder.Reference<SoundEvent> ITEM_LIFE_SHIELD_BLOCK = registerSoundForHolder("item.life_shield.block");
+    public static final SoundEvent ITEM_HOLY_BLANKET_BREAK = registerSound("item.holy_blanket.break");
 
     // Entity
     public static final SoundEvent PLAYER_DODGE = registerSound("entity.player.dodge");

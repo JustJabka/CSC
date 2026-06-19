@@ -69,4 +69,13 @@ public class AbilityHandler {
             }
         }
     }
+
+    public void stopAbility(Class<? extends BaseActiveAbility> type) {
+        BaseActiveAbility ability = getAbility(type);
+
+        if (ability == null) return;
+
+        ability.end();
+        activeAbilities.remove(ability);
+    }
 }

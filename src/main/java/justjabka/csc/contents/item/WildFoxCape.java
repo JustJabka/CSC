@@ -48,7 +48,7 @@ public class WildFoxCape extends BaseActiveTrinketItem implements ShopItem {
 
     @Override
     public int getPrice() {
-        return 3200;
+        return 3800;
     }
 
     @Override

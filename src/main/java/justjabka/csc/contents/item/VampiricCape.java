@@ -19,7 +19,7 @@ import java.util.function.BiConsumer;
 
 public class VampiricCape extends BaseActiveTrinketItem implements ShopItem {
     private static final double BASE_HEALTH = 10;
-    private static final double BASE_DAMAGE = 2;
+    private static final double BASE_DAMAGE = 1;
     private static final double BASE_PHYSICAL_LIFE_STEAL = 0.1;
 
     public VampiricCape(Properties properties) {
@@ -48,7 +48,7 @@ public class VampiricCape extends BaseActiveTrinketItem implements ShopItem {
 
     @Override
     public int getPrice() {
-        return 3200;
+        return 3800;
     }
 
     @Override
