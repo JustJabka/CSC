@@ -85,7 +85,7 @@ public class CSCAttributes {
     ) {
         Identifier identifier = Identifier.fromNamespaceAndPath(CSC.MOD_ID, name);
         Attribute entityAttribute = new RangedAttribute(
-                identifier.toLanguageKey(),
+                identifier.toLanguageKey("attribute.name"),
                 defaultValue,
                 minValue,
                 maxValue

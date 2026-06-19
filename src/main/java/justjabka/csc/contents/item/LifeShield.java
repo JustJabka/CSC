@@ -39,6 +39,7 @@ import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
 public class LifeShield extends Item implements ActivatableItem, ShopItem {
     private static final double BASE_HEALTH = 10;
+    private static final double BASE_DAMAGE_PENALTY = -0.02;
 
     private static final double DAMAGE_MULTIPLIER_MODIFIER = -0.05;
     private static final float HEAL_AMOUNT = 10;
@@ -89,7 +90,7 @@ public class LifeShield extends Item implements ActivatableItem, ShopItem {
 
     public LifeShield(Properties properties) {
         super(properties
-                .rarity(Rarity.RARE)
+                .rarity(Rarity.UNCOMMON)
                 .stacksTo(1)
                 .equippableUnswappable(EquipmentSlot.OFFHAND)
                 .delayedComponent(DataComponents.BLOCKS_ATTACKS,
@@ -119,6 +120,24 @@ public class LifeShield extends Item implements ActivatableItem, ShopItem {
                                         AttributeHandler.BASE_MAX_HEALTH_ID,
                                         BASE_HEALTH,
                                         AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.HAND
+                        )
+                        .add(
+                                Attributes.ATTACK_DAMAGE,
+                                new AttributeModifier(
+                                        AttributeHandler.BASE_ATTACK_DAMAGE_ID,
+                                        BASE_DAMAGE_PENALTY,
+                                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                                ),
+                                EquipmentSlotGroup.HAND
+                        )
+                        .add(
+                                CSCAttributes.MAGIC_DAMAGE,
+                                new AttributeModifier(
+                                        AttributeHandler.BASE_MAGIC_DAMAGE_ID,
+                                        BASE_DAMAGE_PENALTY,
+                                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                                 ),
                                 EquipmentSlotGroup.HAND
                         )
