@@ -1,0 +1,29 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "csc:item_selection/armor",
+                    "weight": 25
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "csc:item_selection/swords",
+                    "weight": 15
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "csc:item_selection/effects",
+                    "weight": 35
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "csc:item_selection/miscellaneous",
+                    "weight": 5
+                }
+            ]
+        }
+    ]
+}

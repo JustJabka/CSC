@@ -1,0 +1,19 @@
+{
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:loot_table",
+					"value": "csc:item_selection/buffs",
+					"weight": 70
+				},
+				{
+					"type": "minecraft:loot_table",
+					"value": "csc:item_selection/debuffs",
+					"weight": 30
+				}
+			]
+		}
+	]
+}

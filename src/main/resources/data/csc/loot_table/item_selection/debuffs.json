@@ -1,0 +1,69 @@
+{
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:splash_potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:slowness"
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:splash_potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:long_slowness"
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:splash_potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:weakness"
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:splash_potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:long_weakness"
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:splash_potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:poison"
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:splash_potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:strong_poison"
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,45 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_leggings",
+          "weight": 15,
+          "quality": 2,
+          "functions": [
+            {
+              "function": "minecraft:reference",
+              "name": "csc:enchant_armor"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_leggings",
+          "weight": 25,
+          "quality": 1,
+          "functions": [
+            {
+              "function": "minecraft:reference",
+              "name": "csc:enchant_armor"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:copper_leggings",
+          "weight": 60,
+          "quality": 0,
+          "functions": [
+            {
+              "function": "minecraft:reference",
+              "name": "csc:enchant_armor"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

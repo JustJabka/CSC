@@ -1,0 +1,25 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "csc:item_selection/helmets"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "csc:item_selection/chestplates"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "csc:item_selection/leggings"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "csc:item_selection/boots"
+        }
+      ]
+    }
+  ]
+}

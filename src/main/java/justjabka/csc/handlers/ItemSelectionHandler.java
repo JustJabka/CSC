@@ -1,15 +1,14 @@
 package justjabka.csc.handlers;
 
 import justjabka.csc.contents.gui.ItemSelectionMenu;
+import justjabka.csc.registries.CSCLootTables;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -30,14 +29,14 @@ public class ItemSelectionHandler {
         LootParams lootParams = new LootParams.Builder(level)
                 .withParameter(LootContextParams.ORIGIN, player.position())
                 .withParameter(LootContextParams.THIS_ENTITY, player)
+                .withLuck(player.getLuck())
                 .create(LootContextParamSets.COMMAND);
 
         MinecraftServer server = level.getServer();
         if (server == null) return DEFAULT_LIST;
 
-        for (int i = 0; i < 4; i++) {
-            rollLootTable(BuiltInLootTables.END_CITY_TREASURE, lootParams, generatedItems, server);
-            rollLootTable(BuiltInLootTables.NETHER_BRIDGE, lootParams, generatedItems, server);
+        for (int i = 0; i < 8; i++) {
+            rollLootTable(lootParams, generatedItems, server);
         }
 
         return generatedItems;
@@ -58,8 +57,8 @@ public class ItemSelectionHandler {
         ));
     }
 
-    private static void rollLootTable(ResourceKey<LootTable> key, LootParams lootParams, List<ItemStack> generatedItems, MinecraftServer server) {
-        LootTable lootTable = server.reloadableRegistries().getLootTable(key);
+    private static void rollLootTable(LootParams lootParams, List<ItemStack> generatedItems, MinecraftServer server) {
+        LootTable lootTable = server.reloadableRegistries().getLootTable(CSCLootTables.ITEM_SELECTION_LOOT);
         List<ItemStack> rolledItem = lootTable.getRandomItems(lootParams);
 
         if (!rolledItem.isEmpty()) {
