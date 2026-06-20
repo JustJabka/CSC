@@ -1,11 +1,14 @@
 {
-  "function": "minecraft:enchant_with_levels",
-  "levels": 1,
-  "options": "minecraft:protection",
+  "function": "minecraft:set_components",
+  "components": {
+    "minecraft:enchantments": {
+      "minecraft:thorns": 1
+    }
+  },
   "conditions": [
     {
       "condition": "minecraft:random_chance",
-      "chance": 0.8
+      "chance": 0.6
     }
   ]
 }
