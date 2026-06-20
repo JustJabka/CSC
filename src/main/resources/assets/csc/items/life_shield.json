@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "csc:item/placeholder"
+    "model": "csc:item/life_shield"
   }
 }
