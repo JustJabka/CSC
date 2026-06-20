@@ -1,15 +1,23 @@
-{
-  "function": "minecraft:enchant_with_levels",
-  "levels": 1,
-  "options": [
-    "minecraft:bane_of_arthropods",
-    "minecraft:smite",
-    "minecraft:fire_aspect"
-  ],
-  "conditions": [
-    {
-      "condition": "minecraft:random_chance",
-      "chance": 0.9
+[
+  {
+    "function": "minecraft:enchant_with_levels",
+    "levels": 1,
+    "options": [
+      "minecraft:bane_of_arthropods",
+      "minecraft:smite",
+      "minecraft:fire_aspect"
+    ],
+    "conditions": [
+      {
+        "condition": "minecraft:random_chance",
+        "chance": 0.9
+      }
+    ]
+  },
+  {
+    "function": "minecraft:set_components",
+    "components": {
+      "minecraft:unbreakable": {}
     }
-  ]
-}
+  }
+]

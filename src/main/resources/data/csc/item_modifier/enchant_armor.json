@@ -1,14 +1,22 @@
-{
-  "function": "minecraft:set_components",
-  "components": {
-    "minecraft:enchantments": {
-      "minecraft:thorns": 1
-    }
+[
+  {
+    "function": "minecraft:set_components",
+    "components": {
+      "minecraft:enchantments": {
+        "minecraft:thorns": 1
+      }
+    },
+    "conditions": [
+      {
+        "condition": "minecraft:random_chance",
+        "chance": 0.6
+      }
+    ]
   },
-  "conditions": [
-    {
-      "condition": "minecraft:random_chance",
-      "chance": 0.6
+  {
+    "function": "minecraft:set_components",
+    "components": {
+      "minecraft:unbreakable": {}
     }
-  ]
-}
+  }
+]
