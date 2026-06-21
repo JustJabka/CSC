@@ -2,6 +2,7 @@ package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.block.ShopBlock;
+import justjabka.csc.contents.block.UpgradeBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -20,6 +21,12 @@ public class CSCBlocks {
             "shop",
             ShopBlock::new,
             BlockBehaviour.Properties.of().sound(SoundType.WOOD),
+            true
+    );
+    public static final Block UPGRADE = register(
+            "upgrade",
+            UpgradeBlock::new,
+            BlockBehaviour.Properties.of().sound(SoundType.IRON),
             true
     );
 
