@@ -3,11 +3,12 @@ package justjabka.csc.contents.item;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.LifeShieldAbility;
+import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.ActivatableItem;
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
@@ -37,7 +38,7 @@ import java.util.function.Consumer;
 
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
-public class LifeShield extends Item implements ActivatableItem, ShopItem {
+public class LifeShield extends Item implements ActivatableItem {
     private static final double BASE_HEALTH = 10;
     private static final double BASE_DAMAGE_PENALTY = -0.02;
 
@@ -76,16 +77,6 @@ public class LifeShield extends Item implements ActivatableItem, ShopItem {
     @Override
     public BaseActiveAbility getAbility() {
         return new LifeShieldAbility(getKey(), getDuration(), ACTIVE_MODIFIERS, HEAL_AMOUNT, ABSORPTION_AMOUNT);
-    }
-
-    @Override
-    public int getPrice() {
-        return 2500;
-    }
-
-    @Override
-    public ShopCategory getCategory() {
-        return ShopCategory.SURVIVABILITY;
     }
 
     public LifeShield(Properties properties) {
@@ -143,6 +134,7 @@ public class LifeShield extends Item implements ActivatableItem, ShopItem {
                         )
                         .build()
                 )
+                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(2500, ShopCategory.SURVIVABILITY))
         );
     }
 
@@ -154,7 +146,6 @@ public class LifeShield extends Item implements ActivatableItem, ShopItem {
             Consumer<Component> textConsumer,
             @NonNull TooltipFlag type
     ) {
-        getPriceDescription(stack, context, displayComponent, textConsumer, type);
         getAbilityDescription(stack, context, displayComponent, textConsumer, type);
         textConsumer.accept(Component.translatable("item.csc.life_shield.description.1", HEAL_AMOUNT).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("item.csc.life_shield.description.2", ABSORPTION_AMOUNT).withStyle(ChatFormatting.GRAY));

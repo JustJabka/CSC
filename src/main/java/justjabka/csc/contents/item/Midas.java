@@ -2,11 +2,12 @@ package justjabka.csc.contents.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.attachement.PlayerData;
+import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.types.ShopCategory;
@@ -29,7 +30,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class Midas extends BaseActiveItem implements ShopItem {
+public class Midas extends BaseActiveItem {
     private static final int GOLD_REWARD = 250;
 
     @Override
@@ -52,18 +53,10 @@ public class Midas extends BaseActiveItem implements ShopItem {
         return null;
     }
 
-    @Override
-    public int getPrice() {
-        return 1250;
-    }
-
-    @Override
-    public ShopCategory getCategory() {
-        return ShopCategory.MAGIC;
-    }
-
     public Midas(Properties properties) {
-        super(properties.rarity(Rarity.UNCOMMON));
+        super(properties.rarity(Rarity.UNCOMMON)
+                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(1250, ShopCategory.MAGIC))
+        );
     }
 
     @Override

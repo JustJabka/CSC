@@ -4,11 +4,12 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.SteelBootsAbility;
+import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TimeHandler;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -27,7 +28,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class SteelBoots extends BaseActiveTrinketItem implements ShopItem {
+public class SteelBoots extends BaseActiveTrinketItem {
     private static final double BASE_HEALTH = 4;
     private static final double BASE_DAMAGE = 1;
 
@@ -60,7 +61,7 @@ public class SteelBoots extends BaseActiveTrinketItem implements ShopItem {
     );
 
     public SteelBoots(Properties properties) {
-        super(properties);
+        super(properties.component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3500, ShopCategory.TACTIC)));
     }
 
     @Override
@@ -81,16 +82,6 @@ public class SteelBoots extends BaseActiveTrinketItem implements ShopItem {
     @Override
     public BaseActiveAbility getAbility() {
         return new SteelBootsAbility(getKey(), getDuration(), ACTIVE_MODIFIERS);
-    }
-
-    @Override
-    public int getPrice() {
-        return 3500;
-    }
-
-    @Override
-    public ShopCategory getCategory() {
-        return ShopCategory.TACTIC;
     }
 
     @Override

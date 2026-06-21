@@ -4,11 +4,12 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.DarkCapeAbility;
+import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -31,7 +32,7 @@ import java.util.function.Consumer;
 import static justjabka.csc.handlers.DescriptionHandler.PHYSICAL_DAMAGE;
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
-public class DarkCape extends BaseActiveTrinketItem implements ShopItem {
+public class DarkCape extends BaseActiveTrinketItem {
     private static final double BASE_HEALTH = 4;
     private static final double BASE_DAMAGE = 4;
 
@@ -77,18 +78,10 @@ public class DarkCape extends BaseActiveTrinketItem implements ShopItem {
         );
     }
 
-    @Override
-    public int getPrice() {
-        return 3800;
-    }
-
-    @Override
-    public ShopCategory getCategory() {
-        return ShopCategory.DAMAGE;
-    }
-
     public DarkCape(Properties properties) {
-        super(properties.rarity(Rarity.EPIC));
+        super(properties.rarity(Rarity.EPIC)
+                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3800, ShopCategory.DAMAGE))
+        );
     }
 
     @Override

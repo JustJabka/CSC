@@ -1,7 +1,7 @@
 package justjabka.csc.contents.gui;
 
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.ShopHandler;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCMenuTypes;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.world.Container;
@@ -12,7 +12,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
@@ -81,7 +80,7 @@ public class ShopMenu extends AbstractContainerMenu {
     }
 
     public void refreshShopItems() {
-        List<Item> itemsToFilter;
+        List<ItemStack> itemsToFilter;
 
         if (this.searchQuery.isBlank()) {
             itemsToFilter = ShopHandler.getItemsByCategory(this.currentCategory);
@@ -90,7 +89,6 @@ public class ShopMenu extends AbstractContainerMenu {
         }
 
         List<ItemStack> visibleItems = itemsToFilter.stream()
-                .map(ItemStack::new)
                 .filter(item -> {
                     String name = item.getItemName().getString().toLowerCase();
                     return name.contains(searchQuery.toLowerCase());
@@ -141,12 +139,11 @@ public class ShopMenu extends AbstractContainerMenu {
         ItemStack clickedStack = getClickedStack(slotIndex);
         if (clickedStack == null) return ItemStack.EMPTY;
 
-        Item clickedItem = clickedStack.getItem();
-        if (!(clickedItem instanceof ShopItem shopItem)) return ItemStack.EMPTY;
+        if (!(clickedStack.has(CSCComponents.SHOP_ITEM))) return ItemStack.EMPTY;
 
         ItemStack clickedStackCopy = clickedStack.copy();
 
-        ShopHandler.trySell(player, shopItem, clickedStack);
+        ShopHandler.trySell(player, clickedStack);
         this.sendAllDataToRemote();
 
         return clickedStackCopy;
@@ -165,10 +162,9 @@ public class ShopMenu extends AbstractContainerMenu {
         ItemStack clickedStack = getClickedStack(slotIndex);
         if (clickedStack == null) return;
 
-        Item clickedItem = clickedStack.getItem();
-        if (!(clickedItem instanceof ShopItem shopItem)) return;
+        if (!(clickedStack.has(CSCComponents.SHOP_ITEM))) return;
 
-        ShopHandler.tryPurchase(player, shopItem, clickedItem);
+        ShopHandler.tryPurchase(player, clickedStack);
         this.sendAllDataToRemote();
     }
 

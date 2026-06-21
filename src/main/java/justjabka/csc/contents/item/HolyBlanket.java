@@ -4,12 +4,13 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.HolyBlanketAbility;
+import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
@@ -31,14 +32,16 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class HolyBlanket extends BaseActiveTrinketItem implements ShopItem {
+public class HolyBlanket extends BaseActiveTrinketItem {
     private static final int PROTECTION_DURATION = TimeHandler.secondsToTicks(20);
     private static final float WEAK_PROTECTION_HEALTH_MULTIPLIER = 0.3f;
     private static final float STRONG_PROTECTION_HEALTH_MULTIPLIER = 0.6f;
     private static final double BASE_DAMAGE_PENALTY = -0.02;
 
     public HolyBlanket(Properties properties) {
-        super(properties.rarity(Rarity.UNCOMMON));
+        super(properties.rarity(Rarity.UNCOMMON)
+                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3800, ShopCategory.TACTIC))
+        );
     }
 
     @Override
@@ -64,16 +67,6 @@ public class HolyBlanket extends BaseActiveTrinketItem implements ShopItem {
                 PROTECTION_DURATION,
                 STRONG_PROTECTION_HEALTH_MULTIPLIER
         );
-    }
-
-    @Override
-    public int getPrice() {
-        return 3800;
-    }
-
-    @Override
-    public ShopCategory getCategory() {
-        return ShopCategory.TACTIC;
     }
 
     @Override

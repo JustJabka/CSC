@@ -2,10 +2,11 @@ package justjabka.csc.contents.item;
 
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -17,13 +18,13 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.BiConsumer;
 
-public class VampiricCape extends BaseActiveTrinketItem implements ShopItem {
+public class VampiricCape extends BaseActiveTrinketItem {
     private static final double BASE_HEALTH = 10;
     private static final double BASE_DAMAGE = 1;
     private static final double BASE_PHYSICAL_LIFE_STEAL = 0.1;
 
     public VampiricCape(Properties properties) {
-        super(properties);
+        super(properties.component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3800, ShopCategory.SURVIVABILITY)));
     }
 
     @Override
@@ -44,16 +45,6 @@ public class VampiricCape extends BaseActiveTrinketItem implements ShopItem {
     @Override
     public BaseActiveAbility getAbility() {
         return null;
-    }
-
-    @Override
-    public int getPrice() {
-        return 3800;
-    }
-
-    @Override
-    public ShopCategory getCategory() {
-        return ShopCategory.SURVIVABILITY;
     }
 
     @Override

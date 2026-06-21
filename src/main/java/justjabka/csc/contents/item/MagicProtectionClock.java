@@ -4,11 +4,12 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.MagicProtectionClockAbility;
+import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -30,7 +31,7 @@ import java.util.function.Consumer;
 import static justjabka.csc.handlers.DescriptionHandler.MAGICAL_DAMAGE;
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
-public class MagicProtectionClock extends BaseActiveTrinketItem implements ShopItem {
+public class MagicProtectionClock extends BaseActiveTrinketItem {
     private static final double BASE_HEALTH = 10;
     private static final double BASE_MAGIC_RESISTANCE = 0.25;
 
@@ -64,18 +65,10 @@ public class MagicProtectionClock extends BaseActiveTrinketItem implements ShopI
         );
     }
 
-    @Override
-    public int getPrice() {
-        return 4200;
-    }
-
-    @Override
-    public ShopCategory getCategory() {
-        return ShopCategory.ANTI_MAGE;
-    }
-
     public MagicProtectionClock(Properties properties) {
-        super(properties.rarity(Rarity.RARE));
+        super(properties.rarity(Rarity.RARE)
+                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(4200, ShopCategory.ANTI_MAGE))
+        );
     }
 
     @Override

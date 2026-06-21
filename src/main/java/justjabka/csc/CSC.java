@@ -11,6 +11,8 @@ public class CSC implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		CSCComponents.initialize();
+
 		CSCItems.initialize();
 		CSCItemGroups.initialize();
 		CSCSounds.initialize();
@@ -24,5 +26,6 @@ public class CSC implements ModInitializer {
 		CSCBlockEntities.initialize();
 		CSCMenuTypes.initialize();
 		CSCLootTables.initialize();
+		CSCTooltipProviders.initialize();
 	}
 }

@@ -28,7 +28,6 @@ public abstract class BaseActiveItem extends Item implements ActivatableItem {
             Consumer<Component> textConsumer,
             @NonNull TooltipFlag type
     ) {
-        if (this instanceof ShopItem shopItem) shopItem.getPriceDescription(stack, context, displayComponent, textConsumer, type);
         getAbilityDescription(stack, context, displayComponent, textConsumer, type);
     }
 

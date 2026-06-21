@@ -3,10 +3,11 @@ package justjabka.csc.contents.item;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.DarkGauntletAbility;
+import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -32,7 +33,7 @@ import java.util.function.Consumer;
 
 import static justjabka.csc.handlers.DescriptionHandler.*;
 
-public class DarkGauntlet extends BaseActiveItem implements ShopItem {
+public class DarkGauntlet extends BaseActiveItem {
     private static final double BASE_DAMAGE = 2.0;
     private static final double TICKING_DAMAGE = 0.01;
 
@@ -76,16 +77,6 @@ public class DarkGauntlet extends BaseActiveItem implements ShopItem {
         );
     }
 
-    @Override
-    public int getPrice() {
-        return 2800;
-    }
-
-    @Override
-    public ShopCategory getCategory() {
-        return ShopCategory.DAMAGE;
-    }
-
     public DarkGauntlet(Properties properties) {
         super(properties
                 .rarity(Rarity.EPIC)
@@ -101,6 +92,7 @@ public class DarkGauntlet extends BaseActiveItem implements ShopItem {
                     )
                     .build()
                 )
+                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(2800, ShopCategory.DAMAGE))
         );
     }
 

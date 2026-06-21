@@ -1,11 +1,12 @@
 package justjabka.csc.contents.item;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.item.ThornsAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.item.ThornsAbility;
+import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.contents.item.generic.ShopItem;
 import justjabka.csc.handlers.TimeHandler;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -22,7 +23,7 @@ import java.util.function.Consumer;
 import static justjabka.csc.handlers.DescriptionHandler.MAGICAL_DAMAGE;
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
-public class Thorns extends BaseActiveTrinketItem implements ShopItem {
+public class Thorns extends BaseActiveTrinketItem {
     private final AttributeModifier DAMAGE_REFLECTION_MODIFIER = new AttributeModifier(
             getKey(),
             0.5,
@@ -53,18 +54,10 @@ public class Thorns extends BaseActiveTrinketItem implements ShopItem {
         );
     }
 
-    @Override
-    public int getPrice() {
-        return 2800;
-    }
-
-    @Override
-    public ShopCategory getCategory() {
-        return ShopCategory.MAGIC;
-    }
-
     public Thorns(Properties properties) {
-        super(properties.rarity(Rarity.RARE));
+        super(properties.rarity(Rarity.RARE)
+                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(2800, ShopCategory.MAGIC))
+        );
     }
 
     @Override
