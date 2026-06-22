@@ -50,6 +50,7 @@
     "item.csc.health_book.description": "When used, increases %s by %s for the end of the game",
     "item.csc.damage_book": "Book of Damage",
     "item.csc.damage_book.description": "When used, increases %s by %s for the end of the game",
+    "item.csc.smithing_book": "Smithing Book",
     "item.csc.astral_dust": "Astral Dust",
     "item.csc.astral_dust.description": "When used, reveals all invisible players in %s blocks radius",
     "item.csc.healing_stew": "Healing Stew",
@@ -133,6 +134,7 @@
     "message.csc.command.setcharacter": "Set %s character for %s",
 
     "block.csc.shop": "Shop",
+    "block.csc.upgrade": "Upgrade",
     "container.shop": "Shop",
     "container.item_selection": "Select One Item"
 }

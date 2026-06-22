@@ -10,6 +10,7 @@ import java.util.Optional;
 public record UpgradableComponent(
         int price,
         int priceScale,
+        int level,
         int maxLevel,
         Optional<Holder<Enchantment>> additionalEnchantment,
         int additionalDurability
@@ -18,6 +19,7 @@ public record UpgradableComponent(
         return builder.group(
                 Codec.INT.fieldOf("price").forGetter(UpgradableComponent::price),
                 Codec.INT.optionalFieldOf("price_scale", 0).forGetter(UpgradableComponent::priceScale),
+                Codec.INT.optionalFieldOf("level", 0).forGetter(UpgradableComponent::level),
                 Codec.INT.fieldOf("max_level").forGetter(UpgradableComponent::maxLevel),
                 Enchantment.CODEC.optionalFieldOf("additional_enchantment").forGetter(UpgradableComponent::additionalEnchantment),
                 Codec.INT.optionalFieldOf("additional_durability", 0).forGetter(UpgradableComponent::additionalDurability)

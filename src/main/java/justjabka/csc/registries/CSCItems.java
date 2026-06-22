@@ -7,6 +7,7 @@ import justjabka.csc.contents.item.ability.Redoubt;
 import justjabka.csc.contents.item.ability.SpinningSwords;
 import justjabka.csc.contents.item.book.DamageBook;
 import justjabka.csc.contents.item.book.HealthBook;
+import justjabka.csc.contents.item.book.SmithingBook;
 import justjabka.csc.contents.item.consumable.AstralDust;
 import justjabka.csc.contents.item.consumable.HealingStew;
 import net.minecraft.core.Registry;
@@ -40,6 +41,7 @@ public class CSCItems {
     // Consumables
     public static final Item DAMAGE_BOOK = register("damage_book", DamageBook::new, new Item.Properties());
     public static final Item HEALTH_BOOK = register("health_book", HealthBook::new, new Item.Properties());
+    public static final Item SMITHING_BOOK = register("smithing_book", SmithingBook::new, new Item.Properties());
     public static final Item ASTRAL_DUST = register("astral_dust", AstralDust::new, new Item.Properties());
     public static final Item HEALING_STEW = register("healing_stew", HealingStew::new, new Item.Properties());
 
