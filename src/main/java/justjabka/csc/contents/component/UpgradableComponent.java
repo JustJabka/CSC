@@ -25,4 +25,21 @@ public record UpgradableComponent(
                 Codec.INT.optionalFieldOf("additional_durability", 0).forGetter(UpgradableComponent::additionalDurability)
         ).apply(builder, UpgradableComponent::new);
     });
+
+    public int getPriceWithLevel() {
+        return this.price + (this.level * this.priceScale);
+    }
+
+    public UpgradableComponent getNextLevel() {
+        return new UpgradableComponent(
+                this.price,
+                this.priceScale,
+                this.level + 1,
+                this.maxLevel,
+                this.additionalEnchantment,
+                this.additionalDurability
+        );
+    }
+
+
 }

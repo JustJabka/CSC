@@ -105,7 +105,7 @@ public class UpgradeMenu extends AbstractContainerMenu {
         }
 
         // Check Price
-        boolean hasEnoughGold = data.gold() >= getItemPrice(upgradableComponent);
+        boolean hasEnoughGold = data.gold() >= upgradableComponent.getPriceWithLevel();
         boolean hasSmithingBook = !smithingBook.isEmpty();
 
         if (!hasEnoughGold && !hasSmithingBook) {
@@ -132,18 +132,11 @@ public class UpgradeMenu extends AbstractContainerMenu {
     private ItemStack upgradeItem(ItemStack item, UpgradableComponent upgradableComponent) {
         ItemStack result = item.copy();
 
-        int newLevel = upgradableComponent.level() + 1;
         int additionalDurability = upgradableComponent.additionalDurability();
 
         // Update Level
-        result.set(CSCComponents.UPGRADABLE, new UpgradableComponent(
-                upgradableComponent.price(),
-                upgradableComponent.priceScale(),
-                newLevel,
-                upgradableComponent.maxLevel(),
-                upgradableComponent.additionalEnchantment(),
-                additionalDurability
-        ));
+        UpgradableComponent nextLevelComponent = upgradableComponent.getNextLevel();
+        result.set(CSCComponents.UPGRADABLE, nextLevelComponent);
 
         // Update Durability
         if (additionalDurability > 0 && result.isDamageableItem()) {
@@ -159,18 +152,12 @@ public class UpgradeMenu extends AbstractContainerMenu {
             );
 
             ItemEnchantments.Mutable builder = new ItemEnchantments.Mutable(enchants);
-            builder.set(enchantmentHolder, newLevel);
+            builder.set(enchantmentHolder, nextLevelComponent.level());
 
             result.set(DataComponents.ENCHANTMENTS, builder.toImmutable());
         });
 
         return result;
-    }
-
-    private static int getItemPrice(UpgradableComponent component) {
-        int priceScale = component.priceScale();
-        int level = component.level();
-        return component.price() + (level * priceScale);
     }
 
     @Override
@@ -289,7 +276,7 @@ public class UpgradeMenu extends AbstractContainerMenu {
                 PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
                 player.setAttached(
                         CSCAttachments.PLAYER_DATA,
-                        data.removeGold(getItemPrice(upgradableComponent))
+                        data.removeGold(upgradableComponent.getPriceWithLevel())
                 );
             }
 
