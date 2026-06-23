@@ -2,10 +2,17 @@ package justjabka.csc.contents.component;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public record UpgradableComponent(
         int price,
@@ -14,7 +21,7 @@ public record UpgradableComponent(
         int maxLevel,
         Optional<Holder<Enchantment>> additionalEnchantment,
         int additionalDurability
-) {
+) implements TooltipProvider {
     public static final Codec<UpgradableComponent> CODEC = RecordCodecBuilder.create(builder -> {
         return builder.group(
                 Codec.INT.fieldOf("price").forGetter(UpgradableComponent::price),
@@ -41,5 +48,13 @@ public record UpgradableComponent(
         );
     }
 
+    public boolean isMaxLevel() {
+        return this.level >= this.maxLevel;
+    }
 
+    @Override
+    public void addToTooltip(Item.TooltipContext tooltip, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        textConsumer.accept(Component.translatable("other.csc.upgradable.level", this.level, this.maxLevel).withStyle(ChatFormatting.GREEN));
+        if (!isMaxLevel()) textConsumer.accept(Component.translatable("other.csc.upgradable.price", getPriceWithLevel()).withStyle(ChatFormatting.GOLD));
+    }
 }

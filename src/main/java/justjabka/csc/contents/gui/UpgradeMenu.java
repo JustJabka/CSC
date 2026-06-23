@@ -97,9 +97,7 @@ public class UpgradeMenu extends AbstractContainerMenu {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
 
         // Check Level Limit
-        boolean isMaxLevel = upgradableComponent.level() >= upgradableComponent.maxLevel();
-
-        if (isMaxLevel) {
+        if (upgradableComponent.isMaxLevel()) {
             this.resultSlots.setItem(0, ItemStack.EMPTY);
             return null;
         }

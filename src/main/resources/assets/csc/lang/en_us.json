@@ -101,6 +101,8 @@
     "other.csc.time.seconds": "%s sec.",
     "other.csc.time.minutes": "%s min.",
     "other.csc.time.hours": "%s h.",
+    "other.csc.upgradable.level": "Level %s/%s",
+    "other.csc.upgradable.price": "Upgrade price %s",
 
     "damageType.csc.physical": "Physical Damage",
     "damageType.csc.magical": "Magical Damage",
