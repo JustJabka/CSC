@@ -1,31 +1,29 @@
 package justjabka.csc.contents.block;
 
 import com.mojang.serialization.MapCodec;
-import justjabka.csc.contents.block_entity.ShopBlockEntity;
+import justjabka.csc.contents.gui.ShopMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.Nullable;
 
-public class ShopBlock extends BaseEntityBlock {
+public class ShopBlock extends Block {
+    public static final MapCodec<ShopBlock> CODEC = simpleCodec(ShopBlock::new);
+    private static final Component CONTAINER_TITLE = Component.translatable("container.shop");
+
     public ShopBlock(Properties settings) {
         super(settings);
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(ShopBlock::new);
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ShopBlockEntity(pos, state);
+    protected MapCodec<? extends Block> codec() {
+        return CODEC;
     }
 
     @Override
@@ -35,5 +33,13 @@ public class ShopBlock extends BaseEntityBlock {
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+        return new SimpleMenuProvider(
+                (containerId, inventory, player) -> new ShopMenu(containerId, inventory),
+                CONTAINER_TITLE
+        );
     }
 }
