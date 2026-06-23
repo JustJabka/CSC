@@ -16,7 +16,13 @@
   {
     "function": "minecraft:set_components",
     "components": {
-      "minecraft:unbreakable": {}
+      "minecraft:unbreakable": {},
+      "csc:upgradable": {
+        "price": 250,
+        "price_scale": 250,
+        "max_level": 5,
+        "additional_enchantment": "minecraft:protection"
+      }
     }
   }
 ]
