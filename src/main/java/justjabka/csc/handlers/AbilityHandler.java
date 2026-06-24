@@ -2,7 +2,6 @@ package justjabka.csc.handlers;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
-import justjabka.csc.types.AbilityContext;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -71,11 +70,9 @@ public class AbilityHandler {
     }
 
     public void stopAbility(Class<? extends BaseActiveAbility> type) {
-        BaseActiveAbility ability = getAbility(type);
-
-        if (ability == null) return;
-
-        ability.end();
-        ACTIVE_ABILITIES.remove(ability);
+        for (BaseActiveAbility ability : ACTIVE_ABILITIES) {
+            if (!type.isInstance(ability)) continue;
+            ability.forceEnd();
+        }
     }
 }

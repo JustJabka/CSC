@@ -10,6 +10,7 @@ public abstract class BaseActiveAbility {
     protected final Identifier id;
     protected int duration;
     protected final AbilityContext ctx;
+    protected boolean ended = false;
 
     public BaseActiveAbility(Identifier id, int duration, AbilityContext ctx) {
         this.id = id;
@@ -42,7 +43,11 @@ public abstract class BaseActiveAbility {
     }
 
     public boolean isEnded() {
-        return duration <= 0;
+        return this.ended || duration <= 0;
+    }
+
+    public void forceEnd() {
+        this.ended = true;
     }
 
     public boolean shouldEnd() {

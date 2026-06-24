@@ -1,7 +1,6 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
-import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -67,7 +66,7 @@ public class BloodyLarynxAbility extends BaseActiveAbility {
         if (!(ctx.level instanceof ServerLevel serverLevel)) return;
 
         if (currentRadius > maxCalculatedRadius) {
-            player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER).stopAbility(this.getClass());
+            forceEnd();
             return;
         }
 
@@ -115,9 +114,7 @@ public class BloodyLarynxAbility extends BaseActiveAbility {
     }
 
     @Override
-    public void onEnd() {
-
-    }
+    public void onEnd() {}
 
     private static double getLostHealth(Player player) {
         double currentHealth = player.getHealth();
