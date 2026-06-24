@@ -8,6 +8,7 @@ import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCComponents;
+import justjabka.csc.types.ActivationType;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 public class DarkCape extends BaseActiveTrinketItem {
@@ -28,7 +30,7 @@ public class DarkCape extends BaseActiveTrinketItem {
         super(properties.rarity(Rarity.EPIC).useCooldown(45)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.DARK_CAPE.getId(), TimeHandler.secondsToTicks(12))
+                        new AbilityComponent(CSCAbilities.DARK_CAPE.getId(), TimeHandler.secondsToTicks(12), Set.of(ActivationType.TRINKET))
                 )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3800, ShopCategory.DAMAGE))
         );

@@ -8,6 +8,7 @@ import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCComponents;
+import justjabka.csc.types.ActivationType;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 public class SteelBoots extends BaseActiveTrinketItem {
@@ -27,7 +29,7 @@ public class SteelBoots extends BaseActiveTrinketItem {
         super(properties.useCooldown(45)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.STEEL_BOOTS.getId(), TimeHandler.secondsToTicks(10))
+                        new AbilityComponent(CSCAbilities.STEEL_BOOTS.getId(), TimeHandler.secondsToTicks(10), Set.of(ActivationType.TRINKET))
                 )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3500, ShopCategory.TACTIC))
         );

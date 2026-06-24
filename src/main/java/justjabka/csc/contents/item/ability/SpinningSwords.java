@@ -5,6 +5,7 @@ import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCComponents;
+import justjabka.csc.types.ActivationType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Set;
 import java.util.function.Consumer;
 
 import static justjabka.csc.handlers.DescriptionHandler.*;
@@ -25,7 +27,7 @@ public class SpinningSwords extends BaseActiveTrinketItem {
         super(properties.useCooldown(32)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.SPINNING_SWORDS.getId(), TimeHandler.secondsToTicks(5))
+                        new AbilityComponent(CSCAbilities.SPINNING_SWORDS.getId(), TimeHandler.secondsToTicks(5), Set.of(ActivationType.TRINKET))
                 )
         );
     }

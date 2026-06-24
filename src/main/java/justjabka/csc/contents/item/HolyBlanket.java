@@ -9,6 +9,7 @@ import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCComponents;
+import justjabka.csc.types.ActivationType;
 import justjabka.csc.types.ShopCategory;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 public class HolyBlanket extends BaseActiveTrinketItem {
@@ -29,7 +31,7 @@ public class HolyBlanket extends BaseActiveTrinketItem {
                 .useCooldown(42)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.HOLY_BLANKET.getId(), TimeHandler.secondsToTicks(1))
+                        new AbilityComponent(CSCAbilities.HOLY_BLANKET.getId(), TimeHandler.secondsToTicks(1), Set.of(ActivationType.TRINKET, ActivationType.PASSIVE))
                 )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3800, ShopCategory.TACTIC))
         );

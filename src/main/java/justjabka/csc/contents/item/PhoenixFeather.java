@@ -55,12 +55,6 @@ public class PhoenixFeather extends BaseActiveTrinketItem {
     }
 
     @Override
-    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        super.appendHoverText(stack, context, displayComponent, textConsumer, type);
-        textConsumer.accept(Component.translatable("item.csc.phoenix_feather.description").withStyle(ChatFormatting.GRAY));
-    }
-
-    @Override
     public void onUse(AbilityContext ctx) {
         Player player = ctx.player;
 

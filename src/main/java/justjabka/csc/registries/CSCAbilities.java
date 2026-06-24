@@ -1,6 +1,7 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
+import justjabka.csc.contents.ability.BloodyLarynxAbility;
 import justjabka.csc.contents.ability.RedoubtAbility;
 import justjabka.csc.contents.ability.SpinningSwordsAbility;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
@@ -19,6 +20,7 @@ public class CSCAbilities {
     // Generic Abilities
     public static final AbilityType<RedoubtAbility> REDOUBT = register("redoubt", RedoubtAbility::new);
     public static final AbilityType<SpinningSwordsAbility> SPINNING_SWORDS = register("spinning_swords", SpinningSwordsAbility::new);
+    public static final AbilityType<BloodyLarynxAbility> BLOODY_LARYNX = register("bloody_larynx", BloodyLarynxAbility::new);
 
     // Item Abilities
     public static final AbilityType<DarkCapeAbility> DARK_CAPE = register("dark_cape", DarkCapeAbility::new);

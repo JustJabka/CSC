@@ -1,137 +1,20 @@
 package justjabka.csc.contents.item.ability;
 
-import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
-import justjabka.csc.handlers.TimeHandler;
-import justjabka.csc.types.AbilityContext;
-import net.minecraft.core.Holder;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.resources.Identifier;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
+import justjabka.csc.registries.CSCAbilities;
+import justjabka.csc.registries.CSCComponents;
+import justjabka.csc.types.ActivationType;
 
-import java.util.List;
+import java.util.Set;
 
 public class BloodyLarynx extends BaseActiveTrinketItem {
-    private static final double DAMAGE_MULTIPLIER = 2;
-    private static final double MIN_RADIUS = 3;
-    private static final double MAX_RADIUS = 15;
-
     public BloodyLarynx(Properties properties) {
-        super(properties);
-    }
-
-    @Override
-    public Identifier getKey() {
-        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "bloody_larynx");
-    }
-
-    @Override
-    public int getCooldown() {
-        return TimeHandler.minutesToTicks(1);
-    }
-
-    @Override
-    public int getDuration() {
-        return 0;
-    }
-
-    @Override
-    public BaseActiveAbility getAbility() {
-        return null;
-    }
-
-    @Override
-    public void onUse(AbilityContext ctx) {
-        Player player = ctx.player;
-        Level level = ctx.level;
-
-        double lostHealth = getLostHealth(player);
-        double attackDamage = getAttackDamage(player);
-
-        double damage = attackDamage + (lostHealth * DAMAGE_MULTIPLIER);
-        double radius = getRadius(player);
-
-        damageEntities(player, level, damage, radius);
-        onUseEffects(player, level, lostHealth, radius);
-    }
-
-    private static void damageEntities(Player player, Level level, double damage, double radius) {
-        AABB damageRadius = player.getBoundingBox().inflate(radius);
-        List<Entity> entities = level.getEntities(player, damageRadius);
-
-        Holder<DamageType> damageType = player.damageSources().playerAttack(player).typeHolder();
-        DamageSource damageSource = new DamageSource(damageType, player);
-
-        entities.forEach(entity -> {
-            if (!(entity instanceof LivingEntity victim)) return;
-
-            victim.hurtServer((ServerLevel) level, damageSource, (float) damage);
-        });
-    }
-
-    private static void onUseEffects(Player player, Level level, double lostHealth, double radius) {
-        if (!(level instanceof ServerLevel serverLevel)) return;
-
-        float minPitch = 0.7f;
-        float maxPitch = 1.2f;
-        float pitch = maxPitch - (minPitch * (float) (lostHealth / player.getMaxHealth()));
-
-        for (int j = 0; j < radius; j++) {
-            int particleCount = j * 8;
-
-            for (int i = 0; i < particleCount; i++) { // TODO: how the fuck do I even schedule ts?!
-                double angle = (i * 2 * Math.PI) / particleCount;
-
-                double xOffset = Math.cos(angle) * j;
-                double zOffset = Math.sin(angle) * j;
-
-                serverLevel.sendParticles(
-                        new DustParticleOptions(16711680, 2f),
-                        player.getX() + xOffset,
-                        player.getY() + 1.0,
-                        player.getZ() + zOffset,
-                        1,
-                        0.0, 0.0, 0.0,
-                        0.0
-                );
-            }
-        }
-
-        serverLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 2f, pitch);
-        serverLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_DRAGON_GROWL, SoundSource.PLAYERS, 2f, pitch);
-    }
-
-    private static double getLostHealth(Player player) {
-        double currentHealth = player.getHealth();
-        double maxHealth = player.getMaxHealth();
-
-        return maxHealth - currentHealth;
-    }
-
-    private static double getAttackDamage(Player player) {
-        AttributeInstance attackDamageInstance = player.getAttribute(Attributes.ATTACK_DAMAGE);
-        return attackDamageInstance == null ? 1.0 : attackDamageInstance.getValue();
-    }
-
-    private static double getRadius(Player player) {
-        double maxHealth = player.getMaxHealth();
-        if (maxHealth <= 0) return MIN_RADIUS;
-
-        double lostHealth = getLostHealth(player);
-        double lostHealthPercent = lostHealth / maxHealth;
-
-        return MIN_RADIUS + (MAX_RADIUS - MIN_RADIUS) * lostHealthPercent;
+        super(properties.useCooldown(60)
+                .component(
+                        CSCComponents.ABILITY,
+                        new AbilityComponent(CSCAbilities.BLOODY_LARYNX.getId(), 15, Set.of(ActivationType.TRINKET, ActivationType.PASSIVE))
+                )
+        );
     }
 }
