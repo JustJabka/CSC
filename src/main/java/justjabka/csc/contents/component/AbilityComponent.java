@@ -2,6 +2,7 @@ package justjabka.csc.contents.component;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAbilities;
@@ -91,11 +92,15 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
         Level level = ctx.level;
         ItemStack item = ctx.getItem();
 
+        BaseActiveAbility abilityInstance = createInstance(ctx);
+
         if (level.isClientSide()) return InteractionResult.PASS;
+        if (abilityInstance == null) return InteractionResult.PASS;
         if (isOnCooldown(player, item)) {
             level.playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
             return InteractionResult.FAIL;
         }
+        if (!abilityInstance.canActivate(ctx)) return InteractionResult.FAIL;
 
         applyCooldown(player, item);
         activate(ctx);
@@ -108,12 +113,20 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
     }
 
     public void activate(AbilityContext ctx) {
-        AbilityType<?> abilityType = CSCAbilities.getByKey(this.id);
+        BaseActiveAbility abilityInstance = createInstance(ctx);
 
-        if (abilityType == null) return;
+        if (abilityInstance == null) return;
 
         AbilityHandler handler = ctx.player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        handler.addAbility(abilityType.createInstance(this.duration, ctx));
+        handler.addAbility(abilityInstance);
+    }
+
+    private BaseActiveAbility createInstance(AbilityContext ctx) {
+        AbilityType<?> abilityType = CSCAbilities.getByKey(this.id);
+
+        if (abilityType == null) return null;
+
+        return abilityType.createInstance(this.duration, ctx);
     }
 
     public void forceActivate(AbilityContext ctx) {

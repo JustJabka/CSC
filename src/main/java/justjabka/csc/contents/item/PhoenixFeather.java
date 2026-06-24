@@ -28,58 +28,58 @@ public class PhoenixFeather extends BaseActiveTrinketItem {
     private static final double HORIZONTAL_STRENGTH = 1.6;
     private static final double VERTICAL_STRENGTH = 0.6;
 
-    @Override
-    public Identifier getKey() {
-        return null;
-    }
-
-    @Override
-    public int getCooldown() {
-        return TimeHandler.secondsToTicks(35);
-    }
-
-    @Override
-    public int getDuration() {
-        return 0;
-    }
-
-    @Override
-    public BaseActiveAbility getAbility() {
-        return null;
-    }
-
+//    @Override
+//    public Identifier getKey() {
+//        return null;
+//    }
+//
+//    @Override
+//    public int getCooldown() {
+//        return TimeHandler.secondsToTicks(35);
+//    }
+//
+//    @Override
+//    public int getDuration() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public BaseActiveAbility getAbility() {
+//        return null;
+//    }
+//
     public PhoenixFeather(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON)
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(1500, ShopCategory.TACTIC))
         );
     }
-
-    @Override
-    public void onUse(AbilityContext ctx) {
-        Player player = ctx.player;
-
-        // Server-side logic
-        if (player instanceof ServerPlayer serverPlayer) {
-            // Apply Impulse
-            Vec3 impulse = getImpulse(serverPlayer);
-            player.setDeltaMovement(impulse);
-            player.hurtMarked = true;
-
-            // Add Particles
-            serverPlayer.level().sendParticles (
-                    ParticleTypes.GUST_EMITTER_SMALL,
-                    serverPlayer.getX(),
-                    serverPlayer.getY(),
-                    serverPlayer.getZ(),
-                    1,
-                    0.3, 0.3, 0.3,
-                    0.02
-            );
-        }
-
-        // Play Sound
-        player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_PHOENIX_FEATHER, SoundSource.PLAYERS, 1f, 1f);
-    }
+//
+//    @Override
+//    public void onUse(AbilityContext ctx) {
+//        Player player = ctx.player;
+//
+//        // Server-side logic
+//        if (player instanceof ServerPlayer serverPlayer) {
+//            // Apply Impulse
+//            Vec3 impulse = getImpulse(serverPlayer);
+//            player.setDeltaMovement(impulse);
+//            player.hurtMarked = true;
+//
+//            // Add Particles
+//            serverPlayer.level().sendParticles (
+//                    ParticleTypes.GUST_EMITTER_SMALL,
+//                    serverPlayer.getX(),
+//                    serverPlayer.getY(),
+//                    serverPlayer.getZ(),
+//                    1,
+//                    0.3, 0.3, 0.3,
+//                    0.02
+//            );
+//        }
+//
+//        // Play Sound
+//        player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_PHOENIX_FEATHER, SoundSource.PLAYERS, 1f, 1f);
+//    }
 
     private static Vec3 getImpulse(ServerPlayer player) {
         Vec3 lookAngle = player.getLookAngle().normalize();

@@ -33,25 +33,25 @@ import java.util.function.Consumer;
 public class Midas extends BaseActiveItem {
     private static final int GOLD_REWARD = 250;
 
-    @Override
-    public Identifier getKey() {
-        return null;
-    }
-
-    @Override
-    public int getCooldown() {
-        return TimeHandler.secondsToTicks(100);
-    }
-
-    @Override
-    public int getDuration() {
-        return 0;
-    }
-
-    @Override
-    public BaseActiveAbility getAbility() {
-        return null;
-    }
+//    @Override
+//    public Identifier getKey() {
+//        return null;
+//    }
+//
+//    @Override
+//    public int getCooldown() {
+//        return TimeHandler.secondsToTicks(100);
+//    }
+//
+//    @Override
+//    public int getDuration() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public BaseActiveAbility getAbility() {
+//        return null;
+//    }
 
     public Midas(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON)
@@ -59,32 +59,32 @@ public class Midas extends BaseActiveItem {
         );
     }
 
-    @Override
-    public boolean canActivate(AbilityContext ctx) {
-        Optional<LivingEntity> target = ctx.getTarget();
-
-        return target.map(entity ->
-                entity.is(CSCEntityTypeTagProvider.CAN_BE_TURNED_INTO_GOLD)
-        ).orElse(false);
-    }
-
-    @Override
-    public void onUse(AbilityContext ctx) {
-        if (ctx.getTarget().isEmpty()) return;
-
-        Player player = ctx.player;
-        LivingEntity target = ctx.getTarget().get();
-
-        target.kill((ServerLevel) ctx.level);
-
-        // Add Gold
-        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-        player.setAttached(
-                CSCAttachments.PLAYER_DATA,
-                data.addGold(GOLD_REWARD)
-        );
-
-        // Play Sound
-        player.level().playSound(null, target.blockPosition(), CSCSounds.ITEM_MIDAS, SoundSource.PLAYERS, 1f, 1f);
-    }
+//    @Override
+//    public boolean canActivate(AbilityContext ctx) {
+//        Optional<LivingEntity> target = ctx.getTarget();
+//
+//        return target.map(entity ->
+//                entity.is(CSCEntityTypeTagProvider.CAN_BE_TURNED_INTO_GOLD)
+//        ).orElse(false);
+//    }
+//
+//    @Override
+//    public void onUse(AbilityContext ctx) {
+//        if (ctx.getTarget().isEmpty()) return;
+//
+//        Player player = ctx.player;
+//        LivingEntity target = ctx.getTarget().get();
+//
+//        target.kill((ServerLevel) ctx.level);
+//
+//        // Add Gold
+//        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
+//        player.setAttached(
+//                CSCAttachments.PLAYER_DATA,
+//                data.addGold(GOLD_REWARD)
+//        );
+//
+//        // Play Sound
+//        player.level().playSound(null, target.blockPosition(), CSCSounds.ITEM_MIDAS, SoundSource.PLAYERS, 1f, 1f);
+//    }
 }
