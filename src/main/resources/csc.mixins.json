@@ -5,6 +5,7 @@
   "mixins": [
     "CooldownInstanceAccessor",
     "ItemCooldownsAccessor",
+    "ItemStackMixin",
     "LivingEntityMixin",
     "PlayerMixin"
   ],

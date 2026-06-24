@@ -9,6 +9,7 @@ import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.types.AbilityType;
+import justjabka.csc.types.ActivationType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponents;
@@ -17,6 +18,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
@@ -26,13 +28,25 @@ import net.minecraft.world.item.component.TooltipProvider;
 import net.minecraft.world.item.component.UseCooldown;
 import net.minecraft.world.level.Level;
 
+import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
-public record AbilityComponent(Identifier id, int duration) implements TooltipProvider {
+public record AbilityComponent(Identifier id, int duration, Set<ActivationType> activationTypes) implements TooltipProvider {
+    public static final Codec<Set<ActivationType>> SET_CODEC = ActivationType.CODEC.listOf().xmap(
+        Set::copyOf,
+        List::copyOf
+    );
+
+    public AbilityComponent(Identifier id, int duration) {
+        this(id, duration, Set.of(ActivationType.GENERIC));
+    }
+
     public static final Codec<AbilityComponent> CODEC = RecordCodecBuilder.create(builder -> {
         return builder.group(
                 Identifier.CODEC.fieldOf("id").forGetter(AbilityComponent::id),
-                Codec.INT.fieldOf("duration").forGetter(AbilityComponent::duration)
+                Codec.INT.fieldOf("duration").forGetter(AbilityComponent::duration),
+                SET_CODEC.optionalFieldOf("activation_types", Set.of(ActivationType.GENERIC)).forGetter(AbilityComponent::activationTypes)
         ).apply(builder, AbilityComponent::new);
     });
 
@@ -53,14 +67,35 @@ public record AbilityComponent(Identifier id, int duration) implements TooltipPr
 
     public InteractionResult onUse(Level level, Player player, InteractionHand hand) {
         ItemStack item = player.getItemInHand(hand);
+        AbilityContext ctx = new AbilityContext(player, hand.asEquipmentSlot(), item, null);
+        return tryActivate(ctx);
+    }
+
+    public InteractionResult onInteractionUse(ItemStack item, Player player, LivingEntity target, InteractionHand hand) {
+        AbilityContext ctx = new AbilityContext(player, hand.asEquipmentSlot(), item, target);
+        return tryActivate(ctx);
+    }
+
+    public InteractionResult onTrinketUse(Player player, ItemStack item) {
+        AbilityContext ctx = new AbilityContext(player, item);
+        return tryActivate(ctx);
+    }
+
+    public InteractionResult onBlockUse(Player player, ItemStack item) {
+        AbilityContext ctx = new AbilityContext(player, item);
+        return tryActivate(ctx);
+    }
+
+    private InteractionResult tryActivate(AbilityContext ctx) {
+        Player player = ctx.player;
+        Level level = ctx.level;
+        ItemStack item = ctx.getItem();
 
         if (level.isClientSide()) return InteractionResult.PASS;
         if (isOnCooldown(player, item)) {
             level.playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
             return InteractionResult.FAIL;
         }
-
-        AbilityContext ctx = new AbilityContext(player, hand.asEquipmentSlot(), item, null);
 
         applyCooldown(player, item);
         activate(ctx);

@@ -5,10 +5,9 @@ import eu.pb4.trinkets.api.TrinketsApi;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.contents.gui.ShopMenu;
-import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.payloads.ActivateTrinketPayload;
 import justjabka.csc.payloads.ShopSyncContentPayload;
-import justjabka.csc.types.AbilityContext;
+import justjabka.csc.types.ActivationType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
@@ -67,7 +66,8 @@ public class CSCPayloads {
                         AbilityComponent ability = stack.get(CSCComponents.ABILITY);
                         if (ability == null) return;
 
-//                        ability.onUse(player.level(), player, )
+                        if (!ability.activationTypes().contains(ActivationType.TRINKET)) return;
+                        ability.onTrinketUse(player, stack);
                     }
             ));
         };
