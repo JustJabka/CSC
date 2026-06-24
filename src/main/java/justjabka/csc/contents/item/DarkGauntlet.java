@@ -1,85 +1,28 @@
 package justjabka.csc.contents.item;
 
-import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
-import justjabka.csc.contents.ability.item.DarkGauntletAbility;
+import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveItem;
-import justjabka.csc.handlers.TimeHandler;
-import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ShopCategory;
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.item.component.TooltipDisplay;
-import org.jspecify.annotations.NonNull;
-
-import java.util.Map;
-import java.util.function.Consumer;
-
-import static justjabka.csc.handlers.DescriptionHandler.*;
 
 public class DarkGauntlet extends BaseActiveItem {
     private static final double BASE_DAMAGE = 2.0;
-    private static final double TICKING_DAMAGE = 0.01;
-
-    private static final double DAMAGE_MODIFIER = 7;
-    private static final double VULNERABILITY_MODIFIER = 0.02;
-
-    private final Map<Holder<Attribute>, AttributeModifier> ACTIVE_MODIFIERS = Map.of(
-            Attributes.ATTACK_DAMAGE, new AttributeModifier(getKey(),
-                    DAMAGE_MODIFIER,
-                    AttributeModifier.Operation.ADD_VALUE
-            ),
-            CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, new AttributeModifier(
-                    getKey(),
-                    VULNERABILITY_MODIFIER,
-                    AttributeModifier.Operation.ADD_VALUE
-            )
-    );
-
-    @Override
-    public Identifier getKey() {
-        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "dark_gauntlet");
-    }
-
-    @Override
-    public int getCooldown() {
-        return TimeHandler.secondsToTicks(1);
-    }
-
-    @Override
-    public int getDuration() {
-        return 0;
-    }
-
-    @Override
-    public BaseActiveAbility getAbility() {
-        return new DarkGauntletAbility(
-                getKey(),
-                getDuration(),
-                TICKING_DAMAGE,
-                ACTIVE_MODIFIERS
-        );
-    }
 
     public DarkGauntlet(Properties properties) {
         super(properties
                 .rarity(Rarity.EPIC)
+                .useCooldown(1)
+                .component(
+                        CSCComponents.ABILITY,
+                        new AbilityComponent(CSCAbilities.DARK_GAUNTLET.getId(), 0)
+                )
                 .attributes(ItemAttributeModifiers.builder()
                     .add(
                             Attributes.ATTACK_DAMAGE,
@@ -94,28 +37,5 @@ public class DarkGauntlet extends BaseActiveItem {
                 )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(2800, ShopCategory.DAMAGE))
         );
-    }
-
-    @Override
-    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        super.appendHoverText(stack, context, displayComponent, textConsumer, type);
-        textConsumer.accept(Component
-                .translatable("item.csc.dark_gauntlet.description.1", PHYSICAL_DAMAGE, DAMAGE_MODIFIER)
-                .withStyle(ChatFormatting.GRAY)
-        );
-        textConsumer.accept(Component
-                .translatable("item.csc.dark_gauntlet.description.2",
-                        wrapDecimalAsPercent(VULNERABILITY_MODIFIER),
-                        MAGICAL_DAMAGE,
-                        wrapDecimalAsPercent(TICKING_DAMAGE),
-                        MAX_HEALTH
-                )
-                .withStyle(ChatFormatting.GRAY)
-        );
-    }
-
-    @Override
-    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
-        return InteractionResult.PASS;
     }
 }

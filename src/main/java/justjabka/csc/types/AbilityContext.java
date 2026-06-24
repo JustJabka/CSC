@@ -23,7 +23,7 @@ public class AbilityContext {
         this(player, slot, null, null);
     }
 
-    public AbilityContext(Player player, EquipmentSlot slot, @Nullable ItemStack item, @Nullable LivingEntity target) {
+    public AbilityContext(Player player, @Nullable EquipmentSlot slot, @Nullable ItemStack item, @Nullable LivingEntity target) {
         this.player = player;
         this.slot = slot;
         this.level = player.level();
@@ -31,7 +31,7 @@ public class AbilityContext {
         this.target = target;
     }
 
-    public AbilityContext(Player player, ItemStack item) {
+    public AbilityContext(Player player, @Nullable ItemStack item) {
         this.player = player;
         this.slot = null;
         this.level = player.level();

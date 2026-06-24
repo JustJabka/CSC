@@ -5,14 +5,8 @@ import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.types.AbilityContext;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -24,17 +18,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import org.jspecify.annotations.NonNull;
 
 import java.util.List;
-import java.util.function.Consumer;
-
-import static justjabka.csc.handlers.DescriptionHandler.PHYSICAL_DAMAGE;
 
 public class BloodyLarynx extends BaseActiveTrinketItem {
     private static final double DAMAGE_MULTIPLIER = 2;
@@ -63,46 +50,6 @@ public class BloodyLarynx extends BaseActiveTrinketItem {
     @Override
     public BaseActiveAbility getAbility() {
         return null;
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        super.appendHoverText(stack, context, displayComponent, textConsumer, type);
-
-        Minecraft mc = Minecraft.getInstance();
-        LocalPlayer player = mc.player;
-
-        double attackDamage = 1;
-        int lostHealth = 0;
-
-        if (player != null) {
-            attackDamage = getAttackDamage(player);
-            lostHealth = (int) getLostHealth(player);
-        }
-
-        showFormula(textConsumer, mc, attackDamage, lostHealth);
-        textConsumer.accept(Component.translatable("item.csc.bloody_larynx.description.2", MIN_RADIUS, MAX_RADIUS).withStyle(ChatFormatting.GRAY));
-        textConsumer.accept(Component.translatable("item.csc.bloody_larynx.description.3").withStyle(ChatFormatting.GRAY));
-        if (!mc.hasShiftDown()) textConsumer.accept(Component.translatable("other.csc.reveal_details", Component.translatable("key.sneak")).withStyle(ChatFormatting.DARK_GRAY));
-    }
-
-    private static void showFormula(Consumer<Component> textConsumer, Minecraft mc, double attackDamage, int lostHealth) {
-        if (mc.hasShiftDown()) {
-            textConsumer.accept(Component.translatable("item.csc.bloody_larynx.description.1",
-                    Component.translatable("attribute.name.attack_damage"),
-                    Component.translatable("health.csc.lost"),
-                    DAMAGE_MULTIPLIER,
-                    PHYSICAL_DAMAGE
-            ).withStyle(ChatFormatting.GRAY));
-        } else {
-            textConsumer.accept(Component.translatable("item.csc.bloody_larynx.description.1",
-                    attackDamage,
-                    lostHealth,
-                    DAMAGE_MULTIPLIER,
-                    PHYSICAL_DAMAGE
-            ).withStyle(ChatFormatting.GRAY));
-        }
     }
 
     @Override

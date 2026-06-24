@@ -2,12 +2,15 @@ package justjabka.csc.events;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.item.HolyBlanketAbility;
-import justjabka.csc.contents.item.HolyBlanket;
-import justjabka.csc.contents.item.generic.ActivatableItem;
+import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.TrinketHandler;
+import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCItems;
+import justjabka.csc.types.AbilityContext;
+import justjabka.csc.types.AbilityType;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.resources.Identifier;
@@ -30,7 +33,8 @@ public class HolyBlanketDeathProtectionEvent {
         ItemStack stack = TrinketHandler.findFirstTrinket(player, CSCItems.HOLY_BLANKET, "chest/cape");
         if (stack.isEmpty()) return true;
 
-        if (!(stack.getItem() instanceof ActivatableItem holyBlanket)) return true;
+        AbilityComponent ability = stack.get(CSCComponents.ABILITY);
+        if (ability == null) return true;
 
         AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
         HolyBlanketAbility blanketAbility = handler.getAbility(HolyBlanketAbility.class);
@@ -42,18 +46,19 @@ public class HolyBlanketDeathProtectionEvent {
             return false;
         }
 
-        return handleWeakDeathProtection(player, holyBlanket, stack);
+        return handleWeakDeathProtection(player, ability, stack);
     }
 
-    private static boolean handleWeakDeathProtection(Player player, ActivatableItem activatableItem, ItemStack stack) {
-        boolean isOnCooldown = activatableItem.isOnCooldown(stack, player);
-        if (isOnCooldown) return true;
+    private static boolean handleWeakDeathProtection(Player player, AbilityComponent ability, ItemStack stack) {
+        if (ability.isOnCooldown(player, stack)) return true;
+        ability.applyCooldown(player, stack);
 
-        activatableItem.applyCooldown(stack, player);
+        AbilityType<?> abilityType = CSCAbilities.getByKey(ability.id());
+        if (abilityType == null) return true;
 
-        if (activatableItem instanceof HolyBlanket holyBlanket) {
-            holyBlanket.applyWeakProtection(player);
-        }
+        AbilityContext ctx = new AbilityContext(player, stack);
+        HolyBlanketAbility holyBlanketAbility = (HolyBlanketAbility) abilityType.createInstance(ability.duration(), ctx);
+        holyBlanketAbility.activateWeakProtection();
 
         return false;
     }

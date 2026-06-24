@@ -3,6 +3,7 @@ package justjabka.csc.contents.ability.shard;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.types.AbilityContext;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -11,13 +12,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 public class BerserkShardAbility extends BaseActiveAbility {
     private static final Holder<Attribute> activeAttribute = CSCAttributes.INCOMING_DAMAGE_MULTIPLIER;
     private final AttributeModifier activeModifier = new AttributeModifier(
-            key,
+            getId(),
             -1024,
             AttributeModifier.Operation.ADD_VALUE
     );
 
-    public BerserkShardAbility(Identifier key, int duration) {
-        super(key, duration);
+    public BerserkShardAbility(Identifier id, int duration, AbilityContext ctx) {
+        super(id, duration, ctx);
     }
 
     @Override

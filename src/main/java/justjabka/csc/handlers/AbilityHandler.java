@@ -9,22 +9,22 @@ import java.util.Iterator;
 import java.util.List;
 
 public class AbilityHandler {
-    private final List<BaseActiveAbility> activeAbilities = new ArrayList<>();
+    private final List<BaseActiveAbility> ACTIVE_ABILITIES = new ArrayList<>();
 
-    public void addAbility(BaseActiveAbility ability, AbilityContext ctx) {
+    public void addAbility(BaseActiveAbility ability) {
         if (ability == null) return;
 
         BaseActiveAbility existing = getAbility(ability.getClass());
 
         if (existing == null) {
-            ability.start(ctx);
-            activeAbilities.add(ability);
+            ability.start();
+            ACTIVE_ABILITIES.add(ability);
             return;
         }
 
         if (ability instanceof BaseTogglableActiveAbility) {
             existing.end();
-            activeAbilities.remove(existing);
+            ACTIVE_ABILITIES.remove(existing);
             return;
         }
 
@@ -32,7 +32,7 @@ public class AbilityHandler {
     }
 
     public <T extends BaseActiveAbility> T getAbility(Class<T> type) {
-        for (BaseActiveAbility ability : activeAbilities) {
+        for (BaseActiveAbility ability : ACTIVE_ABILITIES) {
             if (type.isInstance(ability)) {
                 return type.cast(ability);
             }
@@ -41,15 +41,15 @@ public class AbilityHandler {
     }
 
     public boolean hasAbility(Class<? extends BaseActiveAbility> type) {
-        return activeAbilities.stream().anyMatch(type::isInstance);
+        return ACTIVE_ABILITIES.stream().anyMatch(type::isInstance);
     }
 
     public List<BaseActiveAbility> getActiveAbilities() {
-        return activeAbilities;
+        return ACTIVE_ABILITIES;
     }
 
     public void tick() {
-        Iterator<BaseActiveAbility> iterator = activeAbilities.iterator();
+        Iterator<BaseActiveAbility> iterator = ACTIVE_ABILITIES.iterator();
 
         while (iterator.hasNext()) {
             BaseActiveAbility ability = iterator.next();
@@ -76,6 +76,6 @@ public class AbilityHandler {
         if (ability == null) return;
 
         ability.end();
-        activeAbilities.remove(ability);
+        ACTIVE_ABILITIES.remove(ability);
     }
 }

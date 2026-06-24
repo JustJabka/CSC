@@ -4,10 +4,12 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.MagicProtectionClockAbility;
+import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
+import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ShopCategory;
@@ -35,38 +37,13 @@ public class MagicProtectionClock extends BaseActiveTrinketItem {
     private static final double BASE_HEALTH = 10;
     private static final double BASE_MAGIC_RESISTANCE = 0.25;
 
-    private final AttributeModifier MAGIC_RESISTANCE_MODIFIER = new AttributeModifier(
-            getKey(),
-            1,
-            AttributeModifier.Operation.ADD_VALUE
-    );
-
-    @Override
-    public Identifier getKey() {
-        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "magic_protection_clock");
-    }
-
-    @Override
-    public int getCooldown() {
-        return TimeHandler.minutesToTicks(1);
-    }
-
-    @Override
-    public int getDuration() {
-        return TimeHandler.secondsToTicks(10);
-    }
-
-    @Override
-    public BaseActiveAbility getAbility() {
-        return new MagicProtectionClockAbility(
-                getKey(),
-                getDuration(),
-                MAGIC_RESISTANCE_MODIFIER
-        );
-    }
-
     public MagicProtectionClock(Properties properties) {
         super(properties.rarity(Rarity.RARE)
+                .useCooldown(60)
+                .component(
+                        CSCComponents.ABILITY,
+                        new AbilityComponent(CSCAbilities.MAGIC_PROTECTION_CLOCK.getId(), TimeHandler.secondsToTicks(10))
+                )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(4200, ShopCategory.ANTI_MAGE))
         );
     }
@@ -89,14 +66,5 @@ public class MagicProtectionClock extends BaseActiveTrinketItem {
                 CSCAttributes.MAGIC_RESISTANCE,
                 AttributeModifier.Operation.ADD_VALUE, key, consumer
         );
-    }
-
-    @Override
-    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
-        super.appendHoverText(stack, context, displayComponent, textConsumer, type);
-        textConsumer.accept(Component.translatable("item.csc.magic_protection_clock.description",
-                MAGICAL_DAMAGE,
-                wrapDecimalAsPercent(MAGIC_RESISTANCE_MODIFIER.amount())
-        ).withStyle(ChatFormatting.GRAY));
     }
 }

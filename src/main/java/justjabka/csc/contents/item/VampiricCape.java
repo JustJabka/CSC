@@ -1,7 +1,6 @@
 package justjabka.csc.contents.item;
 
 import eu.pb4.trinkets.api.TrinketSlotAccess;
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.handlers.AttributeHandler;
@@ -25,26 +24,6 @@ public class VampiricCape extends BaseActiveTrinketItem {
 
     public VampiricCape(Properties properties) {
         super(properties.component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3800, ShopCategory.SURVIVABILITY)));
-    }
-
-    @Override
-    public Identifier getKey() {
-        return null;
-    }
-
-    @Override
-    public int getCooldown() {
-        return 0;
-    }
-
-    @Override
-    public int getDuration() {
-        return 0;
-    }
-
-    @Override
-    public BaseActiveAbility getAbility() {
-        return null;
     }
 
     @Override

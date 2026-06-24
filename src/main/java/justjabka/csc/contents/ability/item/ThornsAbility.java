@@ -4,6 +4,7 @@ import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityContext;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,11 +13,14 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 
 public class ThornsAbility extends BaseActiveAbility {
-    private final AttributeModifier damageReflectionModifier;
+    private final AttributeModifier DAMAGE_REFLECTION_MODIFIER = new AttributeModifier(
+            getId(),
+            0.5,
+            AttributeModifier.Operation.ADD_VALUE
+    );
 
-    public ThornsAbility(Identifier key, int duration, AttributeModifier damageReflectionModifier) {
-        super(key, duration);
-        this.damageReflectionModifier = damageReflectionModifier;
+    public ThornsAbility(Identifier id, int duration, AbilityContext ctx) {
+        super(id, duration, ctx);
     }
 
     @Override
@@ -26,7 +30,7 @@ public class ThornsAbility extends BaseActiveAbility {
         AttributeHandler.addTransientModifier(
                 player,
                 CSCAttributes.DAMAGE_REFLECTION_PERCENT,
-                damageReflectionModifier
+                DAMAGE_REFLECTION_MODIFIER
         );
 
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_THORNS, SoundSource.PLAYERS, 1f, 1f);
@@ -52,7 +56,7 @@ public class ThornsAbility extends BaseActiveAbility {
         AttributeHandler.removeModifier(
                 ctx.player,
                 CSCAttributes.DAMAGE_REFLECTION_PERCENT,
-                damageReflectionModifier
+                DAMAGE_REFLECTION_MODIFIER
         );
     }
 }

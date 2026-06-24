@@ -2,34 +2,47 @@ package justjabka.csc.contents.ability.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.types.AbilityContext;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Map;
 
 public class LifeShieldAbility extends BaseActiveAbility {
-    private final Map<Holder<Attribute>, AttributeModifier> activeModifiers;
-    private final float healAmount;
-    private final float absorptionAmount;
+    private static final double DAMAGE_MULTIPLIER_MODIFIER = -0.05;
+    private static final float HEAL_AMOUNT = 10;
+    private static final float ABSORPTION_AMOUNT = 8;
 
-    public LifeShieldAbility(Identifier key, int duration, Map<Holder<Attribute>, AttributeModifier> activeModifiers, float healAmount, float absorptionAmount) {
-        super(key, duration);
-        this.activeModifiers = activeModifiers;
-        this.healAmount = healAmount;
-        this.absorptionAmount = absorptionAmount;
+    private final Map<Holder<Attribute>, AttributeModifier> ACTIVE_MODIFIERS = Map.of(
+            CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, new AttributeModifier(
+                    getId(),
+                    DAMAGE_MULTIPLIER_MODIFIER,
+                    AttributeModifier.Operation.ADD_VALUE
+            ),
+            Attributes.MAX_ABSORPTION, new AttributeModifier(
+                    getId(),
+                    ABSORPTION_AMOUNT,
+                    AttributeModifier.Operation.ADD_VALUE
+            )
+    );
+
+    public LifeShieldAbility(Identifier id, int duration, AbilityContext ctx) {
+        super(id, duration, ctx);
     }
 
     @Override
     public void onStart() {
         Player player = ctx.player;
 
-        AttributeHandler.addTransientModifiers(player, activeModifiers);
+        AttributeHandler.addTransientModifiers(player, ACTIVE_MODIFIERS);
 
-        player.heal(healAmount);
-        player.setAbsorptionAmount(player.getAbsorptionAmount() + absorptionAmount);
+        player.heal(HEAL_AMOUNT);
+        player.setAbsorptionAmount(player.getAbsorptionAmount() + ABSORPTION_AMOUNT);
     }
 
     @Override
@@ -37,6 +50,6 @@ public class LifeShieldAbility extends BaseActiveAbility {
 
     @Override
     public void onEnd() {
-        AttributeHandler.removeModifiers(ctx.player, activeModifiers);
+        AttributeHandler.removeModifiers(ctx.player, ACTIVE_MODIFIERS);
     }
 }

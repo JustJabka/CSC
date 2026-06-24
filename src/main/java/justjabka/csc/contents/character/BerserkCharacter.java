@@ -2,15 +2,16 @@ package justjabka.csc.contents.character;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
-import justjabka.csc.contents.ability.shard.BerserkShardAbility;
 import justjabka.csc.contents.character.generic.BaseCharacter;
-import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.handlers.TrinketHandler;
+import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.types.ShardContext;
@@ -152,23 +153,19 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
         ItemStack stack = TrinketHandler.getFirstTrinket(player, ABILITY_SLOT_ID);
         if (stack.isEmpty()) return;
 
-        if (!(stack.getItem() instanceof BaseActiveTrinketItem activeItem)) return;
+        AbilityComponent ability = stack.get(CSCComponents.ABILITY);
+        if (ability == null) return;
 
-        // Remove Cooldown
-        ItemCooldowns cooldowns = player.getCooldowns();
-        Identifier cooldownGroup = cooldowns.getCooldownGroup(stack);
-        cooldowns.removeCooldown(cooldownGroup);
-
-        // Trigger Ability
         AbilityContext ctx = new AbilityContext(player, stack);
-        activeItem.tryActivate(ctx);
+        ability.forceActivate(ctx);
     }
 
     private void triggerInvulnerability(Player player, ItemStack shardStack) {
         AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        BaseActiveAbility ability = new BerserkShardAbility(getKey(), getShardDuration());
-        AbilityContext ctx = new AbilityContext(player, shardStack);
 
-        handler.addAbility(ability, ctx);
+        AbilityContext ctx = new AbilityContext(player, shardStack);
+        BaseActiveAbility ability = CSCAbilities.BERSERK_SHARD.createInstance(getShardDuration(), ctx);
+
+        handler.addAbility(ability);
     }
 }

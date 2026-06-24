@@ -1,6 +1,7 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
+import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.component.UpgradableComponent;
 import net.minecraft.core.Registry;
@@ -11,6 +12,10 @@ import net.minecraft.resources.Identifier;
 import java.util.function.UnaryOperator;
 
 public class CSCComponents {
+    public static final DataComponentType<AbilityComponent> ABILITY = register("ability",
+            builder -> builder.persistent(AbilityComponent.CODEC)
+    );
+
     public static final DataComponentType<ShopItemComponent> SHOP_ITEM = register("shop_item",
             builder -> builder.persistent(ShopItemComponent.CODEC)
     );

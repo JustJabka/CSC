@@ -6,6 +6,7 @@ import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityContext;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
@@ -22,24 +23,25 @@ public class RedoubtAbility extends BaseActiveAbility {
     private boolean hasShard = false;
     private AttributeModifier absorptionAmountShardBonusModifier;
 
-    private final float absorptionAmountShardBonus;
-    private final Map<Holder<Attribute>, AttributeModifier> activeModifiers;
+    private static final double INCOMING_DAMAGE_MULTIPLIER_MODIFIER = -0.35;
+    private static final double KNOCKBACK_RESISTANCE_MODIFIER = 1;
+    private static final float ABSORPTION_AMOUNT_SHARD_BONUS = 0.1f;
 
-    public RedoubtAbility(Identifier key, int duration, double incomingDamageMultiplierModifier, double knockbackResistanceModifier, float absorptionAmountShardBonus) {
-        super(key, duration);
-        this.activeModifiers = Map.of(
-                CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, new AttributeModifier(
-                        key,
-                        incomingDamageMultiplierModifier,
-                        AttributeModifier.Operation.ADD_VALUE
-                ),
-                Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(
-                        key,
-                        knockbackResistanceModifier,
-                        AttributeModifier.Operation.ADD_VALUE
-                )
-        );
-        this.absorptionAmountShardBonus = absorptionAmountShardBonus;
+    private final Map<Holder<Attribute>, AttributeModifier> ACTIVE_MODIFIERS = Map.of(
+            CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, new AttributeModifier(
+                    getId(),
+                    INCOMING_DAMAGE_MULTIPLIER_MODIFIER,
+                    AttributeModifier.Operation.ADD_VALUE
+            ),
+            Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(
+                    getId(),
+                    KNOCKBACK_RESISTANCE_MODIFIER,
+                    AttributeModifier.Operation.ADD_VALUE
+            )
+    );
+
+    public RedoubtAbility(Identifier id, int duration, AbilityContext ctx) {
+        super(id, duration, ctx);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class RedoubtAbility extends BaseActiveAbility {
         hasShard = TrinketHandler.hasTrinket(player, CSCItems.SHARD, "legs/belt");
 
         if (hasShard) giveShardBonus(player);
-        AttributeHandler.addTransientModifiers(player, activeModifiers);
+        AttributeHandler.addTransientModifiers(player, ACTIVE_MODIFIERS);
 
         ctx.level.playSound(null, player.blockPosition(), CSCSounds.ABILITY_REDOUBT, SoundSource.PLAYERS, 1f, 1f);
     }
@@ -60,7 +62,7 @@ public class RedoubtAbility extends BaseActiveAbility {
 
         if (!(ctx.level instanceof ServerLevel serverLevel)) return;
 
-        serverLevel.sendParticles (
+        serverLevel.sendParticles(
                 ParticleTypes.POOF,
                 player.getX(),
                 player.getBoundingBox().minY + 1,
@@ -76,15 +78,15 @@ public class RedoubtAbility extends BaseActiveAbility {
         Player player = ctx.player;
 
         if (hasShard) clearShardBonus(player);
-        AttributeHandler.removeModifiers(player, activeModifiers);
+        AttributeHandler.removeModifiers(player, ACTIVE_MODIFIERS);
     }
 
     private void giveShardBonus(Player player) {
         float currentAmount = player.getAbsorptionAmount();
-        float bonusAmount = player.getMaxHealth() * absorptionAmountShardBonus;
+        float bonusAmount = player.getMaxHealth() * ABSORPTION_AMOUNT_SHARD_BONUS;
 
         absorptionAmountShardBonusModifier = new AttributeModifier(
-                key,
+                getId(),
                 bonusAmount,
                 AttributeModifier.Operation.ADD_VALUE
         );

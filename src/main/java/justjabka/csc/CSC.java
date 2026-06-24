@@ -26,5 +26,6 @@ public class CSC implements ModInitializer {
 		CSCMenuTypes.initialize();
 		CSCLootTables.initialize();
 		CSCTooltipProviders.initialize();
+		CSCAbilities.initialize();
 	}
 }

@@ -8,6 +8,7 @@ public class CSCTooltipProviders {
         CSC.LOGGER.info("Initializing Tooltip Providers");
 
         ItemComponentTooltipProviderRegistry.addFirst(CSCComponents.SHOP_ITEM);
+        ItemComponentTooltipProviderRegistry.addAfter(CSCComponents.SHOP_ITEM, CSCComponents.ABILITY);
         ItemComponentTooltipProviderRegistry.addFirst(CSCComponents.UPGRADABLE);
     }
 }

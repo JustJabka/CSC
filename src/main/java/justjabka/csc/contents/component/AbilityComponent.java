@@ -1,0 +1,108 @@
+package justjabka.csc.contents.component;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import justjabka.csc.handlers.AbilityHandler;
+import justjabka.csc.handlers.TimeHandler;
+import justjabka.csc.registries.CSCAbilities;
+import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityContext;
+import justjabka.csc.types.AbilityType;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
+import net.minecraft.world.item.component.UseCooldown;
+import net.minecraft.world.level.Level;
+
+import java.util.function.Consumer;
+
+public record AbilityComponent(Identifier id, int duration) implements TooltipProvider {
+    public static final Codec<AbilityComponent> CODEC = RecordCodecBuilder.create(builder -> {
+        return builder.group(
+                Identifier.CODEC.fieldOf("id").forGetter(AbilityComponent::id),
+                Codec.INT.fieldOf("duration").forGetter(AbilityComponent::duration)
+        ).apply(builder, AbilityComponent::new);
+    });
+
+    @Override
+    public void addToTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        UseCooldown useCooldown = components.get(DataComponents.USE_COOLDOWN);
+
+        if (useCooldown != null) {
+            textConsumer.accept(Component.translatable("other.csc.cooldown", TimeHandler.autoConvertTicks(useCooldown.ticks())).withStyle(ChatFormatting.YELLOW));
+        }
+
+        if (this.duration > 0) {
+            textConsumer.accept(Component.translatable("other.csc.duration", TimeHandler.autoConvertTicks(this.duration)).withStyle(ChatFormatting.GREEN));
+        }
+
+//        List<Component> abilityDescription = CSCAbilities.getByKey(this.id);
+    }
+
+    public InteractionResult onUse(Level level, Player player, InteractionHand hand) {
+        ItemStack item = player.getItemInHand(hand);
+
+        if (level.isClientSide()) return InteractionResult.PASS;
+        if (isOnCooldown(player, item)) {
+            level.playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
+            return InteractionResult.FAIL;
+        }
+
+        AbilityContext ctx = new AbilityContext(player, hand.asEquipmentSlot(), item, null);
+
+        applyCooldown(player, item);
+        activate(ctx);
+
+        if (player.isUsingItem()) {
+            player.stopUsingItem();
+        }
+
+        return InteractionResult.SUCCESS;
+    }
+
+    public void activate(AbilityContext ctx) {
+        AbilityType<?> abilityType = CSCAbilities.getByKey(this.id);
+
+        if (abilityType == null) return;
+
+        AbilityHandler handler = ctx.player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
+        handler.addAbility(abilityType.createInstance(this.duration, ctx));
+    }
+
+    public void forceActivate(AbilityContext ctx) {
+        applyCooldown(ctx.player, ctx.getItem());
+        activate(ctx);
+    }
+
+    public boolean isOnCooldown(Player player, ItemStack item) {
+        ItemCooldowns cooldown = player.getCooldowns();
+        return cooldown.isOnCooldown(item);
+    }
+
+    public void applyCooldown(Player player, ItemStack item) {
+        UseCooldown useCooldown = item.get(DataComponents.USE_COOLDOWN);
+
+        if (useCooldown == null) return;
+
+        useCooldown.apply(item, player);
+    }
+
+    public void removeCooldown(Player player, ItemStack item) {
+        ItemCooldowns cooldown = player.getCooldowns();
+        Identifier cooldownGroup = cooldown.getCooldownGroup(item);
+
+        cooldown.removeCooldown(cooldownGroup);
+    }
+}

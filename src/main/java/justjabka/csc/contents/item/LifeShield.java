@@ -4,7 +4,6 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.contents.ability.item.LifeShieldAbility;
 import justjabka.csc.contents.component.ShopItemComponent;
-import justjabka.csc.contents.item.generic.ActivatableItem;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttributes;

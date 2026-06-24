@@ -105,7 +105,7 @@ public abstract class LivingEntityMixin {
 
 		handler.stopAbility(abilityClass);
 
-        return (float) (damage * darkCapeAbility.damageMultiplier);
+        return (float) (damage * darkCapeAbility.getDamageMultiplier());
 	}
 
 	@Inject(

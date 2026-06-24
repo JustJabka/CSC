@@ -4,6 +4,7 @@ import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityContext;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
@@ -16,11 +17,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MagicProtectionClockAbility extends BaseActiveAbility {
-    private final AttributeModifier magicResistanceModifier;
+    private final AttributeModifier MAGIC_RESISTANCE_MODIFIER = new AttributeModifier(
+            getId(),
+            1,
+            AttributeModifier.Operation.ADD_VALUE
+    );
 
-    public MagicProtectionClockAbility(Identifier key, int duration, AttributeModifier magicResistance) {
-        super(key, duration);
-        this.magicResistanceModifier = magicResistance;
+
+    public MagicProtectionClockAbility(Identifier id, int duration, AbilityContext ctx) {
+        super(id, duration, ctx);
     }
 
     @Override
@@ -30,7 +35,7 @@ public class MagicProtectionClockAbility extends BaseActiveAbility {
         AttributeHandler.addTransientModifier(
                 player,
                 CSCAttributes.MAGIC_RESISTANCE,
-                magicResistanceModifier
+                MAGIC_RESISTANCE_MODIFIER
         );
 
         player.setGlowingTag(true);
@@ -60,7 +65,7 @@ public class MagicProtectionClockAbility extends BaseActiveAbility {
         AttributeHandler.removeModifier(
                 player,
                 CSCAttributes.MAGIC_RESISTANCE,
-                magicResistanceModifier
+                MAGIC_RESISTANCE_MODIFIER
         );
     }
 }

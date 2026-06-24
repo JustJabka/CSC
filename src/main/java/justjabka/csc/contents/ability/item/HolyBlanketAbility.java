@@ -2,7 +2,9 @@ package justjabka.csc.contents.ability.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityContext;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -12,20 +14,19 @@ import net.minecraft.world.entity.player.Player;
 public class HolyBlanketAbility extends BaseActiveAbility {
     private AttributeModifier activeModifier;
 
-    private final int protectionDuration;
-    private final float strongProtectionHealthMultiplier;
+    private static final int PROTECTION_DURATION = TimeHandler.secondsToTicks(20);
+    private static final float STRONG_PROTECTION_HEALTH_MULTIPLIER = 0.6f;
+    private static final float WEAK_PROTECTION_HEALTH_MULTIPLIER = 0.3f;
+
+    public HolyBlanketAbility(Identifier id, int duration, AbilityContext ctx) {
+        super(id, duration, ctx);
+    }
 
     public enum State {
         PARRYING,
         ACTIVATED
     }
     private State state = State.PARRYING;
-
-    public HolyBlanketAbility(Identifier key, int duration, int protectionDuration, float strongProtectionHealthMultiplier) {
-        super(key, duration);
-        this.protectionDuration = protectionDuration;
-        this.strongProtectionHealthMultiplier = strongProtectionHealthMultiplier;
-    }
 
     @Override
     public void onStart() {
@@ -42,15 +43,22 @@ public class HolyBlanketAbility extends BaseActiveAbility {
         AttributeHandler.removeModifier(ctx.player, Attributes.MAX_ABSORPTION, activeModifier);
     }
 
+    public void activateWeakProtection() {
+        Player player = ctx.player;
+
+        player.setHealth(player.getMaxHealth() * WEAK_PROTECTION_HEALTH_MULTIPLIER);
+        player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_HOLY_BLANKET_BREAK, SoundSource.PLAYERS, 1f, 1f);
+    }
+
     public void activateStrongProtection(float damageAmount) {
         this.state = State.ACTIVATED;
-        this.duration = protectionDuration;
+        this.duration = PROTECTION_DURATION;
 
         Player player = ctx.player;
-        player.setHealth(player.getMaxHealth() * strongProtectionHealthMultiplier);
+        player.setHealth(player.getMaxHealth() * STRONG_PROTECTION_HEALTH_MULTIPLIER);
 
         activeModifier = new AttributeModifier(
-                key,
+                getId(),
                 damageAmount,
                 AttributeModifier.Operation.ADD_VALUE
         );

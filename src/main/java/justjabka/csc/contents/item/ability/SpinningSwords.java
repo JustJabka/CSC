@@ -1,13 +1,12 @@
 package justjabka.csc.contents.item.ability;
 
-import justjabka.csc.CSC;
-import justjabka.csc.contents.ability.SpinningSwordsAbility;
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.handlers.TimeHandler;
+import justjabka.csc.registries.CSCAbilities;
+import justjabka.csc.registries.CSCComponents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -23,32 +22,11 @@ public class SpinningSwords extends BaseActiveTrinketItem {
     public static final double DAMAGE_PERCENT_SHARD_BONUS = 0.02;
 
     public SpinningSwords(Properties properties) {
-        super(properties);
-    }
-
-    @Override
-    public Identifier getKey() {
-        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "spinning_swords");
-    }
-
-    @Override
-    public int getCooldown() {
-        return TimeHandler.secondsToTicks(32);
-    }
-
-    @Override
-    public int getDuration() {
-        return TimeHandler.secondsToTicks(5);
-    }
-
-    @Override
-    public BaseActiveAbility getAbility() {
-        return new SpinningSwordsAbility(
-                getKey(),
-                getDuration(),
-                RADIUS,
-                DAMAGE_PERCENT,
-                DAMAGE_PERCENT_SHARD_BONUS
+        super(properties.useCooldown(32)
+                .component(
+                        CSCComponents.ABILITY,
+                        new AbilityComponent(CSCAbilities.SPINNING_SWORDS.getId(), TimeHandler.secondsToTicks(5))
+                )
         );
     }
 
