@@ -31,6 +31,9 @@ public class CSCAbilities {
     public static final AbilityType<SteelBootsAbility> STEEL_BOOTS = register("steel_boots", SteelBootsAbility::new);
     public static final AbilityType<ThornsAbility> THORNS = register("thorns", ThornsAbility::new);
 
+    public static final AbilityType<MidasAbility> MIDAS = register("midas", MidasAbility::new);
+    public static final AbilityType<PhoenixFeatherAbility> PHOENIX_FEATHER = register("phoenix_feather", PhoenixFeatherAbility::new);
+
     // Shard Abilities
     public static final AbilityType<BerserkShardAbility> BERSERK_SHARD = register("berserk_shard", BerserkShardAbility::new);
 

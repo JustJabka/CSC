@@ -102,7 +102,7 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
         return tryActivate(ctx);
     }
 
-    private InteractionResult tryActivate(AbilityContext ctx) {
+    public InteractionResult tryActivate(AbilityContext ctx) {
         Player player = ctx.player;
         Level level = ctx.level;
         ItemStack item = ctx.getItem();
