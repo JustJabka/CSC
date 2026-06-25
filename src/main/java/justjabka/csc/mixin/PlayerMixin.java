@@ -43,7 +43,7 @@ public abstract class PlayerMixin {
         AbilityComponent ability = blockedStack.get(CSCComponents.ABILITY);
         if (ability == null) return;
 
-        if (!ability.activationTypes().contains(ActivationType.ON_BLOCK)) return;
+        if (!ability.activationTypes().contains(ActivationType.BLOCK)) return;
         ability.onBlockUse(player, blockedStack);
     }
 }

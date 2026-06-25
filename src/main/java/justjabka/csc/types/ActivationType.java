@@ -7,7 +7,7 @@ public enum ActivationType implements StringRepresentable {
     INTERACTION("interaction"),
     TRINKET("trinket"),
     PASSIVE("passive"),
-    ON_BLOCK("on_block");
+    BLOCK("block");
 
     private final String name;
 

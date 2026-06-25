@@ -37,7 +37,7 @@ public class LifeShield extends Item {
                 .useCooldown(32)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.LIFE_SHIELD.getId(), TimeHandler.secondsToTicks(20), Set.of(ActivationType.ON_BLOCK))
+                        new AbilityComponent(CSCAbilities.LIFE_SHIELD.getId(), TimeHandler.secondsToTicks(20), Set.of(ActivationType.BLOCK))
                 )
                 .delayedComponent(DataComponents.BLOCKS_ATTACKS,
                         context -> new BlocksAttacks(
