@@ -5,7 +5,6 @@ import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCAttributes;
-import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
@@ -61,7 +60,7 @@ public class RedoubtAbility extends BaseActiveAbility {
     public void onStart() {
         Player player = ctx.player;
 
-        hasShard = TrinketHandler.hasTrinket(player, CSCItems.SHARD, "legs/belt");
+        hasShard = TrinketHandler.hasShard(player);
 
         if (hasShard) giveShardBonus(player);
         AttributeHandler.addTransientModifiers(player, ACTIVE_MODIFIERS);

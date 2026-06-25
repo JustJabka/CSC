@@ -32,6 +32,11 @@ public class TitanCharacter extends BaseCharacter {
     }
 
     @Override
+    public Identifier getShardAbility() {
+        return null;
+    }
+
+    @Override
     public int getShardCooldown() {
         return 0;
     }

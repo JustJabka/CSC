@@ -17,6 +17,8 @@ import java.util.Map;
 public class CSCAbilities {
     private static final Map<Identifier, AbilityType<?>> ABILITY_TYPES = new HashMap<>();
 
+    public static final Identifier EMPTY_ABILITY_ID = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "empty");
+
     // Generic Abilities
     public static final AbilityType<RedoubtAbility> REDOUBT = register("redoubt", RedoubtAbility::new);
     public static final AbilityType<SpinningSwordsAbility> SPINNING_SWORDS = register("spinning_swords", SpinningSwordsAbility::new);

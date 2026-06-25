@@ -42,6 +42,7 @@ public abstract class BaseCharacter {
     }
 
     // Shard
+    public abstract Identifier getShardAbility();
     public abstract int getShardCooldown();
     public abstract int getShardDuration();
     public void getShardDescription(@NonNull ItemStack stack, Item.TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {

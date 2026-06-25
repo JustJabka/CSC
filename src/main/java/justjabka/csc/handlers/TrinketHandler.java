@@ -3,6 +3,7 @@ package justjabka.csc.handlers;
 import eu.pb4.trinkets.api.TrinketAttachment;
 import eu.pb4.trinkets.api.TrinketInventory;
 import eu.pb4.trinkets.api.TrinketsApi;
+import justjabka.csc.registries.CSCItems;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -47,5 +48,9 @@ public class TrinketHandler {
         if (slot == null) return ItemStack.EMPTY;
 
         return slot.get();
+    }
+
+    public static boolean hasShard(Player player) {
+        return TrinketHandler.hasTrinket(player, CSCItems.SHARD, "legs/belt");
     }
 }

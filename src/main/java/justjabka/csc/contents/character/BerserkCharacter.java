@@ -52,6 +52,11 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
     }
 
     @Override
+    public Identifier getShardAbility() {
+        return CSCAbilities.BERSERK_SHARD.getId();
+    }
+
+    @Override
     public int getShardCooldown() {
         return TimeHandler.minutesToTicks(2);
     }
