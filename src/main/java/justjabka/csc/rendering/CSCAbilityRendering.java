@@ -2,48 +2,38 @@ package justjabka.csc.rendering;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.attachement.PlayerData;
+import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttachments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CSCAbilityRendering {
     private static final Identifier ABILITY_BAR_BACKGROUND = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/ability_bar_background");
     private static final Identifier ABILITY_BAR_PROGRESS = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/ability_bar_progress");
 
-    private static final Map<Identifier, Integer> MAX_DURATION_CACHE = new HashMap<>();
-
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
-        PlayerData data = player.getAttached(CSCAttachments.PLAYER_DATA);
-        if (data == null) {
-            MAX_DURATION_CACHE.clear();
-            return;
-        }
-
-        MAX_DURATION_CACHE.keySet().removeIf(key -> !data.abilities().containsKey(key));
+        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
 
         AtomicInteger yOffset = new AtomicInteger(0);
         int yOffsetStep = 16;
 
-        data.abilities().forEach((key, remainingTicks) -> {
-            int maxTicks = MAX_DURATION_CACHE.getOrDefault(key, 0);
+        data.abilities().forEach((key, abilityData) -> {
+            Identifier icon = abilityData.icon();
+            int duration = abilityData.duration();
+            int maxDuration = abilityData.maxDuration();
 
-            if (remainingTicks > maxTicks) {
-                maxTicks = remainingTicks;
-                MAX_DURATION_CACHE.put(key, maxTicks);
-            }
+            int remainingSeconds = TimeHandler.ticksToSeconds(duration);
+            float progressPercent = maxDuration > 0 ? (float) duration / maxDuration : 1f;
 
-            int remainingSeconds = remainingTicks / 20;
-            float progressPercent = maxTicks > 0 ? (float) remainingTicks / maxTicks : 1f;
-
-            renderAbility(graphics, font, player, sw, sh, remainingSeconds, yOffset.get(), progressPercent);
+            renderAbility(graphics, font, player, sw, sh, icon, remainingSeconds, progressPercent, yOffset.get());
 
             yOffset.addAndGet(yOffsetStep);
         });
@@ -55,13 +45,20 @@ public class CSCAbilityRendering {
             Player player,
             int sw,
             int sh,
+            Identifier icon,
             int remainingSeconds,
-            int yOffset,
-            float progressPercent
+            float progressPercent,
+            int yOffset
     ) {
         int baseX = 0;
         int baseY = 52 + yOffset;
+        int width = 86;
+        int itemSize = 16;
 
+        int itemX = sw / 2 - width / 2 + baseX - itemSize;
+        int itemY = sh - baseY - itemSize;
+
+        Item item = BuiltInRegistries.ITEM.getValue(icon);
         Component text = Component
                 .translatable("ui.csc.abilityBar", remainingSeconds)
                 .withStyle(style -> style
@@ -79,8 +76,10 @@ public class CSCAbilityRendering {
                 sh,
                 baseX,
                 baseY,
-                86,
+                width,
                 12
         );
+
+        graphics.item(player, item.getDefaultInstance(), itemX, itemY, 0);
     }
 }

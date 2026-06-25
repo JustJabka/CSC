@@ -1,7 +1,5 @@
 package justjabka.csc.contents.ability.generic;
 
-import justjabka.csc.contents.attachement.PlayerData;
-import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.resources.Identifier;
 
@@ -11,12 +9,8 @@ public abstract class BaseTogglableActiveAbility extends BaseActiveAbility {
         super(id, duration, ctx);
     }
 
-    @Override
-    protected void updateDuration() {
-        PlayerData data = getPlayerData();
-
-        duration++;
-        ctx.player.setAttached(CSCAttachments.PLAYER_DATA, data.updateAbility(getId(), duration));
+    protected int updateDuration() {
+        return ++duration;
     }
 
     @Override
