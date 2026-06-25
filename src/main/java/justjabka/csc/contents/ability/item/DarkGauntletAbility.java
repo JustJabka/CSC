@@ -2,12 +2,16 @@ package justjabka.csc.contents.ability.item;
 
 import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -16,8 +20,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class DarkGauntletAbility extends BaseTogglableActiveAbility {
     private static final double TICKING_DAMAGE = 0.01;
@@ -39,6 +46,23 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
 
     public DarkGauntletAbility(Identifier id, int duration, AbilityContext ctx) {
         super(id, duration, ctx);
+    }
+
+    @Override
+    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        textConsumer.accept(Component
+                .translatable("item.csc.dark_gauntlet.description.1", DescriptionHandler.PHYSICAL_DAMAGE, DAMAGE_MODIFIER)
+                .withStyle(ChatFormatting.GRAY)
+        );
+        textConsumer.accept(Component
+                .translatable("item.csc.dark_gauntlet.description.2",
+                        DescriptionHandler.wrapDecimalAsPercent(VULNERABILITY_MODIFIER),
+                        DescriptionHandler.MAGICAL_DAMAGE,
+                        DescriptionHandler.wrapDecimalAsPercent(TICKING_DAMAGE),
+                        DescriptionHandler.MAX_HEALTH
+                )
+                .withStyle(ChatFormatting.GRAY)
+        );
     }
 
     @Override

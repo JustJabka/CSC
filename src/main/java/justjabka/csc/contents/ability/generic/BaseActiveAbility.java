@@ -4,10 +4,15 @@ import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.types.AbilityData;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
 import org.jspecify.annotations.NonNull;
+
+import java.util.function.Consumer;
 
 public abstract class BaseActiveAbility {
     protected final Identifier id;
@@ -23,6 +28,7 @@ public abstract class BaseActiveAbility {
         this.ctx = ctx;
     }
 
+    // Getters
     public Identifier getId() {
         return this.id;
     }
@@ -31,6 +37,13 @@ public abstract class BaseActiveAbility {
         Item item = ctx.getItem().getItem();
         return BuiltInRegistries.ITEM.getKey(item);
     }
+
+    public abstract void getDescription(
+            Item.TooltipContext context,
+            Consumer<Component> textConsumer,
+            TooltipFlag type,
+            DataComponentGetter components
+    );
 
     public void start() {
         onStart();
@@ -48,44 +61,45 @@ public abstract class BaseActiveAbility {
         ctx.player.setAttached(CSCAttachments.PLAYER_DATA, data.removeAbility(getId()));
     }
 
+    // Time
     public void refresh(BaseActiveAbility ability) {
         this.duration = ability.duration;
     }
+    protected int updateDuration() {
+        return --duration;
+    }
 
+    // End
     public boolean isEnded() {
         return this.ended || duration <= 0;
     }
-
     public void forceEnd() {
         this.ended = true;
     }
-
     public boolean shouldEnd() {
         return false;
     }
 
+    // Other
     public boolean canActivate(AbilityContext ctx) {
         return true;
     }
-
     public boolean isPlayerValid() {
         return !ctx.player.isDeadOrDying();
     }
 
+    // Entrypoint
     public abstract void onStart();
     public abstract void onTick();
     public abstract void onEnd();
 
+    // Player Data
     protected void updatePlayerData() {
         PlayerData data = getPlayerData();
 
         duration = updateDuration();
         AbilityData abilityData = new AbilityData(duration, maxDuration, getIcon());
         ctx.player.setAttached(CSCAttachments.PLAYER_DATA, data.updateAbility(getId(), abilityData));
-    }
-
-    protected int updateDuration() {
-        return --duration;
     }
 
     protected @NonNull PlayerData getPlayerData() {

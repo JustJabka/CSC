@@ -2,9 +2,13 @@ package justjabka.csc.contents.ability.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.types.AbilityContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -13,8 +17,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class SteelBootsAbility extends BaseActiveAbility {
     private static final double GRAVITY_MODIFIER = Integer.MAX_VALUE;
@@ -47,6 +54,16 @@ public class SteelBootsAbility extends BaseActiveAbility {
 
     public SteelBootsAbility(Identifier id, int duration, AbilityContext ctx) {
         super(id, duration, ctx);
+    }
+
+    @Override
+    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        textConsumer.accept(Component.translatable("item.csc.steel_boots.description.1").withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("item.csc.steel_boots.description.2",
+                Component.translatable("attribute.name.movement_speed"),
+                DescriptionHandler.wrapDecimalAsPercent(MOVEMENT_SPEED_MODIFIER)
+        ).withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("item.csc.steel_boots.description.3").withStyle(ChatFormatting.GRAY));
     }
 
     @Override

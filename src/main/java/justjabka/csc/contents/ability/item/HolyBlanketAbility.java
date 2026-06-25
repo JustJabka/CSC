@@ -2,14 +2,22 @@ package justjabka.csc.contents.ability.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+
+import java.util.function.Consumer;
 
 public class HolyBlanketAbility extends BaseActiveAbility {
     private AttributeModifier activeModifier;
@@ -20,6 +28,21 @@ public class HolyBlanketAbility extends BaseActiveAbility {
 
     public HolyBlanketAbility(Identifier id, int duration, AbilityContext ctx) {
         super(id, duration, ctx);
+    }
+
+    @Override
+    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        textConsumer.accept(Component.translatable("item.csc.holy_blanket.description.1").withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("item.csc.holy_blanket.description.2",
+                DescriptionHandler.wrapDecimalAsPercent(WEAK_PROTECTION_HEALTH_MULTIPLIER),
+                DescriptionHandler.MAX_HEALTH
+        ).withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("item.csc.holy_blanket.description.3").withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("item.csc.holy_blanket.description.4",
+                DescriptionHandler.wrapDecimalAsPercent(STRONG_PROTECTION_HEALTH_MULTIPLIER),
+                DescriptionHandler.MAX_HEALTH
+        ).withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("item.csc.holy_blanket.description.5").withStyle(ChatFormatting.GRAY));
     }
 
     public enum State {

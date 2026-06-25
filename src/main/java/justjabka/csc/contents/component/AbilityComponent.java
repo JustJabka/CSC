@@ -11,7 +11,11 @@ import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.types.AbilityType;
 import justjabka.csc.types.ActivationType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -52,7 +56,9 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
     });
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void addToTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        // Default Description
         UseCooldown useCooldown = components.get(DataComponents.USE_COOLDOWN);
 
         if (useCooldown != null) {
@@ -63,7 +69,16 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
             textConsumer.accept(Component.translatable("other.csc.duration", TimeHandler.autoConvertTicks(this.duration)).withStyle(ChatFormatting.GREEN));
         }
 
-//        List<Component> abilityDescription = CSCAbilities.getByKey(this.id);
+        // Ability Description
+        Minecraft mc = Minecraft.getInstance();
+
+        LocalPlayer player = mc.player;
+        if (player == null) return;
+
+        BaseActiveAbility abilityInstance = createInstance(new AbilityContext(player, ItemStack.EMPTY));
+        if (abilityInstance == null) return;
+
+        abilityInstance.getDescription(context, textConsumer, type, components);
     }
 
     public InteractionResult onUse(Level level, Player player, InteractionHand hand) {

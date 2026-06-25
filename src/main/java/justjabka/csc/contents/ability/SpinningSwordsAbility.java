@@ -1,11 +1,15 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -13,14 +17,17 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public class SpinningSwordsAbility extends BaseActiveAbility {
     private boolean hasShard = false;
@@ -34,6 +41,18 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
 
     public SpinningSwordsAbility(Identifier id, int duration, AbilityContext ctx) {
         super(id, duration, ctx);
+    }
+
+    @Override
+    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        textConsumer.accept(Component.translatable("item.csc.spinning_swords.description.1").withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable(
+                "item.csc.spinning_swords.description.2",
+                DescriptionHandler.wrapDecimalAsPercent(DAMAGE_PERCENT),
+                DescriptionHandler.MAGICAL_DAMAGE,
+                RADIUS,
+                DescriptionHandler.MAX_HEALTH
+        ).withStyle(ChatFormatting.GRAY));
     }
 
     @Override

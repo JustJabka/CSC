@@ -2,16 +2,23 @@ package justjabka.csc.contents.ability.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.types.AbilityContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class DarkCapeAbility extends BaseActiveAbility {
     private final double DAMAGE_MULTIPLIER = 2;
@@ -33,6 +40,22 @@ public class DarkCapeAbility extends BaseActiveAbility {
 
     public DarkCapeAbility(Identifier id, int duration, AbilityContext ctx) {
         super(id, duration, ctx);
+    }
+
+    @Override
+    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        textConsumer.accept(
+                Component.translatable("item.csc.dark_cape.description.1",
+                        DescriptionHandler.wrapDecimalAsPercent(SPEED_MODIFIER),
+                        DescriptionHandler.wrapDecimalAsPercent(VULNERABILITY_MODIFIER)
+                ).withStyle(ChatFormatting.GRAY)
+        );
+        textConsumer.accept(
+                Component.translatable("item.csc.dark_cape.description.2",
+                        DAMAGE_MULTIPLIER,
+                        DescriptionHandler.PHYSICAL_DAMAGE
+                ).withStyle(ChatFormatting.GRAY)
+        );
     }
 
     @Override

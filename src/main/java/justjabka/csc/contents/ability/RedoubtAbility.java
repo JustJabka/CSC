@@ -2,13 +2,17 @@ package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -16,8 +20,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class RedoubtAbility extends BaseActiveAbility {
     private boolean hasShard = false;
@@ -42,6 +49,12 @@ public class RedoubtAbility extends BaseActiveAbility {
 
     public RedoubtAbility(Identifier id, int duration, AbilityContext ctx) {
         super(id, duration, ctx);
+    }
+
+    @Override
+    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        textConsumer.accept(Component.translatable("item.csc.redoubt.description.1", DescriptionHandler.wrapDecimalAsPercent(INCOMING_DAMAGE_MULTIPLIER_MODIFIER)).withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable("item.csc.redoubt.description.2", DescriptionHandler.wrapDecimalAsPercent(KNOCKBACK_RESISTANCE_MODIFIER)).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
