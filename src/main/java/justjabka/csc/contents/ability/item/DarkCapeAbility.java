@@ -2,22 +2,60 @@ package justjabka.csc.contents.ability.item;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.handlers.DescriptionHandler;
+import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.types.AbilityContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class DarkCapeAbility extends BaseActiveAbility {
-    public final double damageMultiplier;
-    public final Map<Holder<Attribute>, AttributeModifier> activeModifiers;
+    private final double DAMAGE_MULTIPLIER = 2;
 
-    public DarkCapeAbility(Identifier key, int duration, double damageMultiplier, Map<Holder<Attribute>, AttributeModifier> activeModifiers) {
-        super(key, duration);
-        this.damageMultiplier = damageMultiplier;
-        this.activeModifiers = activeModifiers;
+    private static final double VULNERABILITY_MODIFIER = 0.02;
+    private static final double SPEED_MODIFIER = 0.15;
+    private final Map<Holder<Attribute>, AttributeModifier> ACTIVE_MODIFIERS = Map.of(
+            CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, new AttributeModifier(
+                    getId(),
+                    VULNERABILITY_MODIFIER,
+                    AttributeModifier.Operation.ADD_VALUE
+            ),
+            Attributes.MOVEMENT_SPEED, new AttributeModifier(
+                    getId(),
+                    SPEED_MODIFIER,
+                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+            )
+    );
+
+    public DarkCapeAbility(Identifier id, int duration, AbilityContext ctx) {
+        super(id, duration, ctx);
+    }
+
+    @Override
+    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        textConsumer.accept(
+                Component.translatable("item.csc.dark_cape.description.1",
+                        DescriptionHandler.wrapDecimalAsPercent(SPEED_MODIFIER),
+                        DescriptionHandler.wrapDecimalAsPercent(VULNERABILITY_MODIFIER)
+                ).withStyle(ChatFormatting.GRAY)
+        );
+        textConsumer.accept(
+                Component.translatable("item.csc.dark_cape.description.2",
+                        DAMAGE_MULTIPLIER,
+                        DescriptionHandler.PHYSICAL_DAMAGE
+                ).withStyle(ChatFormatting.GRAY)
+        );
     }
 
     @Override
@@ -39,11 +77,15 @@ public class DarkCapeAbility extends BaseActiveAbility {
         removeAttributes(player);
     }
 
+    public double getDamageMultiplier() {
+        return DAMAGE_MULTIPLIER;
+    }
+
     private void addAttributes(Player player) {
-        AttributeHandler.addTransientModifiers(player, activeModifiers);
+        AttributeHandler.addTransientModifiers(player, ACTIVE_MODIFIERS);
     }
 
     private void removeAttributes(Player player) {
-        AttributeHandler.removeModifiers(player, activeModifiers);
+        AttributeHandler.removeModifiers(player, ACTIVE_MODIFIERS);
     }
 }

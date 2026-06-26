@@ -2,21 +2,23 @@ package justjabka.csc.contents.character;
 
 import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
-import justjabka.csc.contents.ability.shard.BerserkShardAbility;
 import justjabka.csc.contents.character.generic.BaseCharacter;
-import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
+import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.handlers.TrinketHandler;
+import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.types.ShardContext;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,7 +31,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.TooltipDisplay;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
@@ -51,6 +52,11 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
     }
 
     @Override
+    public Identifier getShardAbility() {
+        return CSCAbilities.BERSERK_SHARD.getId();
+    }
+
+    @Override
     public int getShardCooldown() {
         return TimeHandler.minutesToTicks(2);
     }
@@ -61,7 +67,7 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
     }
 
     @Override
-    public void getShardDescription(@NonNull ItemStack stack, Item.TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
+    public void getShardDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("shard.csc.berserk.description.1").withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("shard.csc.berserk.description.2", CSCItems.BLOODY_LARYNX.getDefaultInstance().getItemName()).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("shard.csc.berserk.description.3").withStyle(ChatFormatting.GRAY));
@@ -152,23 +158,19 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
         ItemStack stack = TrinketHandler.getFirstTrinket(player, ABILITY_SLOT_ID);
         if (stack.isEmpty()) return;
 
-        if (!(stack.getItem() instanceof BaseActiveTrinketItem activeItem)) return;
+        AbilityComponent ability = stack.get(CSCComponents.ABILITY);
+        if (ability == null) return;
 
-        // Remove Cooldown
-        ItemCooldowns cooldowns = player.getCooldowns();
-        Identifier cooldownGroup = cooldowns.getCooldownGroup(stack);
-        cooldowns.removeCooldown(cooldownGroup);
-
-        // Trigger Ability
         AbilityContext ctx = new AbilityContext(player, stack);
-        activeItem.tryActivate(ctx);
+        ability.forceActivate(ctx);
     }
 
     private void triggerInvulnerability(Player player, ItemStack shardStack) {
         AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        BaseActiveAbility ability = new BerserkShardAbility(getKey(), getShardDuration());
-        AbilityContext ctx = new AbilityContext(player, shardStack);
 
-        handler.addAbility(ability, ctx);
+        AbilityContext ctx = new AbilityContext(player, shardStack);
+        BaseActiveAbility ability = CSCAbilities.BERSERK_SHARD.createInstance(getShardDuration(), ctx);
+
+        handler.addAbility(ability);
     }
 }

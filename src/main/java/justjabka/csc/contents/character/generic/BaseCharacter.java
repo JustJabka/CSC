@@ -10,6 +10,7 @@ import justjabka.csc.types.ShardContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -23,7 +24,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import org.jspecify.annotations.NonNull;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -42,9 +42,10 @@ public abstract class BaseCharacter {
     }
 
     // Shard
+    public abstract Identifier getShardAbility();
     public abstract int getShardCooldown();
     public abstract int getShardDuration();
-    public void getShardDescription(@NonNull ItemStack stack, Item.TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
+    public void getShardDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("item.csc.shard.description").withStyle(ChatFormatting.GRAY));
     }
 

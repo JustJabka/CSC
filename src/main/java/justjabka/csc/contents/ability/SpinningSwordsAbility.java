@@ -1,41 +1,60 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TrinketHandler;
-import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Display;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public class SpinningSwordsAbility extends BaseActiveAbility {
-    private static final ItemStack SWORD_ITEM = new ItemStack(Items.IRON_SWORD);
-
-    private final double radius;
-    private final double damagePercent;
-    private final double damagePercentShardBonus;
+    private boolean hasShard = false;
     private final List<Display.ItemDisplay> swords = new ArrayList<>();
 
-    private boolean hasShard = false;
+    private static final ItemStack SWORD_ITEM = new ItemStack(Items.IRON_SWORD);
 
-    public SpinningSwordsAbility(Identifier key, int duration, double radius, double damagePercent, double damagePercentShardBonus) {
-        super(key, duration);
-        this.radius = radius;
-        this.damagePercent = damagePercent;
-        this.damagePercentShardBonus = damagePercentShardBonus;
+    private static final double RADIUS = 1.5;
+    private static final double DAMAGE_PERCENT = 0.08;
+    private static final double DAMAGE_PERCENT_SHARD_BONUS = 0.02;
+
+    public SpinningSwordsAbility(Identifier id, int duration, AbilityContext ctx) {
+        super(id, duration, ctx);
+    }
+
+    @Override
+    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        textConsumer.accept(Component.translatable("item.csc.spinning_swords.description.1").withStyle(ChatFormatting.GRAY));
+        textConsumer.accept(Component.translatable(
+                "item.csc.spinning_swords.description.2",
+                DescriptionHandler.wrapDecimalAsPercent(DAMAGE_PERCENT),
+                DescriptionHandler.MAGICAL_DAMAGE,
+                RADIUS,
+                DescriptionHandler.MAX_HEALTH
+        ).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
@@ -43,7 +62,7 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
         Player player = ctx.player;
         Level level = ctx.level;
 
-        hasShard = TrinketHandler.hasTrinket(player, CSCItems.SHARD, "legs/belt");
+        hasShard = TrinketHandler.hasShard(player);
 
         int swordsToSpawn = hasShard ? 3 : 2;
 
@@ -86,7 +105,7 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
         float baseAngle = (player.tickCount * 10f) % 360f;
         float angleStep = 360f / count;
 
-        double orbitRadius = radius;
+        double orbitRadius = RADIUS;
         double targetY = player.getY() + (player.getBbHeight() / 2);
 
         for (int i = 0; i < count; i++) {
@@ -114,12 +133,12 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
     }
 
     private void damageEntities(Player player, Level level) {
-        AABB damageRadius = player.getBoundingBox().inflate(radius);
+        AABB damageRadius = player.getBoundingBox().inflate(RADIUS);
         List<Entity> entities = level.getEntities(player, damageRadius);
 
         Holder<DamageType> damageType = player.damageSources().magic().typeHolder();
         DamageSource damageSource = new DamageSource(damageType, player);
-        double currentDamagePercent = hasShard ? damagePercent + damagePercentShardBonus : damagePercent;
+        double currentDamagePercent = hasShard ? DAMAGE_PERCENT + DAMAGE_PERCENT_SHARD_BONUS : DAMAGE_PERCENT;
 
         entities.forEach(entity -> {
             if (!(entity instanceof LivingEntity victim)) return;

@@ -1,8 +1,9 @@
 package justjabka.csc.mixin;
 
-import justjabka.csc.contents.item.LifeShield;
+import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.registries.CSCAttributes;
-import justjabka.csc.types.AbilityContext;
+import justjabka.csc.registries.CSCComponents;
+import justjabka.csc.types.ActivationType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -31,15 +32,18 @@ public abstract class PlayerMixin {
     }
 
     @Inject(method = "blockUsingItem", at = @At("TAIL"))
-    private void usedLifeShield(ServerLevel level, LivingEntity attacker, CallbackInfo ci) {
+    private void triggerAbilityOnBlockUse(ServerLevel level, LivingEntity attacker, CallbackInfo ci) {
         Player player = (Player) (Object) this;
 
         ItemStack blockedStack = player.getItemBlockingWith();
-        if (blockedStack == null || blockedStack.isEmpty()) return;
 
-        if (!(blockedStack.getItem() instanceof LifeShield lifeShield)) return;
+        if (blockedStack == null) return;
+        if (blockedStack.isEmpty()) return;
 
-        AbilityContext ctx = new AbilityContext(player, blockedStack);
-        lifeShield.tryActivate(ctx);
+        AbilityComponent ability = blockedStack.get(CSCComponents.ABILITY);
+        if (ability == null) return;
+
+        if (!ability.activationTypes().contains(ActivationType.BLOCK)) return;
+        ability.onBlockUse(player, blockedStack);
     }
 }

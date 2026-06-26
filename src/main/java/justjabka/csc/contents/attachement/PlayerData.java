@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import justjabka.csc.CSC;
 import justjabka.csc.contents.character.generic.BaseCharacter;
 import justjabka.csc.registries.CSCCharacters;
+import justjabka.csc.types.AbilityData;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 public record PlayerData(
         int gold,
-        Map<Identifier, Integer> abilities,
+        Map<Identifier, AbilityData> abilities,
         Identifier character
 ) {
 
@@ -29,7 +30,7 @@ public record PlayerData(
     public static final Codec<PlayerData> CODEC =
             RecordCodecBuilder.create(instance -> instance.group(
                     Codec.INT.fieldOf("gold").forGetter(PlayerData::gold),
-                    Codec.unboundedMap(Identifier.CODEC, Codec.INT).fieldOf("abilities").forGetter(PlayerData::abilities),
+                    Codec.unboundedMap(Identifier.CODEC, AbilityData.CODEC).fieldOf("abilities").forGetter(PlayerData::abilities),
                     Identifier.CODEC.fieldOf("character").forGetter(PlayerData::character)
             ).apply(instance, PlayerData::new));
 
@@ -37,7 +38,7 @@ public record PlayerData(
     public static final StreamCodec<RegistryFriendlyByteBuf, PlayerData> PACKET_CODEC =
             StreamCodec.composite(
                     ByteBufCodecs.INT, PlayerData::gold,
-                    ByteBufCodecs.map(HashMap::new, Identifier.STREAM_CODEC, ByteBufCodecs.INT), PlayerData::abilities,
+                    ByteBufCodecs.map(HashMap::new, Identifier.STREAM_CODEC, AbilityData.STREAM_CODEC), PlayerData::abilities,
                     Identifier.STREAM_CODEC, PlayerData::character,
                     PlayerData::new
             );
@@ -56,12 +57,12 @@ public record PlayerData(
     }
 
     // Abilities
-    public PlayerData updateAbility(Identifier key, int duration) {
-        if (duration <= 0) return removeAbility(key);
+    public PlayerData updateAbility(Identifier key, AbilityData data) {
+        if (data.duration() <= 0) return removeAbility(key);
 
-        Map<Identifier, Integer> abilities = new HashMap<>(this.abilities);
+        Map<Identifier, AbilityData> abilities = new HashMap<>(this.abilities);
 
-        abilities.put(key, duration);
+        abilities.put(key, data);
 
         return new PlayerData(this.gold, Map.copyOf(abilities), this.character);
     }
@@ -69,7 +70,7 @@ public record PlayerData(
     public PlayerData removeAbility(Identifier key) {
         if (!this.abilities.containsKey(key)) return this;
 
-        Map<Identifier, Integer> abilities = new HashMap<>(this.abilities);
+        Map<Identifier, AbilityData> abilities = new HashMap<>(this.abilities);
         abilities.remove(key);
 
         return new PlayerData(this.gold, Map.copyOf(abilities), this.character);
