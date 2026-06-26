@@ -6,16 +6,14 @@ import justjabka.csc.contents.item.ability.SpinningSwords;
 import justjabka.csc.registries.CSCItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.TooltipDisplay;
-import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -50,7 +48,7 @@ public class SwordsmanCharacter extends BaseCharacter {
     }
 
     @Override
-    public void getShardDescription(@NonNull ItemStack stack, Item.TooltipContext context, @NonNull TooltipDisplay displayComponent, Consumer<Component> textConsumer, @NonNull TooltipFlag type) {
+    public void getShardDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("shard.csc.swordsman.description",
                 MAGICAL_DAMAGE,
                 CSCItems.SPINNING_SWORDS.getDefaultInstance().getItemName(),

@@ -7,6 +7,7 @@ import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
 import justjabka.csc.types.AbilityType;
@@ -58,6 +59,10 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
     @Override
     @Environment(EnvType.CLIENT)
     public void addToTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        // Shard Description
+        ShardComponent shardUnit = components.get(CSCComponents.SHARD);
+        if (shardUnit != null) return;
+
         // Default Description
         UseCooldown useCooldown = components.get(DataComponents.USE_COOLDOWN);
 

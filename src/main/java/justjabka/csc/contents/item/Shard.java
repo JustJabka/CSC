@@ -4,6 +4,7 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.character.generic.BaseCharacter;
 import justjabka.csc.contents.component.AbilityComponent;
+import justjabka.csc.contents.component.ShardComponent;
 import justjabka.csc.contents.component.ShopItemComponent;
 import justjabka.csc.contents.item.generic.BaseActiveTrinketItem;
 import justjabka.csc.handlers.TimeHandler;
@@ -30,7 +31,9 @@ public class Shard extends BaseActiveTrinketItem {
 
     public Shard(Properties properties) {
         super(properties.component(CSCComponents.ABILITY, DEFAULT_SHARD_DATA)
-                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(2300, ShopCategory.MAGIC)));
+                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(2300, ShopCategory.MAGIC))
+                .component(CSCComponents.SHARD, ShardComponent.INSTANCE)
+        );
     }
 
     @Override
