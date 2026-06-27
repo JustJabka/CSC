@@ -1,7 +1,7 @@
 package justjabka.csc.rendering;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.attachement.PlayerData;
+import justjabka.csc.contents.attachement.AbilitiesData;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttachments;
 import net.minecraft.ChatFormatting;
@@ -20,7 +20,7 @@ public class CSCAbilityRendering {
     private static final Identifier ABILITY_BAR_PROGRESS = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/ability_bar_progress");
 
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
-        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
+        AbilitiesData data = player.getAttachedOrCreate(CSCAttachments.ABILITIES_DATA);
 
         AtomicInteger yOffset = new AtomicInteger(0);
         int yOffsetStep = 16;
