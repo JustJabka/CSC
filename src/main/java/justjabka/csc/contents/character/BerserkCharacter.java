@@ -10,7 +10,6 @@ import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCAbilities;
-import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.types.AbilityContext;
@@ -166,11 +165,9 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
     }
 
     private void triggerInvulnerability(Player player, ItemStack shardStack) {
-        AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-
         AbilityContext ctx = new AbilityContext(player, shardStack);
         BaseActiveAbility ability = CSCAbilities.BERSERK_SHARD.createInstance(getShardDuration(), ctx);
 
-        handler.addAbility(ability);
+        AbilityHandler.addAbility(player, ability);
     }
 }

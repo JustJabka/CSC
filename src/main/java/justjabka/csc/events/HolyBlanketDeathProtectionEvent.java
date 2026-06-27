@@ -6,7 +6,6 @@ import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCAbilities;
-import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCItems;
 import justjabka.csc.types.AbilityContext;
@@ -36,8 +35,7 @@ public class HolyBlanketDeathProtectionEvent {
         AbilityComponent ability = stack.get(CSCComponents.ABILITY);
         if (ability == null) return true;
 
-        AbilityHandler handler = player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        HolyBlanketAbility blanketAbility = handler.getAbility(HolyBlanketAbility.class);
+        HolyBlanketAbility blanketAbility = AbilityHandler.getAbilityInstance(player, HolyBlanketAbility.class);
 
         boolean isValidState = blanketAbility != null && blanketAbility.getState() == HolyBlanketAbility.State.PARRYING;
 

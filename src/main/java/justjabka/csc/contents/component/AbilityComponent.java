@@ -6,7 +6,6 @@ import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAbilities;
-import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
@@ -137,8 +136,7 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
 
         if (abilityInstance == null) return;
 
-        AbilityHandler handler = ctx.player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
-        handler.addAbility(abilityInstance);
+        AbilityHandler.addAbility(ctx.player, abilityInstance);
     }
 
     private BaseActiveAbility createInstance(AbilityContext ctx) {

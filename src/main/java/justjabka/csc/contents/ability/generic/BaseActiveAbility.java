@@ -46,12 +46,13 @@ public abstract class BaseActiveAbility {
 
     public void start() {
         onStart();
-        updateAbilitiesData();
+        saveAbilitiesData();
     }
 
     public void tick() {
+        this.duration = updateDuration();
         onTick();
-        updateAbilitiesData();
+        saveAbilitiesData();
     }
 
     public final void end() {
@@ -64,7 +65,7 @@ public abstract class BaseActiveAbility {
     // Time
     public void refresh(BaseActiveAbility ability) {
         this.duration = ability.duration;
-        updateAbilitiesData();
+        saveAbilitiesData();
     }
     protected int updateDuration() {
         return --duration;
@@ -99,11 +100,9 @@ public abstract class BaseActiveAbility {
         return ctx.player.getAttachedOrCreate(CSCAttachments.ABILITIES_DATA);
     }
 
-    protected void updateAbilitiesData() {
+    protected void saveAbilitiesData() {
         AbilitiesData data = getAbilitiesData();
-
-        duration = updateDuration();
-        AbilityData abilityData = new AbilityData(duration, maxDuration, getIcon());
+        AbilityData abilityData = new AbilityData(this.duration, this.maxDuration, getIcon());
         ctx.player.setAttached(CSCAttachments.ABILITIES_DATA, data.updateAbility(getId(), abilityData));
     }
 }

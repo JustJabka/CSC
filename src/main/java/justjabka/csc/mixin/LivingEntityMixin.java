@@ -4,7 +4,6 @@ import justjabka.csc.contents.ability.item.DarkCapeAbility;
 import justjabka.csc.data.CSCDamageTypeTagProvider;
 import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
-import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
 import net.minecraft.server.level.ServerLevel;
@@ -97,13 +96,12 @@ public abstract class LivingEntityMixin {
 		if (!(source.getEntity() instanceof Player attacker)) return damage;
 		if (!source.is(DamageTypes.PLAYER_ATTACK)) return damage;
 
-		AbilityHandler handler = attacker.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER);
 		Class<DarkCapeAbility> abilityClass = DarkCapeAbility.class;
 
-		DarkCapeAbility darkCapeAbility = handler.getAbility(abilityClass);
+		DarkCapeAbility darkCapeAbility = AbilityHandler.getAbilityInstance(attacker, abilityClass);
 		if (darkCapeAbility == null) return damage;
 
-		handler.stopAbility(abilityClass);
+		AbilityHandler.stopAbility(attacker, abilityClass);
 
         return (float) (damage * darkCapeAbility.getDamageMultiplier());
 	}

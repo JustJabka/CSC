@@ -1,6 +1,6 @@
 package justjabka.csc.events;
 
-import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.handlers.AbilityHandler;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,7 +12,7 @@ public class OnServerTickEvent {
 
     private static void tickAbilities(MinecraftServer server) {
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            player.getAttachedOrCreate(CSCAttachments.ABILITY_HANDLER).tick();
+            AbilityHandler.tick(player);
         }
     }
 }
