@@ -36,7 +36,7 @@ public record ShardComponent() implements TooltipProvider {
             textConsumer.accept(Component.translatable("other.csc.cooldown", TimeHandler.autoConvertTicks(cooldown)).withStyle(ChatFormatting.YELLOW));
         }
 
-        if (duration > 0) {
+        if (duration > TimeHandler.secondsToTicks(1)) {
             textConsumer.accept(Component.translatable("other.csc.duration", TimeHandler.autoConvertTicks(duration)).withStyle(ChatFormatting.GREEN));
         }
 

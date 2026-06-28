@@ -1,53 +1,50 @@
 package justjabka.csc.handlers;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeHandler {
     public static final int TICKS_PER_SECOND = 20;
-    public static final int SECONDS_PER_MINUTE = 60;
-    public static final int MINUTES_PER_HOUR = 60;
 
-    // ... -> Ticks
+    // Time -> Ticks
     public static int secondsToTicks(int seconds) {
         return seconds * TICKS_PER_SECOND;
     }
 
     public static int minutesToTicks(int minutes) {
-        return minutes * SECONDS_PER_MINUTE * TICKS_PER_SECOND;
+        long seconds = Duration.ofMinutes(minutes).toSeconds();
+        return secondsToTicks(Math.toIntExact(seconds));
     }
 
     public static int hoursToTicks(int hours) {
-        return hours * MINUTES_PER_HOUR * SECONDS_PER_MINUTE * TICKS_PER_SECOND;
+        long seconds = Duration.ofHours(hours).toSeconds();
+        return secondsToTicks(Math.toIntExact(seconds));
     }
 
-    // ... -> ...
+    // Ticks -> Time
     public static int ticksToSeconds(int ticks) {
         return ticks / TICKS_PER_SECOND;
     }
 
-    public static int secondsToMinutes(int seconds) {
-        return seconds / SECONDS_PER_MINUTE;
-    }
-
-    public static int minutesToHours(int minutes) {
-        return minutes / MINUTES_PER_HOUR;
-    }
-
     public static Component autoConvertTicks(int ticks) {
-        int totalSeconds = ticksToSeconds(ticks);
+        if (ticks <= 0) return Component.translatable("other.csc.time.seconds", 0);
 
-        if (totalSeconds < SECONDS_PER_MINUTE) {
-            return Component.translatable("other.csc.time.seconds", totalSeconds);
-        }
+        Duration duration = Duration.ofSeconds(ticksToSeconds(ticks));
 
-        int totalMinutes = secondsToMinutes(totalSeconds);
+        long hours = duration.toHours();
+        long minutes = duration.toMinutesPart();
+        long seconds = duration.toSecondsPart();
 
-        if (totalMinutes < MINUTES_PER_HOUR) {
-            return Component.translatable("other.csc.time.minutes", totalMinutes);
-        }
+        List<Component> parts = new ArrayList<>();
 
-        int totalHours = minutesToHours(totalMinutes);
+        if (hours > 0) parts.add(Component.translatable("other.csc.time.hours", hours));
+        if (minutes > 0) parts.add(Component.translatable("other.csc.time.minutes", minutes));
+        if (seconds > 0 || parts.isEmpty()) parts.add(Component.translatable("other.csc.time.seconds", seconds));
 
-        return Component.translatable("other.csc.time.hours", totalHours);
+        return ComponentUtils.formatList(parts, Component.literal(" "));
     }
 }

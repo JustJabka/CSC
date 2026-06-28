@@ -69,7 +69,7 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
             textConsumer.accept(Component.translatable("other.csc.cooldown", TimeHandler.autoConvertTicks(useCooldown.ticks())).withStyle(ChatFormatting.YELLOW));
         }
 
-        if (this.duration > 0) {
+        if (this.duration > TimeHandler.secondsToTicks(1)) {
             textConsumer.accept(Component.translatable("other.csc.duration", TimeHandler.autoConvertTicks(this.duration)).withStyle(ChatFormatting.GREEN));
         }
 
