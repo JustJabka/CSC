@@ -26,6 +26,9 @@ public class EntityRendererMixin<T extends Entity> {
         boolean isSpectator = livingEntity.equals(player) && player.isSpectator();
         if (isSpectator) return;
 
-        if (livingEntity.isInvisible()) cir.setReturnValue(false);
+        if (!livingEntity.isInvisible()) return;
+        if (player.isAlliedTo(livingEntity)) return;
+
+        cir.setReturnValue(false);
     }
 }

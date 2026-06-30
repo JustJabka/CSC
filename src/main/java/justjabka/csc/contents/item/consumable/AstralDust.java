@@ -63,6 +63,7 @@ public class AstralDust extends BaseConsumable {
         return level.getEntitiesOfClass(Player.class, searchBox, target -> {
             if (target == player) return false;
             if (!target.isAlive()) return false;
+            if (target.isAlliedTo(player)) return false;
 
             return target.isInvisible();
         });
