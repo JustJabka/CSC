@@ -83,8 +83,6 @@ public class AttributeHandler {
 
     public static void resetBaseValues(Player player) {
         player.getAttributes().getSyncableAttributes().forEach(instance -> {
-            if (instance == null) return;
-
             player.getAttributes().resetBaseValue(instance.getAttribute());
         });
     }

@@ -58,6 +58,12 @@ public class CSCAttributes {
             0,
             1024
     );
+    public static final Holder<Attribute> HEALTH_REGENERATION_BOOK_BONUS = register(
+            "health_regeneration_book_bonus",
+            0,
+            0,
+            1024
+    );
     public static final Holder<Attribute> PHYSICAL_LIFE_STEAL = register(
             "physical_life_steal",
             0,
@@ -67,6 +73,12 @@ public class CSCAttributes {
     public static final Holder<Attribute> MAGICAL_LIFE_STEAL = register(
             "magical_life_steal",
             0,
+            0,
+            1024
+    );
+    public static final Holder<Attribute> HEALTH_REGENERATION = register(
+            "health_regeneration",
+            1,
             0,
             1024
     );

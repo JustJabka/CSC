@@ -50,6 +50,8 @@
     "item.csc.health_book.description": "When used, increases %s by %s for the end of the game",
     "item.csc.damage_book": "Book of Damage",
     "item.csc.damage_book.description": "When used, increases %s by %s for the end of the game",
+    "item.csc.health_regeneration_book": "Book of Regeneration",
+    "item.csc.health_regeneration_book.description": "When used, increases %s by %s for the end of the game",
     "item.csc.smithing_book": "Smithing Book",
     "item.csc.astral_dust": "Astral Dust",
     "item.csc.astral_dust.description": "When used, reveals all invisible players in %s blocks radius",
@@ -83,6 +85,7 @@
     "attribute.name.csc.magic_damage": "Magic Damage",
     "attribute.name.csc.physical_life_steal": "Physical Life Steal",
     "attribute.name.csc.magical_life_steal": "Magical Life Steal",
+    "attribute.name.csc.health_regeneration": "Health Regeneration",
 
     "key.category.csc.activation": "Trinket Activation",
     "key.csc.face_activation": "Use Face Slot",

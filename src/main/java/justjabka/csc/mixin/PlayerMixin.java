@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin {
+
     @Inject(method = "createAttributes", at = @At("RETURN"))
     private static void createAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
         cir.getReturnValue()
@@ -27,8 +28,10 @@ public abstract class PlayerMixin {
                 .add(CSCAttributes.MAGIC_DAMAGE)
                 .add(CSCAttributes.DAMAGE_BOOK_BONUS)
                 .add(CSCAttributes.HEALTH_BOOK_BONUS)
+                .add(CSCAttributes.HEALTH_REGENERATION_BOOK_BONUS)
                 .add(CSCAttributes.PHYSICAL_LIFE_STEAL)
-                .add(CSCAttributes.MAGICAL_LIFE_STEAL);
+                .add(CSCAttributes.MAGICAL_LIFE_STEAL)
+                .add(CSCAttributes.HEALTH_REGENERATION);
     }
 
     @Inject(method = "blockUsingItem", at = @At("TAIL"))

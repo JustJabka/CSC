@@ -43,9 +43,13 @@ public class OnServerStartEvent {
         gameRules.set(GameRules.MOB_GRIEFING, false, server);
         gameRules.set(GameRules.TNT_EXPLODES, false, server);
 
-        gameRules.set(GameRules.KEEP_INVENTORY, true, server);
-        gameRules.set(GameRules.LOCATOR_BAR, false, server);
+        gameRules.set(GameRules.ALLOW_ENTERING_NETHER_USING_PORTALS, false, server);
+        gameRules.set(GameRules.DROWNING_DAMAGE, false, server);
 
+        gameRules.set(GameRules.KEEP_INVENTORY, true, server);
+        gameRules.set(GameRules.NATURAL_HEALTH_REGENERATION, false, server);
+
+        gameRules.set(GameRules.LOCATOR_BAR, false, server);
         gameRules.set(GameRules.SHOW_DEATH_MESSAGES, false, server);
         gameRules.set(GameRules.SHOW_ADVANCEMENT_MESSAGES, false, server);
     }
