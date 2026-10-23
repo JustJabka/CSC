@@ -1,11 +1,17 @@
 package justjabka.csc.events;
 
+import justjabka.csc.CSC;
 import justjabka.csc.handlers.ShopHandler;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.bossevents.CustomBossEvent;
+import net.minecraft.server.bossevents.CustomBossEvents;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.BossEvent;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
@@ -18,6 +24,7 @@ public class OnServerStartEvent {
         serverStarted.register(OnServerStartEvent::initGameRules);
         serverStarted.register(OnServerStartEvent::initCache);
         serverStarted.register(OnServerStartEvent::initTeams);
+        serverStarted.register(OnServerStartEvent::initBossbar);
     }
 
     private static void initCache(MinecraftServer server) {
@@ -47,6 +54,27 @@ public class OnServerStartEvent {
         createTeam(server, ChatFormatting.RED);
         createTeam(server, ChatFormatting.GREEN);
         createTeam(server, ChatFormatting.BLUE);
+        createTeam(server, ChatFormatting.YELLOW);
+        createTeam(server, ChatFormatting.LIGHT_PURPLE);
+        createTeam(server, ChatFormatting.AQUA);
+        createTeam(server, ChatFormatting.WHITE);
+        createTeam(server, ChatFormatting.BLACK);
+        createTeam(server, ChatFormatting.GRAY);
+    }
+
+    private static void initBossbar(MinecraftServer server) {
+        CustomBossEvents events = server.getCustomBossEvents();
+
+        Identifier id = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "bar");
+
+        if (events.get(id) != null) return;
+
+        final Component name = Component.literal("Bar");
+        final BossEvent.BossBarColor color = BossEvent.BossBarColor.BLUE;
+
+        CustomBossEvent bar = events.create(RandomSource.create(), id, name);
+
+        bar.setColor(color);
     }
 
     private static void createTeam(MinecraftServer server, final ChatFormatting color) {
