@@ -17,12 +17,14 @@ public class WaveHandler {
     public static void scaleEntityAttributes(LivingEntity entity, int wave) {
         if (isStaticWave(wave)) return;
 
-        double totalMultiplier = 0.0;
+        double totalMultiplier = 1;
 
         for (int i = 1; i <= wave; i++) {
             if (isStaticWave(wave)) return;
-            totalMultiplier += WaveType.getFromWave(i).attributeMultiplier;
+            totalMultiplier *= (1 + WaveType.getFromWave(i).attributeMultiplier);
         }
+
+        totalMultiplier -= 1;
 
         scaleAttribute(entity, Attributes.MAX_HEALTH, totalMultiplier);
         scaleAttribute(entity, Attributes.ATTACK_DAMAGE, totalMultiplier);
@@ -46,6 +48,7 @@ public class WaveHandler {
         return (wave - 2) % 5 == 0;
     }
 
+    // TODO: add proper scale for later waves
     public enum WaveType {
         EARLY_GAME(Range.of(1, 10), 0.2),
         MID_GAME(Range.of(11, 99), 0.1),
