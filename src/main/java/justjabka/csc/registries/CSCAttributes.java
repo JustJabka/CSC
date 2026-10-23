@@ -1,6 +1,7 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
+import justjabka.csc.mixin.RangedAttributeAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -72,12 +73,21 @@ public class CSCAttributes {
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Attributes");
+
+        changeAttributeLimits();
         syncAttributes();
     }
 
-    public static void syncAttributes() {
+    private static void syncAttributes() {
         RangedAttribute attackDamage = (RangedAttribute) Attributes.ATTACK_DAMAGE.value();
         attackDamage.setSyncable(true);
+    }
+
+    private static void changeAttributeLimits() {
+        RangedAttribute maxHealth = (RangedAttribute) Attributes.MAX_HEALTH.value();
+        if (maxHealth instanceof RangedAttributeAccessor accessor) {
+            accessor.csc$setMaxValue(Double.MAX_VALUE);
+        }
     }
 
     private static Holder<Attribute> register(
