@@ -13,7 +13,7 @@ public class HealthBook extends Item {
         super(properties
                 .component(
                         CSCComponents.BOOK,
-                        new BookComponent(1, Attributes.MAX_HEALTH, Optional.of(CSCAttributes.HEALTH_BOOK_BONUS))
+                        new BookComponent(2, Attributes.MAX_HEALTH, Optional.of(CSCAttributes.HEALTH_BOOK_BONUS))
                 )
         );
     }
