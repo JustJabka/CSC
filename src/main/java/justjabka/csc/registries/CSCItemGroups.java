@@ -10,8 +10,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
-import static justjabka.csc.registries.CSCItems.MOD_ITEMS;
-
 public class CSCItemGroups {
     public static void initialize() {
         CSC.LOGGER.info("Initializing Item Groups");
@@ -23,6 +21,9 @@ public class CSCItemGroups {
     public static final CreativeModeTab CSC_CREATIVE_TAB = FabricCreativeModeTab.builder()
             .icon(() -> new ItemStack(CSCItems.MIDAS))
             .title(Component.translatable("itemGroup.csc"))
-            .displayItems((params, output) -> MOD_ITEMS.forEach(output::accept))
+            .displayItems((_, output) -> {
+                CSCItems.CREATIVE_TAB_ITEMS.forEach(output::accept);
+                CSCBlocks.CREATIVE_TAB_BLOCKS.forEach(output::accept);
+            })
             .build();
 }

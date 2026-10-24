@@ -22,38 +22,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+@SuppressWarnings("unused")
 public class CSCItems {
-    public static final List<Item> MOD_ITEMS = new ArrayList<>();
+    public static final List<Item> CREATIVE_TAB_ITEMS = new ArrayList<>();
 
     // Actual items
-    public static final Item MIDAS = register("midas", Midas::new, new Item.Properties());
-    public static final Item PHOENIX_FEATHER = register("phoenix_feather", PhoenixFeather::new, new Item.Properties());
-    public static final Item THORNS = register("thorns", Thorns::new, new Item.Properties());
-    public static final Item MAGIC_PROTECTION_CLOCK = register("magic_protection_clock", MagicProtectionClock::new, new Item.Properties());
-    public static final Item SHARD = register("shard", Shard::new, new Item.Properties());
-    public static final Item DARK_GAUNTLET = register("dark_gauntlet", DarkGauntlet::new, new Item.Properties());
-    public static final Item DARK_CAPE = register("dark_cape", DarkCape::new, new Item.Properties());
-    public static final Item WILD_FOX_CAPE = register("wild_fox_cape", WildFoxCape::new, new Item.Properties());
-    public static final Item VAMPIRIC_CAPE = register("vampiric_cape", VampiricCape::new, new Item.Properties());
-    public static final Item HOLY_BLANKET = register("holy_blanket", HolyBlanket::new, new Item.Properties());
-    public static final Item LIFE_SHIELD = register("life_shield", LifeShield::new, new Item.Properties());
-    public static final Item STEEL_BOOTS = register("steel_boots", SteelBoots::new, new Item.Properties());
+    public static final Item MIDAS = register("midas", Midas::new);
+    public static final Item PHOENIX_FEATHER = register("phoenix_feather", PhoenixFeather::new);
+    public static final Item THORNS = register("thorns", Thorns::new);
+    public static final Item MAGIC_PROTECTION_CLOCK = register("magic_protection_clock", MagicProtectionClock::new);
+    public static final Item SHARD = register("shard", Shard::new);
+    public static final Item DARK_GAUNTLET = register("dark_gauntlet", DarkGauntlet::new);
+    public static final Item DARK_CAPE = register("dark_cape", DarkCape::new);
+    public static final Item WILD_FOX_CAPE = register("wild_fox_cape", WildFoxCape::new);
+    public static final Item VAMPIRIC_CAPE = register("vampiric_cape", VampiricCape::new);
+    public static final Item HOLY_BLANKET = register("holy_blanket", HolyBlanket::new);
+    public static final Item LIFE_SHIELD = register("life_shield", LifeShield::new);
+    public static final Item STEEL_BOOTS = register("steel_boots", SteelBoots::new);
 
     // Consumables
-    public static final Item DAMAGE_BOOK = register("damage_book", DamageBook::new, new Item.Properties());
-    public static final Item HEALTH_BOOK = register("health_book", HealthBook::new, new Item.Properties());
-    public static final Item HEALTH_REGENERATION_BOOK = register("health_regeneration_book", HealthRegenerationBook::new, new Item.Properties());
-    public static final Item SMITHING_BOOK = register("smithing_book", SmithingBook::new, new Item.Properties());
-    public static final Item ASTRAL_DUST = register("astral_dust", AstralDust::new, new Item.Properties());
-    public static final Item HEALING_STEW = register("healing_stew", HealingStew::new, new Item.Properties());
+    public static final Item DAMAGE_BOOK = register("damage_book", DamageBook::new);
+    public static final Item HEALTH_BOOK = register("health_book", HealthBook::new);
+    public static final Item HEALTH_REGENERATION_BOOK = register("health_regeneration_book", HealthRegenerationBook::new);
+    public static final Item SMITHING_BOOK = register("smithing_book", SmithingBook::new);
+    public static final Item ASTRAL_DUST = register("astral_dust", AstralDust::new);
+    public static final Item HEALING_STEW = register("healing_stew", HealingStew::new);
 
     // Character Abilities
-    public static final Item SPINNING_SWORDS = register("spinning_swords", SpinningSwords::new, new Item.Properties());
-    public static final Item REDOUBT = register("redoubt", Redoubt::new, new Item.Properties());
-    public static final Item BLOODY_LARYNX = register("bloody_larynx", BloodyLarynx::new, new Item.Properties());
+    public static final Item SPINNING_SWORDS = register("spinning_swords", SpinningSwords::new);
+    public static final Item REDOUBT = register("redoubt", Redoubt::new);
+    public static final Item BLOODY_LARYNX = register("bloody_larynx", BloodyLarynx::new);
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Items");
+    }
+
+    public static <GenericItem extends Item> GenericItem register(String name, Function<Item.Properties, GenericItem> itemFactory) {
+        return register(name, itemFactory, new Item.Properties());
     }
 
     public static <GenericItem extends Item> GenericItem register(String name, Function<Item.Properties, GenericItem> itemFactory, Item.Properties settings) {
@@ -65,7 +70,7 @@ public class CSCItems {
 
         // Register the item.
         Registry.register(BuiltInRegistries.ITEM, itemKey, item);
-        MOD_ITEMS.add(item);
+        CREATIVE_TAB_ITEMS.add(item);
 
         return item;
     }

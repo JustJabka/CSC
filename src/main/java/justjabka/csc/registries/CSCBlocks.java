@@ -14,9 +14,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
+@SuppressWarnings("unused")
 public class CSCBlocks {
+    public static final List<Block> CREATIVE_TAB_BLOCKS = new ArrayList<>();
+
     public static final Block SHOP = register(
             "shop",
             ShopBlock::new,
@@ -48,7 +53,9 @@ public class CSCBlocks {
             ResourceKey<Item> itemKey = keyOfItem(name);
 
             BlockItem blockItem = new BlockItem(block, new Item.Properties().setId(itemKey).useBlockDescriptionPrefix());
+
             Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem);
+            CREATIVE_TAB_BLOCKS.add(block);
         }
 
         return Registry.register(BuiltInRegistries.BLOCK, blockKey, block);
