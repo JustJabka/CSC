@@ -4,7 +4,9 @@ import justjabka.csc.registries.CSCAttributes;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 
-public class HealthRegenerationHandler {
+public final class HealthRegenerationHandler {
+
+    private HealthRegenerationHandler() {}
 
     private static final int REGENERATION_PERIOD = 4 * 20;
 

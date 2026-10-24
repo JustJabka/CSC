@@ -18,7 +18,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ItemSelectionHandler {
+public final class ItemSelectionHandler {
+
+    private ItemSelectionHandler() {}
+
     private static final List<ItemStack> DEFAULT_LIST = Collections.nCopies(8, ItemStack.EMPTY);
     private static final Component ITEM_SELECTION_NAME = Component.translatable("container.item_selection");
 

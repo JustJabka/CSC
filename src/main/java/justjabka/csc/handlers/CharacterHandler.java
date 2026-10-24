@@ -10,9 +10,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-public class CharacterHandler {
+@NullMarked
+public final class CharacterHandler {
+
+    private CharacterHandler() {}
+
     public static void setCharacter(Player player, Identifier character) {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
         player.setAttached(
@@ -46,5 +51,9 @@ public class CharacterHandler {
 
         if (currentCharacter == null) return false;
         return currentCharacter.getKey().equals(character);
+    }
+
+    public static boolean isCurrentCharacter(Player player, BaseCharacter character) {
+        return isCurrentCharacter(player, character.getKey());
     }
 }

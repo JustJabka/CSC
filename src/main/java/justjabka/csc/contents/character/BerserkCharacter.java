@@ -121,7 +121,7 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
         if (!(entity instanceof Player player)) return true;
 
         // Check if player have shard
-        ItemStack stack = TrinketHandler.findFirstTrinket(player, CSCItems.SHARD, "legs/belt");
+        ItemStack stack = TrinketHandler.getShard(player);
         if (stack.isEmpty()) return true;
 
         // Check if shard is on cooldown

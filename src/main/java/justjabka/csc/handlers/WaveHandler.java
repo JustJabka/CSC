@@ -10,7 +10,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.apache.commons.lang3.Range;
 
-public class WaveHandler {
+public final class WaveHandler {
+
+    private WaveHandler() {}
 
     public static final Identifier WAVE_SCALE_KEY = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "wave_scale");
 

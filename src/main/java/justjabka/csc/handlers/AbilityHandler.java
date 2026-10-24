@@ -8,13 +8,16 @@ import org.jspecify.annotations.Nullable;
 import java.util.*;
 
 
-public class AbilityHandler {
+public final class AbilityHandler {
+
+    private AbilityHandler() {}
+
     private static final Map<Player, List<BaseActiveAbility>> ACTIVE_ABILITIES = new WeakHashMap<>();
 
-    public static void addAbility(Player player, BaseActiveAbility ability) {
+    public static void addAbility(Player player, @Nullable BaseActiveAbility ability) {
         if (ability == null) return;
 
-        List<BaseActiveAbility> playerAbilities = ACTIVE_ABILITIES.computeIfAbsent(player, plr -> new ArrayList<>());
+        List<BaseActiveAbility> playerAbilities = ACTIVE_ABILITIES.computeIfAbsent(player, _ -> new ArrayList<>());
         BaseActiveAbility existing = getAbilityInstance(player, ability.getClass());
 
         if (existing == null) {

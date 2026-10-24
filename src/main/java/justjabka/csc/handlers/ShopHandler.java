@@ -16,7 +16,10 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShopHandler {
+public final class ShopHandler {
+
+    private ShopHandler() {}
+
     private static final Map<ShopCategory, List<ItemStack>> CATEGORY_CACHE = new EnumMap<>(ShopCategory.class);
     private static final List<ItemStack> ALL_SHOP_ITEMS = new ArrayList<>();
 

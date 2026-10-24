@@ -8,10 +8,17 @@ import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.function.Predicate;
 
-public class TrinketHandler {
+@NullMarked
+public final class TrinketHandler {
+
+    private TrinketHandler() {}
+
+    public static final String LEGS_BELT = "legs/belt";
+
     public static boolean hasTrinket(Player player, Item item, String slotId) {
         TrinketAttachment trinketAttachment = TrinketsApi.getAttachment(player);
         TrinketInventory inventory = trinketAttachment.getInventory(slotId);
@@ -51,6 +58,10 @@ public class TrinketHandler {
     }
 
     public static boolean hasShard(Player player) {
-        return TrinketHandler.hasTrinket(player, CSCItems.SHARD, "legs/belt");
+        return TrinketHandler.hasTrinket(player, CSCItems.SHARD, LEGS_BELT);
+    }
+
+    public static ItemStack getShard(Player player) {
+        return TrinketHandler.findFirstTrinket(player, CSCItems.SHARD, LEGS_BELT);
     }
 }

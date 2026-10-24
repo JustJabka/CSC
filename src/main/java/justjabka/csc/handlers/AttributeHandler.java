@@ -14,7 +14,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-public class AttributeHandler {
+public final class AttributeHandler {
+
+    private AttributeHandler() {}
+
     public static final Identifier BASE_MAX_HEALTH_ID = Identifier.withDefaultNamespace("base_max_health");
     public static final Identifier BASE_ATTACK_DAMAGE_ID = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "base_attack_damage");
     public static final Identifier BASE_MAGIC_DAMAGE_ID = Identifier.withDefaultNamespace("base_magic_damage");

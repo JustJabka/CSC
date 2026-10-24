@@ -2,12 +2,17 @@ package justjabka.csc.handlers;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
+import org.jspecify.annotations.NullMarked;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+@NullMarked
 public class TimeHandler {
+
+    private TimeHandler() {}
+
     public static final int TICKS_PER_SECOND = 20;
 
     // Time -> Ticks

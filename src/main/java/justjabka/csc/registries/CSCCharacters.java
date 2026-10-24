@@ -15,8 +15,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static justjabka.csc.handlers.CharacterHandler.isCurrentCharacter;
-
 public class CSCCharacters {
     private static final Map<Identifier, BaseCharacter> CHARACTERS = new HashMap<>();
 
@@ -48,7 +46,7 @@ public class CSCCharacters {
     private static void registerCharactersEvents(BaseCharacter character) {
         if (character instanceof OnPlayerHealthChangeCallback listener) {
             OnPlayerHealthChangeCallback.EVENT.register((player, oldHealth, newHealth) -> {
-                if (!isCurrentCharacter(player, character.getKey())) return;
+                if (!CharacterHandler.isCurrentCharacter(player, character)) return;
                 listener.onChange(player, oldHealth, newHealth);
             });
         }
@@ -56,7 +54,7 @@ public class CSCCharacters {
         if (character instanceof ServerLivingEntityEvents.AllowDeath listener) {
             ServerLivingEntityEvents.ALLOW_DEATH.register((entity, damageSource, damageAmount) -> {
                 if (!(entity instanceof Player player)) return true;
-                if (!CharacterHandler.isCurrentCharacter(player, character.getKey())) return true;
+                if (!CharacterHandler.isCurrentCharacter(player, character)) return true;
 
                 return listener.allowDeath(player, damageSource, damageAmount);
             });
