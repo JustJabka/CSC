@@ -1,10 +1,7 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.component.AbilityComponent;
-import justjabka.csc.contents.component.ShardComponent;
-import justjabka.csc.contents.component.ShopItemComponent;
-import justjabka.csc.contents.component.UpgradableComponent;
+import justjabka.csc.contents.component.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,6 +24,10 @@ public class CSCComponents {
 
     public static final DataComponentType<ShardComponent> SHARD = register("shard",
             builder -> builder.persistent(ShardComponent.CODEC)
+    );
+
+    public static final DataComponentType<BookComponent> BOOK = register("book",
+            builder -> builder.persistent(BookComponent.CODEC)
     );
 
     public static void initialize() {

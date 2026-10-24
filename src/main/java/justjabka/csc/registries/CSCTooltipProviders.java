@@ -11,5 +11,6 @@ public class CSCTooltipProviders {
         ItemComponentTooltipProviderRegistry.addAfter(CSCComponents.SHOP_ITEM, CSCComponents.ABILITY);
         ItemComponentTooltipProviderRegistry.addAfter(CSCComponents.SHOP_ITEM, CSCComponents.SHARD);
         ItemComponentTooltipProviderRegistry.addFirst(CSCComponents.UPGRADABLE);
+        ItemComponentTooltipProviderRegistry.addFirst(CSCComponents.BOOK);
     }
 }

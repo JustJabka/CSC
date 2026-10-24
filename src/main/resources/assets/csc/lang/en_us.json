@@ -47,11 +47,8 @@
     "item.csc.steel_boots.description.3": "But makes user very heavy and removes ability to jump",
 
     "item.csc.health_book": "Book of Health",
-    "item.csc.health_book.description": "When used, increases %s by %s for the end of the game",
     "item.csc.damage_book": "Book of Damage",
-    "item.csc.damage_book.description": "When used, increases %s by %s for the end of the game",
     "item.csc.health_regeneration_book": "Book of Regeneration",
-    "item.csc.health_regeneration_book.description": "When used, increases %s by %s for the end of the game",
     "item.csc.smithing_book": "Smithing Book",
     "item.csc.astral_dust": "Astral Dust",
     "item.csc.astral_dust.description": "When used, reveals all invisible players in %s blocks radius",
@@ -106,6 +103,7 @@
     "other.csc.time.hours": "%s h.",
     "other.csc.upgradable.level": "Level %s/%s",
     "other.csc.upgradable.price": "Upgrade price %s",
+    "other.csc.book.description": "When used, increases %s by %s for the end of the game",
 
     "damageType.csc.physical": "Physical Damage",
     "damageType.csc.magical": "Magical Damage",
