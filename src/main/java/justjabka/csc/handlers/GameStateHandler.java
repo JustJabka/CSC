@@ -1,5 +1,7 @@
 package justjabka.csc.handlers;
 
+import justjabka.csc.types.WaveState;
+import justjabka.csc.types.WaveType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.scores.Team;
@@ -16,8 +18,11 @@ public final class GameStateHandler {
     private static final int DUEL_DURATION = 300 * 20;
     private static final int HUB_DURATION = 30 * 20;
 
-    private static int wave = 0;
     private static GameState state = GameState.START;
+
+    private static int wave = 0;
+    private static WaveType waveType = null;
+    private static WaveState waveState = null;
 
     private static int waveTimer = 0;
     private static int hubTimer = 0;
@@ -31,20 +36,24 @@ public final class GameStateHandler {
         hubTimer = HUB_DURATION;
 
         wave++;
+        waveType = WaveType.getRandomWaveType();
 
-        server.sendSystemMessage(Component.literal("hub start"));
+        updateBarHub(server, waveType, hubTimer);
 
-        BarHandler.updateBar(server, Component.translatable("ui.csc.wave", wave, "Test"), HUB_DURATION, hubTimer, true);
+        if (WaveHandler.hasItemSelection(wave)) {
+            ItemSelectionHandler.openMenu(server.getPlayerList().getPlayers());
+        }
     }
 
     public static void startActive(MinecraftServer server) {
         state = GameState.ACTIVE;
         waveTimer = WaveState.getTotalDuration();
+        waveState = WaveState.NORMAL;
+
+        updateBarActive(server, waveState, waveTimer);
 
         // TODO: add logic for duels
-
-        server.sendSystemMessage(Component.literal("wave start"));
-        BarHandler.updateBar(server, Component.translatable("ui.csc.wave", wave, "Some WaveState"), waveTimer, waveTimer, true);
+        // TODO: add logic for wave spawn
     }
 
     public static void tick(MinecraftServer server) {
@@ -54,10 +63,9 @@ public final class GameStateHandler {
 
     private static void hubTick(MinecraftServer server) {
         hubTimer--;
-        BarHandler.updateBar(server, Component.translatable("ui.csc.wave", wave, "Test"), HUB_DURATION, hubTimer, true);
+        updateBarHub(server, waveType, hubTimer);
 
         if (hubTimer <= 0) {
-            server.sendSystemMessage(Component.literal("hub end"));
             startActive(server);
         }
     }
@@ -66,11 +74,20 @@ public final class GameStateHandler {
         waveTimer--;
 
         if (waveTimer <= 0) {
-            server.sendSystemMessage(Component.literal("wave end"));
             startHub(server);
         }
 
-        BarHandler.updateBar(server, Component.translatable("ui.csc.wave", wave, "Some WaveState"), WaveState.getTotalDuration(), waveTimer, true);
+        updateBarActive(server, waveState, waveTimer);
+    }
+
+    private static void updateBarActive(MinecraftServer server, WaveState waveState, int value) {
+        final Component name = Component.translatable("ui.csc.wave", wave, waveState.getTranslate());
+        BarHandler.updateBar(server, name, WaveState.getTotalDuration(), value, true);
+    }
+    
+    private static void updateBarHub(MinecraftServer server, WaveType waveType, int value) {
+        final Component name = Component.translatable("ui.csc.wave", wave, waveType.getTranslate());
+        BarHandler.updateBar(server, name, HUB_DURATION, value, true);
     }
 
     public enum GameState {
@@ -86,32 +103,5 @@ public final class GameStateHandler {
         DUEL,
         SPECTATOR,
         DEAD;
-    }
-
-    public enum WaveState {
-        NORMAL(1000),
-        BUFF(1000),
-        DAMAGE_REFLECTION(1000),
-        PLAYER_DEATH(1000);
-
-        private final int duration;
-
-        WaveState(int duration) {
-            this.duration = duration;
-        }
-
-        public int getDuration() {
-            return this.duration;
-        }
-
-        public static int getTotalDuration() {
-            int duration = 0;
-
-            for (WaveState state : WaveState.values()) {
-                duration += state.duration;
-            }
-
-            return duration;
-        }
     }
 }

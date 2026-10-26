@@ -133,6 +133,11 @@
     "ui.csc.wave.mix": "Mix",
     "ui.csc.wave.slimes": "Slimes",
 
+    "ui.csc.wave.state.normal": "Normal",
+    "ui.csc.wave.state.buff": "Buff",
+    "ui.csc.wave.state.damage_reflection": "Damage Reflection",
+    "ui.csc.wave.state.player_death": "Player Death",
+
     "message.csc.command.setgold": "Set %s gold for %s",
     "message.csc.command.setcharacter": "Set %s character for %s",
 

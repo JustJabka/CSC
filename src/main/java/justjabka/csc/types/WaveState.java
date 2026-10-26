@@ -1,15 +1,35 @@
 package justjabka.csc.types;
 
-public enum WaveState {
-    NORMAL(1000),
-    BUFF(1000),
-    DAMAGE_REFLECTION(1000),
-    PLAYER_DEATH(1000);
+import justjabka.csc.CSC;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.StringRepresentable;
+import org.jspecify.annotations.NonNull;
 
+public enum WaveState implements StringRepresentable {
+    NORMAL("normal", 1000),
+    BUFF("buff", 1000),
+    DAMAGE_REFLECTION("damage_reflection", 1000),
+    PLAYER_DEATH("player_death", 1000);
+
+    private final String name;
     private final int duration;
 
-    WaveState(int duration) {
+    WaveState(String name, int duration) {
+        this.name = name;
         this.duration = duration;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public @NonNull String getSerializedName() {
+        return this.name;
+    }
+
+    public @NonNull Component getTranslate() {
+        return Component.translatable("ui.%s.wave.state.%s".formatted(CSC.MOD_ID, getName()));
     }
 
     public int getDuration() {

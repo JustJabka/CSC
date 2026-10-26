@@ -45,6 +45,12 @@ public final class ItemSelectionHandler {
         return generatedItems;
     }
 
+    public static void openMenu(List<ServerPlayer> players) {
+        for (ServerPlayer player : players) {
+            ItemSelectionHandler.openMenu(player);
+        }
+    }
+
     public static void openMenu(ServerPlayer player) {
         List<ItemStack> options = generateOptions(player);
         SimpleContainer guiContainer = new SimpleContainer(8);

@@ -8,25 +8,25 @@ public enum WaveScaleType {
     MID_GAME(Range.of(11, 99), 0.1),
     LATE_GAME(Range.of(100, Integer.MAX_VALUE), 0.01);
 
-    private final Range<Integer> startingWave;
+    private final Range<Integer> waves;
     private final double attributeMultiplier;
 
-    public Range<Integer> getStartingWave() {
-        return startingWave;
+    public Range<Integer> getWaves() {
+        return waves;
     }
 
     public double getAttributeMultiplier() {
         return attributeMultiplier;
     }
 
-    WaveScaleType(Range<Integer> startingWave, double attributeMultiplier) {
-        this.startingWave = startingWave;
+    WaveScaleType(Range<Integer> waves, double attributeMultiplier) {
+        this.waves = waves;
         this.attributeMultiplier = attributeMultiplier;
     }
 
     public static WaveScaleType getFromWave(int wave) {
         for (WaveScaleType type : WaveScaleType.values()) {
-            if (!type.startingWave.contains(wave)) continue;
+            if (!type.waves.contains(wave)) continue;
             return type;
         }
 
