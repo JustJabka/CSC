@@ -1,10 +1,7 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.command.OpenItemSelection;
-import justjabka.csc.contents.command.ScaleEntity;
-import justjabka.csc.contents.command.SetCharacter;
-import justjabka.csc.contents.command.SetGold;
+import justjabka.csc.contents.command.*;
 import justjabka.csc.contents.command.argument.CharacterArgumentType;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -34,6 +31,7 @@ public class CSCCommands {
                     SetCharacter.register(dispatcher);
                     OpenItemSelection.register(dispatcher);
                     ScaleEntity.register(dispatcher);
+                    GameState.register(dispatcher);
                 }
         );
     }

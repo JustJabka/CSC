@@ -1,6 +1,8 @@
 package justjabka.csc.events;
 
 import justjabka.csc.CSC;
+import justjabka.csc.contents.command.GameState;
+import justjabka.csc.handlers.GameStateHandler;
 import justjabka.csc.handlers.ShopHandler;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -69,7 +71,7 @@ public class OnServerStartEvent {
     private static void initBossbar(MinecraftServer server) {
         CustomBossEvents events = server.getCustomBossEvents();
 
-        Identifier id = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "bar");
+        Identifier id = GameStateHandler.BAR;
 
         if (events.get(id) != null) return;
 
