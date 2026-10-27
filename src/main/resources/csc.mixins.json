@@ -19,7 +19,6 @@
   "client": [
     "AbstractContainerScreenMixin",
     "EntityRendererMixin",
-    "GuiMixin",
     "InventoryScreenMixin",
     "MinecraftClientMixin",
     "ScreenMixin"
