@@ -7,39 +7,22 @@
           "type": "minecraft:item",
           "name": "minecraft:diamond_leggings",
           "weight": 15,
-          "quality": 2,
-          "functions": [
-            {
-              "function": "minecraft:reference",
-              "name": "csc:enchant_armor"
-            }
-          ]
+          "quality": 2
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:iron_leggings",
           "weight": 25,
-          "quality": 1,
-          "functions": [
-            {
-              "function": "minecraft:reference",
-              "name": "csc:enchant_armor"
-            }
-          ]
+          "quality": 1
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:copper_leggings",
           "weight": 60,
-          "quality": 0,
-          "functions": [
-            {
-              "function": "minecraft:reference",
-              "name": "csc:enchant_armor"
-            }
-          ]
+          "quality": 0
         }
-      ]
+      ],
+      "modifier": "csc:enchant_armor"
     }
   ]
 }

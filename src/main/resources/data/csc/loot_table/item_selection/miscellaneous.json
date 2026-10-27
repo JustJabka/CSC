@@ -10,20 +10,18 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:shield",
-          "functions": [
-            {
-              "function": "minecraft:set_components",
-              "components": {
-                "minecraft:max_damage": 10,
-                "csc:upgradable": {
-                  "price": 200,
-                  "price_scale": 250,
-                  "max_level": 3,
-                  "additional_durability": 10
-                }
+          "modifier": {
+            "type": "minecraft:set_components",
+            "components": {
+              "minecraft:max_damage": 10,
+              "csc:upgradable": {
+                "price": 200,
+                "price_scale": 250,
+                "max_level": 3,
+                "additional_durability": 10
               }
             }
-          ]
+          }
         }
       ]
     }
