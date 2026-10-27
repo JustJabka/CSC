@@ -8,25 +8,26 @@ import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
+import org.jspecify.annotations.Nullable;
 
 public class CSCKeyMappings {
     public static final KeyMapping.Category ACTIVATION_CATEGORY = KeyMapping.Category.register(
             Identifier.fromNamespaceAndPath(CSC.MOD_ID, "activation")
     );
 
-    public static KeyMapping faceActivationKey;
-    public static KeyMapping capeActivationKey;
-    public static KeyMapping beltActivationKey0;
-    public static KeyMapping beltActivationKey1;
-    public static KeyMapping agletActivationKey;
+    // Trinkets
+    public static KeyMapping faceActivationKey = register("face", InputConstants.KEY_Z);
+    public static KeyMapping capeActivationKey = register("cape", InputConstants.KEY_X);
+    public static KeyMapping beltActivationKey0 = register("belt", InputConstants.KEY_C, 0);
+    public static KeyMapping beltActivationKey1 = register("belt", InputConstants.KEY_V, 1);
+    public static KeyMapping agletActivationKey = register("aglet", InputConstants.KEY_G);
 
-    public static KeyMapping abilityActivationKey0;
-    public static KeyMapping abilityActivationKey1;
+    // Abilities
+    public static KeyMapping abilityActivationKey0 = register("ability", InputConstants.KEY_R, 0);
+    public static KeyMapping abilityActivationKey1 = register("ability", InputConstants.KEY_J, 1);
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Key Mappings");
-        register();
         registerKeyInputs();
     }
 
@@ -41,50 +42,21 @@ public class CSCKeyMappings {
         registerTrinketActivationKey(abilityActivationKey1, "offhand/ability", 1);
     }
 
-    private static void register() {
-        // Trinkets
-        faceActivationKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-                "key.csc.face_activation",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_Z,
-                ACTIVATION_CATEGORY
-        ));
-        capeActivationKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-                "key.csc.cape_activation",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_X,
-                ACTIVATION_CATEGORY
-        ));
-        beltActivationKey0 = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-                "key.csc.belt_activation.0",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_C,
-                ACTIVATION_CATEGORY
-        ));
-        beltActivationKey1 = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-                "key.csc.belt_activation.1",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_V,
-                ACTIVATION_CATEGORY
-        ));
-        agletActivationKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-                "key.csc.aglet_activation",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_G,
-                ACTIVATION_CATEGORY
-        ));
+    private static KeyMapping register(String name, int key) {
+        return register(name, key, null);
+    }
 
-        // Abilities
-        abilityActivationKey0 = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-                "key.csc.ablility_activation.0",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_R,
-                ACTIVATION_CATEGORY
-        ));
-        abilityActivationKey1 = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-                "key.csc.ablility_activation.1",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_J,
+    private static KeyMapping register(String name, int key, @Nullable Integer index) {
+        String nameKey = "key.%s.%s_activation".formatted(CSC.MOD_ID, name);
+
+        if (index != null) {
+            nameKey = nameKey + "." + index;
+        }
+
+        return KeyMappingHelper.registerKeyMapping(new KeyMapping(
+                nameKey,
+                InputConstants.Type.KEYBOARD,
+                key,
                 ACTIVATION_CATEGORY
         ));
     }

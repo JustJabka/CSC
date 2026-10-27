@@ -1,6 +1,5 @@
 package justjabka.csc.contents.block;
 
-import com.mojang.serialization.MapCodec;
 import justjabka.csc.contents.gui.UpgradeMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -13,18 +12,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public class UpgradeBlock extends Block {
-    public static final MapCodec<UpgradeBlock> CODEC = simpleCodec(UpgradeBlock::new);
     private static final Component CONTAINER_TITLE = Component.translatable("container.upgrade");
 
     public UpgradeBlock(Properties settings) {
         super(settings);
-    }
-
-    @Override
-    protected MapCodec<? extends Block> codec() {
-        return CODEC;
     }
 
     @Override

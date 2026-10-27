@@ -38,7 +38,7 @@ public class PhoenixFeatherAbility extends BaseInstantAbility {
         // Apply Impulse
         Vec3 impulse = getImpulse(serverPlayer);
         player.setDeltaMovement(impulse);
-        player.hurtMarked = true;
+        player.syncVelocity = true;
 
         // Add Particles
         serverPlayer.level().sendParticles (

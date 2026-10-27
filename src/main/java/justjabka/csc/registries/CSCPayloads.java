@@ -51,15 +51,14 @@ public class CSCPayloads {
             String targetSlot = payload.slotGroup();
             int slotOffset = payload.slotOffset();
 
-            context.server().execute(() -> TrinketsApi.getAttachment(player).getAllEquipped().forEach(
-                    tuple -> {
-                        TrinketSlotAccess trinketsSlotAccess = tuple.getA();
-                        ItemStack stack = tuple.getB();
+            context.server().execute(() -> TrinketsApi.getAttachment(player).allEquipped(false).forEach(
+                    access -> {
+                        ItemStack stack = access.get();
 
-                        String slotId = trinketsSlotAccess.slotType().getId();
-                        int slotIndex = trinketsSlotAccess.index();
+                        String slotId = access.slotType().getId();
+                        int slotIndex = access.index();
 
-                        if (!trinketsSlotAccess.isValid()) return;
+                        if (!access.isValid()) return;
                         if (!slotId.equals(targetSlot)) return;
                         if (slotIndex != slotOffset) return;
 

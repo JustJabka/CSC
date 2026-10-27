@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypeIds;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -20,20 +21,20 @@ public class CSCEntityTypeTagProvider extends FabricTagsProvider.EntityTypeTagsP
 
     @Override
     protected void addTags(HolderLookup.Provider wrapperLookup) {
-        valueLookupBuilder(CAN_BE_TURNED_INTO_GOLD)
-                .add(EntityType.ZOMBIE)
-                .add(EntityType.SKELETON)
-                .add(EntityType.WITHER_SKELETON)
-                .add(EntityType.SPIDER)
-                .add(EntityType.CAVE_SPIDER)
-                .add(EntityType.CREEPER)
-                .add(EntityType.WOLF)
-                .add(EntityType.SILVERFISH)
-                .add(EntityType.ENDERMITE)
-                .add(EntityType.WITCH)
-                .add(EntityType.VINDICATOR)
-                .add(EntityType.EVOKER)
-                .add(EntityType.VEX)
-                .add(EntityType.BLAZE);
+        builder(CAN_BE_TURNED_INTO_GOLD)
+                .add(EntityTypeIds.ZOMBIE)
+                .add(EntityTypeIds.SKELETON)
+                .add(EntityTypeIds.WITHER_SKELETON)
+                .add(EntityTypeIds.SPIDER)
+                .add(EntityTypeIds.CAVE_SPIDER)
+                .add(EntityTypeIds.CREEPER)
+                .add(EntityTypeIds.WOLF)
+                .add(EntityTypeIds.SILVERFISH)
+                .add(EntityTypeIds.ENDERMITE)
+                .add(EntityTypeIds.WITCH)
+                .add(EntityTypeIds.VINDICATOR)
+                .add(EntityTypeIds.EVOKER)
+                .add(EntityTypeIds.VEX)
+                .add(EntityTypeIds.BLAZE);
     }
 }

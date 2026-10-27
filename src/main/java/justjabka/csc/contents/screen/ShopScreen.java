@@ -80,7 +80,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
         this.extractContents(graphics, mouseX, mouseY, a);
         this.extractCarriedItem(graphics, mouseX, mouseY);
-        this.extractSnapbackItem(graphics);
+//        this.extractSnapbackItem(graphics);
 
         renderTabIcons(graphics);
 

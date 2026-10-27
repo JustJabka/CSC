@@ -1,28 +1,29 @@
-[
-  {
-    "function": "minecraft:set_components",
-    "components": {
-      "minecraft:enchantments": {
-        "minecraft:thorns": 1
-      }
-    },
-    "conditions": [
-      {
-        "condition": "minecraft:random_chance",
+{
+  "type": "minecraft:sequence",
+  "functions": [
+    {
+      "type": "minecraft:set_components",
+      "components": {
+        "minecraft:enchantments": {
+          "minecraft:thorns": 1
+        }
+      },
+      "condition": {
+        "type": "minecraft:random_chance",
         "chance": 0.6
       }
-    ]
-  },
-  {
-    "function": "minecraft:set_components",
-    "components": {
-      "minecraft:unbreakable": {},
-      "csc:upgradable": {
-        "price": 250,
-        "price_scale": 250,
-        "max_level": 5,
-        "additional_enchantment": "minecraft:protection"
+    },
+    {
+      "type": "minecraft:set_components",
+      "components": {
+        "minecraft:unbreakable": {},
+        "csc:upgradable": {
+          "price": 250,
+          "price_scale": 250,
+          "max_level": 5,
+          "additional_enchantment": "minecraft:protection"
+        }
       }
     }
-  }
-]
+  ]
+}

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EntityRendererMixin<T extends Entity> {
     
     @Inject(method = "shouldRender", at = @At("HEAD"), cancellable = true)
-    public void hideFullyWhileInvisible(T entity, Frustum culler, double camX, double camY, double camZ, CallbackInfoReturnable<Boolean> cir) {
+    private void hideFullyWhileInvisible(T entity, Frustum culler, double camX, double camY, double camZ, float partialTicks, CallbackInfoReturnable<Boolean> cir) {
         if (!(entity instanceof LivingEntity livingEntity)) return;
 
         Minecraft mc = Minecraft.getInstance();

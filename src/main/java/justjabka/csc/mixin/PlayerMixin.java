@@ -5,6 +5,7 @@ import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ActivationType;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
@@ -35,7 +36,7 @@ public abstract class PlayerMixin {
     }
 
     @Inject(method = "blockUsingItem", at = @At("TAIL"))
-    private void triggerAbilityOnBlockUse(ServerLevel level, LivingEntity attacker, CallbackInfo ci) {
+    private void triggerAbilityOnBlockUse(ServerLevel level, LivingEntity attacker, DamageSource source, float damage, boolean fullyBlocked, CallbackInfo ci) {
         Player player = (Player) (Object) this;
 
         ItemStack blockedStack = player.getItemBlockingWith();

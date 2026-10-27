@@ -10,15 +10,15 @@ base {
 	archivesName = project.archives_base_name
 }
 
-loom {
-	accessWidenerPath = file("src/main/resources/csc.accesswidener")
-}
-
 repositories {
 	maven {
 		name = "Nucleoid"
 		url = 'https://maven.nucleoid.xyz/releases'
 	}
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/${rootProject.name}.accesswidener")
 }
 
 fabricApi {
@@ -30,7 +30,6 @@ fabricApi {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
@@ -70,11 +69,11 @@ jar {
 		rename { "${it}_$projectName"}
 	}
 }
+
 // configure the maven publication
 publishing {
 	publications {
 		create("mavenJava", MavenPublication) {
-			artifactId = project.archives_base_name
 			from components.java
 		}
 	}
