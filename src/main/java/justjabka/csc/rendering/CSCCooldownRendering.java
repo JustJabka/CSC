@@ -1,8 +1,6 @@
 package justjabka.csc.rendering;
 
 import justjabka.csc.CSC;
-import justjabka.csc.mixin.CooldownInstanceAccessor;
-import justjabka.csc.mixin.ItemCooldownsAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -23,21 +21,18 @@ public class CSCCooldownRendering {
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
         // Get list of all items that on cooldowns
         ItemCooldowns cooldowns = player.getCooldowns();
-        Map<Identifier, ?> map = ((ItemCooldownsAccessor) cooldowns).getCooldowns();
 
         int xOffset = 32;
 
-        for (Map.Entry<Identifier, ?> entry : map.entrySet()) {
+        for (Map.Entry<Identifier, ItemCooldowns.CooldownInstance> entry :  cooldowns.cooldowns.entrySet()) {
             // Get item sprite
             Identifier id = entry.getKey();
             Item item = BuiltInRegistries.ITEM.getValue(id);
             ItemStack stack = item.getDefaultInstance();
 
-            CooldownInstanceAccessor cd = (CooldownInstanceAccessor) entry.getValue();
-
             // Calc remaining cooldown
             int now = player.tickCount;
-            int remaining = cd.getEndTime() - now;
+            int remaining = entry.getValue().endTime() - now;
 
             if (remaining <= 0) continue;
             remaining = remaining / 20;

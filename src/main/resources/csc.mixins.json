@@ -4,12 +4,10 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "FoodDataMixin",
-    "ItemCooldownsAccessor",
     "ItemMixin",
     "ItemStackMixin",
     "LivingEntityMixin",
-    "PlayerMixin",
-    "RangedAttributeAccessor"
+    "PlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
