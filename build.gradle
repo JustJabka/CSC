@@ -10,6 +10,10 @@ base {
 	archivesName = project.archives_base_name
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/csc.accesswidener")
+}
+
 repositories {
 	maven {
 		name = "Nucleoid"
