@@ -25,11 +25,6 @@ public class TitanCharacter extends BaseCharacter {
     }
 
     @Override
-    public Identifier getDisplayIcon() {
-        return null;
-    }
-
-    @Override
     public Identifier getShardAbility() {
         return null;
     }

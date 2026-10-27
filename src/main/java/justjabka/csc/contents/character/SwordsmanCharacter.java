@@ -28,11 +28,6 @@ public class SwordsmanCharacter extends BaseCharacter {
     }
 
     @Override
-    public Identifier getDisplayIcon() {
-        return null;
-    }
-
-    @Override
     public Identifier getShardAbility() {
         return null;
     }

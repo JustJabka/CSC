@@ -143,6 +143,8 @@
 
     "block.csc.shop": "Shop",
     "block.csc.upgrade": "Upgrade",
+
     "container.shop": "Shop",
-    "container.item_selection": "Select One Item"
+    "container.item_selection": "Select One Item",
+    "container.character": "Character"
 }

@@ -35,7 +35,9 @@ public abstract class BaseCharacter {
 
     // Base Getters
     public abstract Identifier getKey();
-    public abstract Identifier getDisplayIcon();
+    public Identifier getDisplayIcon() {
+        return Identifier.fromNamespaceAndPath(getKey().getNamespace(), "character/%s".formatted(getKey().getPath()));
+    }
     public Component getDisplayName() {
         String key = "character.%s".formatted(getKey());
         return Component.translatableWithFallback(key, "Sorry the translate broke :(");

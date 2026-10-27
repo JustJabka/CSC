@@ -18,6 +18,11 @@ public final class CharacterHandler {
 
     private CharacterHandler() {}
 
+    public static @Nullable BaseCharacter getCharacter(Player player) {
+        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
+        return data.getCharacter();
+    }
+
     public static void setCharacter(Player player, Identifier character) {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
         player.setAttached(
@@ -40,9 +45,7 @@ public final class CharacterHandler {
         LocalPlayer player = mc.player;
 
         if (player == null) return null;
-        PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-
-        return data.getCharacter();
+        return getCharacter(player);
     }
 
     public static boolean isCurrentCharacter(Player player, Identifier character) {

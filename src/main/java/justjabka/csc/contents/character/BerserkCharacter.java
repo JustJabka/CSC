@@ -46,11 +46,6 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
     }
 
     @Override
-    public Identifier getDisplayIcon() {
-        return null;
-    }
-
-    @Override
     public Identifier getShardAbility() {
         return CSCAbilities.BERSERK_SHARD.getId();
     }

@@ -3,6 +3,7 @@
   "package": "justjabka.csc.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "AbstractCraftingMenuMixin",
     "FoodDataMixin",
     "ItemMixin",
     "ItemStackMixin",
@@ -19,6 +20,7 @@
     "AbstractContainerScreenMixin",
     "EntityRendererMixin",
     "GuiMixin",
+    "InventoryScreenMixin",
     "MinecraftClientMixin",
     "ScreenMixin"
   ]

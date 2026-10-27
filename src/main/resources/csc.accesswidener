@@ -7,3 +7,5 @@ accessible field net/minecraft/world/item/ItemCooldowns cooldowns Ljava/util/Map
 
 accessible field net/minecraft/world/entity/ai/attributes/RangedAttribute maxValue D
 mutable field net/minecraft/world/entity/ai/attributes/RangedAttribute maxValue D
+
+mutable field net/minecraft/client/gui/screens/Screen title Lnet/minecraft/network/chat/Component;
