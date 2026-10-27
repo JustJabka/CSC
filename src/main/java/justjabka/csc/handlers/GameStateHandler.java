@@ -4,7 +4,7 @@ import justjabka.csc.types.WaveState;
 import justjabka.csc.types.WaveType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.scores.Team;
+import net.minecraft.world.scores.PlayerTeam;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +13,7 @@ public final class GameStateHandler {
 
     private GameStateHandler() {}
 
-    private static final Map<Team, TeamState> TEAM_STATES = new ConcurrentHashMap<>();
+    private static final Map<PlayerTeam, TeamState> TEAM_STATES = new ConcurrentHashMap<>();
 
     private static final int DUEL_DURATION = 300 * 20;
     private static final int HUB_DURATION = 30 * 20;
@@ -35,22 +35,25 @@ public final class GameStateHandler {
         state = GameState.HUB;
         hubTimer = HUB_DURATION;
 
-        wave++;
-        waveType = WaveType.getRandomWaveType();
+        updateBarHub(server);
 
-        updateBarHub(server, waveType, hubTimer);
-
+        // TODO: show item selection only for active players
         if (WaveHandler.hasItemSelection(wave)) {
             ItemSelectionHandler.openMenu(server.getPlayerList().getPlayers());
         }
     }
 
     public static void startActive(MinecraftServer server) {
+        if (requireSetup()) { // TODO: setup first wave after class selection
+            wave = 1;
+            waveType = WaveType.getRandomWaveType();
+        }
+
         state = GameState.ACTIVE;
         waveTimer = WaveState.getTotalDuration();
         waveState = WaveState.NORMAL;
 
-        updateBarActive(server, waveState, waveTimer);
+        updateBarActive(server);
 
         // TODO: add logic for duels
         // TODO: add logic for wave spawn
@@ -63,31 +66,47 @@ public final class GameStateHandler {
 
     private static void hubTick(MinecraftServer server) {
         hubTimer--;
-        updateBarHub(server, waveType, hubTimer);
 
         if (hubTimer <= 0) {
             startActive(server);
+            return;
         }
+
+        updateBarHub(server);
     }
 
     private static void activeTick(MinecraftServer server) {
         waveTimer--;
 
         if (waveTimer <= 0) {
-            startHub(server);
+            activeEnd(server);
+            return;
         }
 
-        updateBarActive(server, waveState, waveTimer);
+        waveState = WaveState.getStateFromTimer(waveTimer);
+
+        updateBarActive(server);
     }
 
-    private static void updateBarActive(MinecraftServer server, WaveState waveState, int value) {
-        final Component name = Component.translatable("ui.csc.wave", wave, waveState.getTranslate());
-        BarHandler.updateBar(server, name, WaveState.getTotalDuration(), value, true);
+    private static void activeEnd(MinecraftServer server) {
+        wave++;
+        waveType = WaveType.getRandomWaveType();
+
+        startHub(server);
     }
-    
-    private static void updateBarHub(MinecraftServer server, WaveType waveType, int value) {
+
+    private static boolean requireSetup() {
+        return waveType == null && waveState == null;
+    }
+
+    private static void updateBarActive(MinecraftServer server) {
+        final Component name = Component.translatable("ui.csc.wave", wave, waveState.getTranslate());
+        BarHandler.updateBar(server, name, WaveState.getTotalDuration(), waveTimer, true);
+    }
+
+    private static void updateBarHub(MinecraftServer server) {
         final Component name = Component.translatable("ui.csc.wave", wave, waveType.getTranslate());
-        BarHandler.updateBar(server, name, HUB_DURATION, value, true);
+        BarHandler.updateBar(server, name, HUB_DURATION, hubTimer, true);
     }
 
     public enum GameState {

@@ -22,6 +22,14 @@ public class GameState {
                                 })
                         )
                 )
+                .then(Commands.literal("reset")
+                        .executes(context -> {
+                            MinecraftServer server = context.getSource().getServer();
+
+                            GameStateHandler.startActive(server);
+                            return Command.SINGLE_SUCCESS;
+                        })
+                )
         );
     }
 }

@@ -36,6 +36,21 @@ public enum WaveState implements StringRepresentable {
         return this.duration;
     }
 
+    public static WaveState getStateFromTimer(int timer) {
+        final int elapsed = getTotalDuration() - timer;
+
+        int accumulated = 0;
+        for (WaveState state : WaveState.values()) {
+            accumulated += state.getDuration();
+
+            if (elapsed >= accumulated) continue;
+
+            return state;
+        }
+
+        return WaveState.PLAYER_DEATH;
+    }
+
     public static int getTotalDuration() {
         int duration = 0;
 
