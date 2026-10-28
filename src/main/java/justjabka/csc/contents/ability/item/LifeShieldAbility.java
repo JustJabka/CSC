@@ -3,6 +3,7 @@ package justjabka.csc.contents.ability.item;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
+import justjabka.csc.handlers.TeamHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
@@ -16,7 +17,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,41 +70,28 @@ public class LifeShieldAbility extends BaseActiveAbility {
     }
     
     private void giveEffects() {
-        List<Player> teammates = getTeammatesInRadius();
+        List<Player> teammates = TeamHandler.getPlayerTeammatesInRadius(ctx.player, RADIUS);
 
-        teammates.forEach(player -> {
+        for (Player player : teammates) {
             BUFFED_PLAYERS.add(player.getUUID());
 
             AttributeHandler.addTransientModifiers(player, ACTIVE_MODIFIERS);
 
             player.heal(HEAL_AMOUNT);
             player.setAbsorptionAmount(player.getAbsorptionAmount() + ABSORPTION_AMOUNT);
-        });
+        }
     }
     
     private void clearEffects() {
-        BUFFED_PLAYERS.forEach(pid -> {
-            if (pid == null) return;
+        for (UUID pid : BUFFED_PLAYERS) {
+            if (pid == null) continue;
 
             Player player = ctx.level.getPlayerByUUID(pid);
-            if (player == null) return;
+            if (player == null) continue;
 
             AttributeHandler.removeModifiers(player, ACTIVE_MODIFIERS);
-        });
+        }
 
         BUFFED_PLAYERS.clear();
-    }
-
-    private List<Player> getTeammatesInRadius() {
-        Player player = ctx.player;
-
-        AABB searchBox = player.getBoundingBox().inflate(RADIUS);
-
-        return ctx.level.getEntitiesOfClass(Player.class, searchBox, target -> {
-            if (!target.isAlive()) return false;
-            if (target.isSpectator()) return false;
-
-            return target.isAlliedTo(player);
-        });
     }
 }

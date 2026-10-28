@@ -2,6 +2,7 @@ package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
 import justjabka.csc.handlers.DescriptionHandler;
+import justjabka.csc.handlers.TeamHandler;
 import justjabka.csc.types.AbilityContext;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -146,13 +147,14 @@ public class BloodyLarynxAbility extends BaseActiveAbility {
 
     private void damageEntities(ServerLevel serverLevel, Player player) {
         AABB damageZone = player.getBoundingBox().inflate(currentRadius);
-        List<Entity> entities = serverLevel.getEntities(player, damageZone);
+        List<LivingEntity> victims = serverLevel.getEntitiesOfClass(LivingEntity.class, damageZone);
 
         Holder<DamageType> damageType = player.damageSources().playerAttack(player).typeHolder();
         DamageSource damageSource = new DamageSource(damageType, player);
 
-        for (Entity entity : entities) {
-            if (!(entity instanceof LivingEntity victim)) return;
+        for (LivingEntity victim : victims) {
+            if (TeamHandler.isFriendlyFire(player, victim)) continue;
+
             if (damagedEntities.contains(victim.getUUID())) continue;
 
             if (player.distanceTo(victim) <= currentRadius + 1) {

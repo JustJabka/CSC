@@ -1,9 +1,9 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ShardAffectedAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
-import justjabka.csc.handlers.TrinketHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
@@ -25,9 +25,7 @@ import net.minecraft.world.item.TooltipFlag;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class RedoubtAbility extends BaseActiveAbility {
-    private boolean hasShard = false;
-    private AttributeModifier absorptionAmountShardBonusModifier;
+public class RedoubtAbility extends BaseActiveAbility implements ShardAffectedAbility {
 
     private static final double INCOMING_DAMAGE_MULTIPLIER_MODIFIER = -0.35;
     private static final double KNOCKBACK_RESISTANCE_MODIFIER = 1;
@@ -60,9 +58,7 @@ public class RedoubtAbility extends BaseActiveAbility {
     public void onStart() {
         Player player = ctx.player;
 
-        hasShard = TrinketHandler.hasShard(player);
-
-        if (hasShard) giveShardBonus(player);
+        if (hasShard(player)) giveShardBonus(player);
         AttributeHandler.addTransientModifiers(player, ACTIVE_MODIFIERS);
 
         ctx.level.playSound(null, player.blockPosition(), CSCSounds.ABILITY_REDOUBT, SoundSource.PLAYERS, 1f, 1f);
@@ -89,7 +85,7 @@ public class RedoubtAbility extends BaseActiveAbility {
     public void onEnd() {
         Player player = ctx.player;
 
-        if (hasShard) clearShardBonus(player);
+        if (hasShard(player)) clearShardBonus(player);
         AttributeHandler.removeModifiers(player, ACTIVE_MODIFIERS);
     }
 
@@ -97,17 +93,15 @@ public class RedoubtAbility extends BaseActiveAbility {
         float currentAmount = player.getAbsorptionAmount();
         float bonusAmount = player.getMaxHealth() * ABSORPTION_AMOUNT_SHARD_BONUS;
 
-        absorptionAmountShardBonusModifier = new AttributeModifier(
+        AttributeHandler.addTransientModifier(player, Attributes.MAX_ABSORPTION, new AttributeModifier(
                 getId(),
                 bonusAmount,
                 AttributeModifier.Operation.ADD_VALUE
-        );
-
-        AttributeHandler.addTransientModifier(player, Attributes.MAX_ABSORPTION, absorptionAmountShardBonusModifier);
+        ));
         player.setAbsorptionAmount(currentAmount + bonusAmount);
     }
 
     private void clearShardBonus(Player player) {
-        AttributeHandler.removeModifier(player, Attributes.MAX_ABSORPTION, absorptionAmountShardBonusModifier);
+        AttributeHandler.removeModifier(player, Attributes.MAX_ABSORPTION, getId());
     }
 }

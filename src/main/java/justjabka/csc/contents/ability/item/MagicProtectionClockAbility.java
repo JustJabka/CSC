@@ -63,7 +63,7 @@ public class MagicProtectionClockAbility extends BaseActiveAbility {
 
         Set<Holder<MobEffect>> activeEffects = player.getActiveEffectsMap().keySet();
 
-        for (Holder<MobEffect> effect : new HashSet<>(activeEffects)) {
+        for (Holder<MobEffect> effect : activeEffects) {
             MobEffectCategory effectCategory = effect.value().getCategory();
 
             if (effectCategory != MobEffectCategory.HARMFUL) continue;

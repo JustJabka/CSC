@@ -1,8 +1,9 @@
 package justjabka.csc.contents.ability;
 
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ShardAffectedAbility;
 import justjabka.csc.handlers.DescriptionHandler;
-import justjabka.csc.handlers.TrinketHandler;
+import justjabka.csc.handlers.TeamHandler;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
@@ -14,7 +15,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Display;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,8 +32,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class SpinningSwordsAbility extends BaseActiveAbility {
-    private boolean hasShard = false;
+public class SpinningSwordsAbility extends BaseActiveAbility implements ShardAffectedAbility {
     private final List<Display.ItemDisplay> swords = new ArrayList<>();
 
     private static final ItemStack SWORD_ITEM = new ItemStack(Items.IRON_SWORD);
@@ -59,9 +62,7 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
         Player player = ctx.player;
         Level level = ctx.level;
 
-        hasShard = TrinketHandler.hasShard(player);
-
-        int swordsToSpawn = hasShard ? 3 : 2;
+        int swordsToSpawn = hasShard(player) ? 3 : 2;
 
         for (int i = 0; i < swordsToSpawn; i++) {
             spawnSword(level, player);
@@ -131,20 +132,24 @@ public class SpinningSwordsAbility extends BaseActiveAbility {
 
     private void damageEntities(Player player, Level level) {
         AABB damageRadius = player.getBoundingBox().inflate(RADIUS);
-        List<Entity> entities = level.getEntities(player, damageRadius);
+        List<LivingEntity> victims = level.getEntitiesOfClass(LivingEntity.class, damageRadius);
 
         Holder<DamageType> damageType = player.damageSources().magic().typeHolder();
         DamageSource damageSource = new DamageSource(damageType, player);
-        double currentDamagePercent = hasShard ? DAMAGE_PERCENT + DAMAGE_PERCENT_SHARD_BONUS : DAMAGE_PERCENT;
 
-        entities.forEach(entity -> {
-            if (!(entity instanceof LivingEntity victim)) return;
+        double currentDamagePercent = DAMAGE_PERCENT;
+        if (hasShard(player)) {
+            currentDamagePercent += DAMAGE_PERCENT_SHARD_BONUS;
+        }
+
+        for (LivingEntity victim : victims) {
+            if (TeamHandler.isFriendlyFire(player, victim)) continue;
 
             double maxHealth = victim.getMaxHealth();
             float damage = (float) (maxHealth * currentDamagePercent);
 
             victim.hurtServer((ServerLevel) level, damageSource, damage);
-        });
+        }
     }
 
     @Override

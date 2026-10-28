@@ -39,6 +39,14 @@ public final class AttributeHandler {
         instance.removeModifier(modifier);
     }
 
+    public static void removeModifier(Player player, Holder<Attribute> attribute, Identifier modifier) {
+        AttributeInstance instance = player.getAttribute(attribute);
+
+        if (instance == null) return;
+
+        instance.removeModifier(modifier);
+    }
+
     public static void addTransientModifiers(Player player, Map<Holder<Attribute>, AttributeModifier> modifiers) {
         modifiers.forEach((attribute, modifier) ->
                 addTransientModifier(player, attribute, modifier));

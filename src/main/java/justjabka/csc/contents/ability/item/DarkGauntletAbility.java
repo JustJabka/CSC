@@ -4,7 +4,6 @@ import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.registries.CSCAttributes;
-import justjabka.csc.registries.CSCItems;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
@@ -16,14 +15,17 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class DarkGauntletAbility extends BaseTogglableActiveAbility {
@@ -91,7 +93,14 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
 
     @Override
     public boolean shouldEnd() {
-        return !ctx.getItem().is(CSCItems.DARK_GAUNTLET);
+        Optional<EquipmentSlot> slot = ctx.getSlot();
+
+        if (slot.isPresent()) {
+            Item item = ctx.getItem().getItem();
+            return !ctx.player.getItemBySlot(slot.get()).is(item);
+        }
+
+        return true;
     }
 
     @Override
@@ -101,8 +110,18 @@ public class DarkGauntletAbility extends BaseTogglableActiveAbility {
         AttributeHandler.removeModifiers(player, ACTIVE_MODIFIERS);
 
         // Remove Enchantment Glint
-        // TODO: fix component desync
+        Item item = ctx.getItem().getItem();
+
+        for (ItemStack stack : player.getInventory()) {
+            if (!stack.is(item)) continue;
+            Boolean glint = stack.get(DataComponents.ENCHANTMENT_GLINT_OVERRIDE);
+
+            if (glint == null) continue;
+            stack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, false);
+        }
+
         ctx.getItem().set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, false);
+
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_DARK_GAUNTLET_DEACTIVATE, SoundSource.PLAYERS, 1f, 1f);
     }
 }
