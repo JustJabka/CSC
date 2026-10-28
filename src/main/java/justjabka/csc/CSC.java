@@ -17,6 +17,7 @@ public class CSC implements ModInitializer {
 		CSCItems.initialize();
 		CSCBlocks.initialize();
 		CSCItemGroups.initialize();
+
 		CSCSounds.initialize();
 		CSCAttachments.initialize();
 		CSCAttributes.initialize();
