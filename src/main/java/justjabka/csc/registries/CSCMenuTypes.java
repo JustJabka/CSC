@@ -24,7 +24,7 @@ public class CSCMenuTypes {
             String name,
             MenuType.MenuSupplier<T> constructor
     ) {
-        Identifier key = CSC.key(name);
+        Identifier key = CSC.id(name);
         return Registry.register(BuiltInRegistries.MENU, key, new MenuType<>(constructor, FeatureFlagSet.of()));
     }
 }

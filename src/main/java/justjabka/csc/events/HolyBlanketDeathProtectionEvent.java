@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class HolyBlanketDeathProtectionEvent {
     public static void register() {
-        Identifier eventKey = CSC.key("holy_blanket_protection");
+        Identifier eventKey = CSC.id("holy_blanket_protection");
 
         ServerLivingEntityEvents.ALLOW_DEATH.register(eventKey, (entity, damageSource, damageAmount) -> {
             if (!(entity instanceof Player player)) return true;

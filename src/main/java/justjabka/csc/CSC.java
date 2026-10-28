@@ -30,7 +30,7 @@ public class CSC implements ModInitializer {
 		CSCAbilities.initialize();
 	}
 
-	public static Identifier key(String value) {
-		return Identifier.fromNamespaceAndPath(MOD_ID, value);
+	public static Identifier id(String path) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

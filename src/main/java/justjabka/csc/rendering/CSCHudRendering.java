@@ -33,7 +33,7 @@ public class CSCHudRendering {
         removeVanillaHudElements();
 
         // Attach our rendering code to before the chat hud layer. Our layer will render right before the chat. The API will take care of z spacing.
-        HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT, CSC.key("hud"), CSCHudRendering::render);
+        HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT, CSC.id("hud"), CSCHudRendering::render);
     }
 
     private static void render(GuiGraphicsExtractor graphics, DeltaTracker tickCounter) {

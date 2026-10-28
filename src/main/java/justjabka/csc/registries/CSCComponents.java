@@ -5,7 +5,6 @@ import justjabka.csc.contents.component.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 
 import java.util.function.UnaryOperator;
 
@@ -37,7 +36,7 @@ public class CSCComponents {
     private static <T> DataComponentType<T> register(final String id, final UnaryOperator<DataComponentType.Builder<T>> builder) {
         return Registry.register(
                 BuiltInRegistries.DATA_COMPONENT_TYPE,
-                CSC.key(id),
+                CSC.id(id),
                 builder.apply(DataComponentType.builder()).build()
         );
     }

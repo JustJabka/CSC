@@ -16,7 +16,7 @@ public record PlayerData(
 ) {
 
     // Default
-    public static final Identifier DEFAULT_CHARACTER = CSC.key("none");
+    public static final Identifier DEFAULT_CHARACTER = CSC.id("none");
 
     public static final PlayerData DEFAULT =
             new PlayerData(0, DEFAULT_CHARACTER);

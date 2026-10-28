@@ -15,7 +15,7 @@ public final class BarHandler {
 
     private BarHandler() {}
 
-    public static final Identifier BAR = CSC.key("bar");
+    public static final Identifier BAR = CSC.id("bar");
 
     public static @Nullable CustomBossEvent getBar(MinecraftServer server) {
         CustomBossEvents events = server.getCustomBossEvents();

@@ -39,7 +39,7 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
     private WidgetSprites getCharacterSprite() {
         BaseCharacter character = CharacterHandler.getClientCharacter();
 
-        Identifier icon = CSC.key("character/missingno");
+        Identifier icon = CSC.id("character/missingno");
         if (character != null) {
             icon = character.getDisplayIcon();
         }

@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypeIds;
@@ -13,7 +12,7 @@ import net.minecraft.world.entity.EntityTypeIds;
 import java.util.concurrent.CompletableFuture;
 
 public class CSCEntityTypeTagProvider extends FabricTagsProvider.EntityTypeTagsProvider {
-    public static final TagKey<EntityType<?>> CAN_BE_TURNED_INTO_GOLD = TagKey.create(Registries.ENTITY_TYPE, CSC.key("can_be_turned_into_gold"));
+    public static final TagKey<EntityType<?>> CAN_BE_TURNED_INTO_GOLD = TagKey.create(Registries.ENTITY_TYPE, CSC.id("can_be_turned_into_gold"));
 
     public CSCEntityTypeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);

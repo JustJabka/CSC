@@ -31,12 +31,12 @@ public class CSCSounds {
     public static final SoundEvent UI_SHOP_PURCHASE_FAIL = registerSound("ui.shop.purchase.fail");
 
     private static SoundEvent registerSound(String id) {
-        Identifier identifier = CSC.key(id);
+        Identifier identifier = CSC.id(id);
         return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier, SoundEvent.createVariableRangeEvent(identifier));
     }
 
     private static Holder.Reference<SoundEvent> registerSoundForHolder(final String id) {
-        Identifier key = CSC.key(id);
+        Identifier key = CSC.id(id);
         return Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, key, SoundEvent.createVariableRangeEvent(key));
     }
 

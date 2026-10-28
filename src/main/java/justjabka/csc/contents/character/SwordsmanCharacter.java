@@ -24,7 +24,7 @@ import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 public class SwordsmanCharacter extends BaseCharacter {
     @Override
     public Identifier getKey() {
-        return CSC.key("swordsman");
+        return CSC.id("swordsman");
     }
 
     @Override

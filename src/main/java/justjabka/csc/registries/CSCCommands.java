@@ -6,7 +6,6 @@ import justjabka.csc.contents.command.argument.CharacterArgumentType;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
-import net.minecraft.resources.Identifier;
 
 public class CSCCommands {
     public static void initialize() {
@@ -18,7 +17,7 @@ public class CSCCommands {
 
     private static void registerArgumentTypes() {
         ArgumentTypeRegistry.registerArgumentType(
-                CSC.key("character"),
+                CSC.id("character"),
                 CharacterArgumentType.class,
                 SingletonArgumentInfo.contextFree(CharacterArgumentType::new)
         );

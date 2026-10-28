@@ -2,7 +2,6 @@ package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.LootTable;
 
@@ -10,7 +9,7 @@ public class CSCLootTables {
     public static ResourceKey<LootTable> ITEM_SELECTION_LOOT = create("item_selection/all_items");;
 
     private static ResourceKey<LootTable> create(String path) {
-        return ResourceKey.create(Registries.LOOT_TABLE, CSC.key(path));
+        return ResourceKey.create(Registries.LOOT_TABLE, CSC.id(path));
     }
 
     public static void initialize() {

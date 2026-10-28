@@ -7,12 +7,11 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
 public class CSCKeyMappings {
     public static final KeyMapping.Category ACTIVATION_CATEGORY = KeyMapping.Category.register(
-            CSC.key("activation")
+            CSC.id("activation")
     );
 
     // Trinkets

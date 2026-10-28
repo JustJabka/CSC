@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 public class TitanCharacter extends BaseCharacter {
     @Override
     public Identifier getKey() {
-        return CSC.key("titan");
+        return CSC.id("titan");
     }
 
     @Override

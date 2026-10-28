@@ -10,7 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ItemSelectionScreen extends AbstractContainerScreen<ItemSelectionMenu> {
-    private static final Identifier CONTAINER_TEXTURE = CSC.key("textures/gui/container/item_selection.png");
+    private static final Identifier CONTAINER_TEXTURE = CSC.id("textures/gui/container/item_selection.png");
 
     public ItemSelectionScreen(ItemSelectionMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);

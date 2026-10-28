@@ -12,8 +12,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 
 public class CSCMagicalResistanceRendering {
-    private static final Identifier ICON_FONT = CSC.key("icons");
-    private static final Identifier MAGICAL_RESISTANCE_BAR_BACKGROUND = CSC.key("hud/magical_resistance_bar_background");
+    private static final Identifier ICON_FONT = CSC.id("icons");
+    private static final Identifier MAGICAL_RESISTANCE_BAR_BACKGROUND = CSC.id("hud/magical_resistance_bar_background");
 
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
         AttributeInstance magicalResistanceInstance = player.getAttribute(CSCAttributes.MAGIC_RESISTANCE);

@@ -14,7 +14,7 @@ public final class WaveHandler {
 
     private WaveHandler() {}
 
-    public static final Identifier WAVE_SCALE_KEY = CSC.key("wave_scale");
+    public static final Identifier WAVE_SCALE_KEY = CSC.id("wave_scale");
 
     public static void scaleEntityAttributes(LivingEntity entity, int wave) {
         double totalMultiplier = 1;

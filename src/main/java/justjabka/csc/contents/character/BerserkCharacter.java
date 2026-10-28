@@ -42,7 +42,7 @@ public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthCha
 
     @Override
     public Identifier getKey() {
-        return CSC.key("berserk");
+        return CSC.id("berserk");
     }
 
     @Override

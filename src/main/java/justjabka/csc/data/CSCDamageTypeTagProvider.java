@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -14,8 +13,8 @@ import net.minecraft.world.damagesource.DamageTypes;
 import java.util.concurrent.CompletableFuture;
 
 public class CSCDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
-    public static final TagKey<DamageType> BYPASSES_DODGE = TagKey.create(Registries.DAMAGE_TYPE, CSC.key("bypasses_dodge"));
-    public static final TagKey<DamageType> IS_MAGIC = TagKey.create(Registries.DAMAGE_TYPE, CSC.key("is_magic"));
+    public static final TagKey<DamageType> BYPASSES_DODGE = TagKey.create(Registries.DAMAGE_TYPE, CSC.id("bypasses_dodge"));
+    public static final TagKey<DamageType> IS_MAGIC = TagKey.create(Registries.DAMAGE_TYPE, CSC.id("is_magic"));
 
     public CSCDamageTypeTagProvider(FabricPackOutput output,
                                     CompletableFuture<HolderLookup.Provider> registriesFuture) {

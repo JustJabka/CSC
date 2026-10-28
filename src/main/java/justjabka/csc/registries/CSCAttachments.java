@@ -6,11 +6,10 @@ import justjabka.csc.contents.attachement.PlayerData;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
-import net.minecraft.resources.Identifier;
 
 public class CSCAttachments {
     public static final AttachmentType<PlayerData> PLAYER_DATA = AttachmentRegistry.create(
-            CSC.key("player_data"),
+            CSC.id("player_data"),
             builder -> builder
                     .initializer(() -> PlayerData.DEFAULT)
                     .persistent(PlayerData.CODEC)
@@ -19,7 +18,7 @@ public class CSCAttachments {
     );
 
     public static final AttachmentType<AbilitiesData> ABILITIES_DATA = AttachmentRegistry.create(
-            CSC.key("abilities_data"),
+            CSC.id("abilities_data"),
             builder -> builder
                     .initializer(() -> AbilitiesData.DEFAULT)
                     .syncWith(AbilitiesData.STREAM_CODEC, AttachmentSyncPredicate.targetOnly())

@@ -6,7 +6,6 @@ import justjabka.csc.contents.block.UpgradeBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -62,10 +61,10 @@ public class CSCBlocks {
     }
 
     private static ResourceKey<Block> keyOfBlock(String name) {
-        return ResourceKey.create(Registries.BLOCK, CSC.key(name));
+        return ResourceKey.create(Registries.BLOCK, CSC.id(name));
     }
 
     private static ResourceKey<Item> keyOfItem(String name) {
-        return ResourceKey.create(Registries.ITEM, CSC.key(name));
+        return ResourceKey.create(Registries.ITEM, CSC.id(name));
     }
 }

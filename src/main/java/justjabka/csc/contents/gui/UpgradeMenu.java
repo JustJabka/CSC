@@ -23,7 +23,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jspecify.annotations.Nullable;
 
 public class UpgradeMenu extends AbstractContainerMenu {
-    private static final Identifier EMPTY_SLOT_SMITHING_BOOK = CSC.key("container/slot/smithing_book");
+    private static final Identifier EMPTY_SLOT_SMITHING_BOOK = CSC.id("container/slot/smithing_book");
 
     private static final int INPUT_SLOT = 0;
     private static final int ADDITIONAL_SLOT = 1;
