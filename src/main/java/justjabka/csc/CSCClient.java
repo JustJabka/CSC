@@ -1,5 +1,6 @@
 package justjabka.csc;
 
+import justjabka.csc.registries.client.CSCEvents;
 import justjabka.csc.registries.client.CSCKeyMappings;
 import justjabka.csc.registries.client.CSCScreens;
 import justjabka.csc.rendering.CSCHudRendering;
@@ -11,5 +12,6 @@ public class CSCClient implements ClientModInitializer {
         CSCHudRendering.initialize();
         CSCKeyMappings.initialize();
         CSCScreens.initialize();
+        CSCEvents.initialize();
     }
 }
