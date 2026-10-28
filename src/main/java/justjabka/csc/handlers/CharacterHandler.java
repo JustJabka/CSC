@@ -23,20 +23,19 @@ public final class CharacterHandler {
         return data.getCharacter();
     }
 
-    public static void setCharacter(Player player, Identifier character) {
+    public static void setCharacter(Player player, Identifier key) {
+        BaseCharacter character = CSCCharacters.getOrThrow(key);
+        setCharacter(player, character);
+    }
+
+    public static void setCharacter(Player player, BaseCharacter character) {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
         player.setAttached(
                 CSCAttachments.PLAYER_DATA,
-                data.setCharacter(character)
+                data.setCharacter(character.getKey())
         );
 
-        BaseCharacter characterObj = CSCCharacters.getByKey(character);
-
-        if (characterObj != null) {
-            characterObj.onSelect(player);
-        } else {
-            AttributeHandler.resetBaseValues(player);
-        }
+        character.onSelect(player);
     }
 
     @Environment(EnvType.CLIENT)

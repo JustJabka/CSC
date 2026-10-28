@@ -2,8 +2,10 @@ package justjabka.csc.contents.command;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import justjabka.csc.contents.character.generic.BaseCharacter;
 import justjabka.csc.contents.command.argument.CharacterArgumentType;
 import justjabka.csc.handlers.CharacterHandler;
+import justjabka.csc.registries.CSCCharacters;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -35,13 +37,12 @@ public class SetCharacter {
         );
     }
 
-    private static int setCharacter(CommandSourceStack source, ServerPlayer player, Identifier character) {
+    private static int setCharacter(CommandSourceStack source, ServerPlayer player, Identifier key) {
+        BaseCharacter character = CSCCharacters.getOrThrow(key);
         CharacterHandler.setCharacter(player, character);
 
-        String characterDisplayName = character.toString();
-
         source.sendSuccess(() -> Component.translatable("message.csc.command.setcharacter",
-                characterDisplayName,
+                character.getDisplayName(),
                 player.getDisplayName()
         ), true);
         return Command.SINGLE_SUCCESS;

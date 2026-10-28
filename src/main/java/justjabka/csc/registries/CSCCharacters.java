@@ -10,10 +10,13 @@ import justjabka.csc.handlers.CharacterHandler;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class CSCCharacters {
     private static final Map<Identifier, BaseCharacter> CHARACTERS = new HashMap<>();
@@ -39,8 +42,18 @@ public class CSCCharacters {
         return Collections.unmodifiableMap(CHARACTERS);
     }
 
-    public static BaseCharacter getByKey(Identifier key) {
+    public static @Nullable BaseCharacter get(Identifier key) {
         return CHARACTERS.get(key);
+    }
+
+    public static @NonNull BaseCharacter getOrThrow(Identifier key) {
+        BaseCharacter character = get(key);
+
+        if (character == null) {
+            throw new NoSuchElementException("Character with %s doesn't exist".formatted(key));
+        }
+
+        return character;
     }
 
     private static void registerCharactersEvents(BaseCharacter character) {

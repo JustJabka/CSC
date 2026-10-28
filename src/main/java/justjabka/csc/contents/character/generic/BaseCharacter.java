@@ -39,8 +39,7 @@ public abstract class BaseCharacter {
         return Identifier.fromNamespaceAndPath(getKey().getNamespace(), "character/%s".formatted(getKey().getPath()));
     }
     public Component getDisplayName() {
-        String key = "character.%s".formatted(getKey());
-        return Component.translatableWithFallback(key, "Sorry the translate broke :(");
+        return Component.translatable(getKey().toLanguageKey("character"));
     }
 
     // Shard

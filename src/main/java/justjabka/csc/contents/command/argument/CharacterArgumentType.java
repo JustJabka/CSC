@@ -29,7 +29,7 @@ public class CharacterArgumentType implements ArgumentType<Identifier> {
 
     @Override
     public Identifier parse(StringReader reader) throws CommandSyntaxException {
-        BaseCharacter character = CSCCharacters.getByKey(Identifier.read(reader));
+        BaseCharacter character = CSCCharacters.get(Identifier.read(reader));
 
         if (character == null) {
             throw ERROR_INVALID.createWithContext(reader);

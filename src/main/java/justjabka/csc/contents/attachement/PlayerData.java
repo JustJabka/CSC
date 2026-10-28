@@ -56,6 +56,6 @@ public record PlayerData(
 
     public BaseCharacter getCharacter() {
         if (this.character.equals(DEFAULT_CHARACTER)) return null;
-        return CSCCharacters.getByKey(this.character);
+        return CSCCharacters.get(this.character);
     }
 }
