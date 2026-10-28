@@ -63,7 +63,7 @@ public class CSCItems {
 
     public static <GenericItem extends Item> GenericItem register(String name, Function<Item.Properties, GenericItem> itemFactory, Item.Properties settings) {
         // Create the item key.
-        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(CSC.MOD_ID, name));
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, CSC.key(name));
 
         // Create the item instance.
         GenericItem item = itemFactory.apply(settings.setId(itemKey));

@@ -17,7 +17,7 @@ import java.util.Map;
 public class CSCAbilities {
     private static final Map<Identifier, AbilityType<?>> ABILITY_TYPES = new HashMap<>();
 
-    public static final Identifier EMPTY_ABILITY_ID = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "empty");
+    public static final Identifier EMPTY_ABILITY_ID = CSC.key("empty");
 
     // Generic Abilities
     public static final AbilityType<RedoubtAbility> REDOUBT = register("redoubt", RedoubtAbility::new);
@@ -47,7 +47,7 @@ public class CSCAbilities {
             String name,
             AbilityType.AbilityFactory<T> factory
     ) {
-        Identifier key = Identifier.fromNamespaceAndPath(CSC.MOD_ID, name);
+        Identifier key = CSC.key(name);
         AbilityType<T> type = new AbilityType<>(key, factory);
 
         ABILITY_TYPES.put(key, type);

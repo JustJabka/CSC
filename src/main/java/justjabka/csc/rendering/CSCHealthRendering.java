@@ -11,10 +11,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 
 public class CSCHealthRendering {
-    private static final Identifier ICON_FONT = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "icons");
-    private static final Identifier HEALTH_BAR_BACKGROUND = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/health_bar_background");
-    private static final Identifier HEALTH_BAR_PROGRESS = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/health_bar_progress");
-    private static final Identifier HEALTH_BAR_ABSORPTION_PROGRESS = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/health_bar_absorption_progress");
+    private static final Identifier ICON_FONT = CSC.key("icons");
+    private static final Identifier HEALTH_BAR_BACKGROUND = CSC.key("hud/health_bar_background");
+    private static final Identifier HEALTH_BAR_PROGRESS = CSC.key("hud/health_bar_progress");
+    private static final Identifier HEALTH_BAR_ABSORPTION_PROGRESS = CSC.key("hud/health_bar_absorption_progress");
 
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
         int currentHealth = Math.round(player.getHealth());

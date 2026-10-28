@@ -12,8 +12,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 
 public class CSCGoldRendering {
-    private static final Identifier ICON_FONT = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "icons");
-    private static final Identifier GOLD_BAR_BACKGROUND = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/gold_bar_background");
+    private static final Identifier ICON_FONT = CSC.key("icons");
+    private static final Identifier GOLD_BAR_BACKGROUND = CSC.key("hud/gold_bar_background");
 
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);

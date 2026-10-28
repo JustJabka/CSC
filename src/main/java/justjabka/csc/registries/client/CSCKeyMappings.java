@@ -12,7 +12,7 @@ import org.jspecify.annotations.Nullable;
 
 public class CSCKeyMappings {
     public static final KeyMapping.Category ACTIVATION_CATEGORY = KeyMapping.Category.register(
-            Identifier.fromNamespaceAndPath(CSC.MOD_ID, "activation")
+            CSC.key("activation")
     );
 
     // Trinkets

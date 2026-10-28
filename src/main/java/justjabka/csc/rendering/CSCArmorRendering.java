@@ -10,8 +10,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 
 public class CSCArmorRendering {
-    private static final Identifier ICON_FONT = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "icons");
-    private static final Identifier ARMOR_BAR_BACKGROUND = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/armor_bar_background");
+    private static final Identifier ICON_FONT = CSC.key("icons");
+    private static final Identifier ARMOR_BAR_BACKGROUND = CSC.key("hud/armor_bar_background");
 
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
         int maxArmor = 20;

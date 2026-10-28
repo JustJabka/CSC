@@ -16,7 +16,7 @@ public class CSCItemGroups {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CSC_CREATIVE_TAB_KEY, CSC_CREATIVE_TAB);
     }
 
-    public static final ResourceKey<CreativeModeTab> CSC_CREATIVE_TAB_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), Identifier.fromNamespaceAndPath(CSC.MOD_ID, "creative_tab"));
+    public static final ResourceKey<CreativeModeTab> CSC_CREATIVE_TAB_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), CSC.key("creative_tab"));
 
     public static final CreativeModeTab CSC_CREATIVE_TAB = FabricCreativeModeTab.builder()
             .icon(() -> new ItemStack(CSCItems.MIDAS))

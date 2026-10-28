@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Map;
 
 public class CSCCooldownRendering {
-    private static final Identifier COOLDOWN_BACKGROUND = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/cooldown_background");
+    private static final Identifier COOLDOWN_BACKGROUND = CSC.key("hud/cooldown_background");
 
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
         // Get list of all items that on cooldowns

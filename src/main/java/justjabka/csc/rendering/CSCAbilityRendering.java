@@ -16,8 +16,8 @@ import net.minecraft.world.item.Item;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CSCAbilityRendering {
-    private static final Identifier ABILITY_BAR_BACKGROUND = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/ability_bar_background");
-    private static final Identifier ABILITY_BAR_PROGRESS = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "hud/ability_bar_progress");
+    private static final Identifier ABILITY_BAR_BACKGROUND = CSC.key("hud/ability_bar_background");
+    private static final Identifier ABILITY_BAR_PROGRESS = CSC.key("hud/ability_bar_progress");
 
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
         AbilitiesData data = player.getAttachedOrCreate(CSCAttachments.ABILITIES_DATA);

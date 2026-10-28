@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntityTypeIds;
 import java.util.concurrent.CompletableFuture;
 
 public class CSCEntityTypeTagProvider extends FabricTagsProvider.EntityTypeTagsProvider {
-    public static final TagKey<EntityType<?>> CAN_BE_TURNED_INTO_GOLD = TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(CSC.MOD_ID, "can_be_turned_into_gold"));
+    public static final TagKey<EntityType<?>> CAN_BE_TURNED_INTO_GOLD = TagKey.create(Registries.ENTITY_TYPE, CSC.key("can_be_turned_into_gold"));
 
     public CSCEntityTypeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);

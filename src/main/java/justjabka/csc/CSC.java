@@ -2,6 +2,7 @@ package justjabka.csc;
 
 import justjabka.csc.registries.*;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,5 +28,9 @@ public class CSC implements ModInitializer {
 		CSCLootTables.initialize();
 		CSCTooltipProviders.initialize();
 		CSCAbilities.initialize();
+	}
+
+	public static Identifier key(String value) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, value);
 	}
 }

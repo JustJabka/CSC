@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 public class TitanCharacter extends BaseCharacter {
     @Override
     public Identifier getKey() {
-        return Identifier.fromNamespaceAndPath(CSC.MOD_ID, "titan");
+        return CSC.key("titan");
     }
 
     @Override

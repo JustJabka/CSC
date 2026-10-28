@@ -18,7 +18,7 @@ public class CSCCommands {
 
     private static void registerArgumentTypes() {
         ArgumentTypeRegistry.registerArgumentType(
-                Identifier.fromNamespaceAndPath(CSC.MOD_ID, "character"),
+                CSC.key("character"),
                 CharacterArgumentType.class,
                 SingletonArgumentInfo.contextFree(CharacterArgumentType::new)
         );

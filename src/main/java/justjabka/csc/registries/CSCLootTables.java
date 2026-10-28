@@ -10,7 +10,7 @@ public class CSCLootTables {
     public static ResourceKey<LootTable> ITEM_SELECTION_LOOT = create("item_selection/all_items");;
 
     private static ResourceKey<LootTable> create(String path) {
-        return ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(CSC.MOD_ID, path));
+        return ResourceKey.create(Registries.LOOT_TABLE, CSC.key(path));
     }
 
     public static void initialize() {

@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NonNull;
 
 public record ActivateTrinketPayload(String slotGroup, int slotOffset) implements CustomPacketPayload {
-    public static final Identifier ACTIVATE_TRINKET_PAYLOAD_ID = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "activate_trinket");
+    public static final Identifier ACTIVATE_TRINKET_PAYLOAD_ID = CSC.key("activate_trinket");
     public static final CustomPacketPayload.Type<ActivateTrinketPayload> TYPE = new CustomPacketPayload.Type<>(ACTIVATE_TRINKET_PAYLOAD_ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ActivateTrinketPayload> CODEC = StreamCodec.composite(

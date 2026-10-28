@@ -18,7 +18,7 @@ import net.minecraft.world.entity.player.Inventory;
 import org.jspecify.annotations.NonNull;
 
 public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
-    private static final Identifier CONTAINER_TEXTURE = Identifier.fromNamespaceAndPath(CSC.MOD_ID, "textures/gui/container/shop.png");
+    private static final Identifier CONTAINER_TEXTURE = CSC.key("textures/gui/container/shop.png");
 
     private static final Identifier[] UNSELECTED_TOP_TABS = new Identifier[]{
             Identifier.withDefaultNamespace("container/creative_inventory/tab_top_unselected_1"),

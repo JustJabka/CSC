@@ -102,7 +102,7 @@ public class CSCAttributes {
     private static Holder<Attribute> register(
             String name, double defaultValue, double minValue, double maxValue
     ) {
-        Identifier identifier = Identifier.fromNamespaceAndPath(CSC.MOD_ID, name);
+        Identifier identifier = CSC.key(name);
         Attribute entityAttribute = new RangedAttribute(
                 identifier.toLanguageKey("attribute.name"),
                 defaultValue,

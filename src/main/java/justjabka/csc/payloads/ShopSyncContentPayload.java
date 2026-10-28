@@ -7,7 +7,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 
 public record ShopSyncContentPayload(String query) implements CustomPacketPayload {
-    public static final Type<ShopSyncContentPayload> TYPE = new Type<>(Identifier.fromNamespaceAndPath(CSC.MOD_ID, "shop_sync_content"));
+    public static final Type<ShopSyncContentPayload> TYPE = new Type<>(CSC.key("shop_sync_content"));
 
     public static final StreamCodec<net.minecraft.network.FriendlyByteBuf, ShopSyncContentPayload> CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8, ShopSyncContentPayload::query,

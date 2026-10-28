@@ -37,7 +37,7 @@ public class CSCComponents {
     private static <T> DataComponentType<T> register(final String id, final UnaryOperator<DataComponentType.Builder<T>> builder) {
         return Registry.register(
                 BuiltInRegistries.DATA_COMPONENT_TYPE,
-                Identifier.fromNamespaceAndPath(CSC.MOD_ID, id),
+                CSC.key(id),
                 builder.apply(DataComponentType.builder()).build()
         );
     }

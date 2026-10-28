@@ -10,7 +10,7 @@ import net.minecraft.resources.Identifier;
 
 public class CSCAttachments {
     public static final AttachmentType<PlayerData> PLAYER_DATA = AttachmentRegistry.create(
-            Identifier.fromNamespaceAndPath(CSC.MOD_ID, "player_data"),
+            CSC.key("player_data"),
             builder -> builder
                     .initializer(() -> PlayerData.DEFAULT)
                     .persistent(PlayerData.CODEC)
@@ -19,7 +19,7 @@ public class CSCAttachments {
     );
 
     public static final AttachmentType<AbilitiesData> ABILITIES_DATA = AttachmentRegistry.create(
-            Identifier.fromNamespaceAndPath(CSC.MOD_ID, "abilities_data"),
+            CSC.key("abilities_data"),
             builder -> builder
                     .initializer(() -> AbilitiesData.DEFAULT)
                     .syncWith(AbilitiesData.STREAM_CODEC, AttachmentSyncPredicate.targetOnly())

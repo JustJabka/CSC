@@ -14,8 +14,8 @@ import net.minecraft.world.damagesource.DamageTypes;
 import java.util.concurrent.CompletableFuture;
 
 public class CSCDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
-    public static final TagKey<DamageType> BYPASSES_DODGE = TagKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(CSC.MOD_ID, "bypasses_dodge"));
-    public static final TagKey<DamageType> IS_MAGIC = TagKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(CSC.MOD_ID, "is_magic"));
+    public static final TagKey<DamageType> BYPASSES_DODGE = TagKey.create(Registries.DAMAGE_TYPE, CSC.key("bypasses_dodge"));
+    public static final TagKey<DamageType> IS_MAGIC = TagKey.create(Registries.DAMAGE_TYPE, CSC.key("is_magic"));
 
     public CSCDamageTypeTagProvider(FabricPackOutput output,
                                     CompletableFuture<HolderLookup.Provider> registriesFuture) {
