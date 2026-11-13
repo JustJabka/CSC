@@ -13,11 +13,11 @@ public class GameState {
         dispatcher.register(Commands.literal("gamestate")
                 .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_MODERATOR))
                 .then(Commands.literal("set")
-                        .then(Commands.literal("hub")
+                        .then(Commands.literal("active")
                                 .executes(context -> {
                                     MinecraftServer server = context.getSource().getServer();
 
-                                    GameStateHandler.startHub(server);
+                                    GameStateHandler.startActive(server);
                                     return Command.SINGLE_SUCCESS;
                                 })
                         )
