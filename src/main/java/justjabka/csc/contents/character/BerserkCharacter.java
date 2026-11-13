@@ -30,6 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.jspecify.annotations.NonNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -39,11 +40,18 @@ public class BerserkCharacter extends Character implements OnPlayerHealthChangeC
     private static final double LOST_HEALTH_ATTACK_SPEED_BONUS_PERCENT = 0.02;
 
     public BerserkCharacter(Properties properties) {
-        super(properties.overrideBaseAttributes(
-                Map.of(
-                        Attributes.MAX_HEALTH, 18.0
+        super(properties
+                .overrideBaseAttributes(
+                        Map.of(
+                                Attributes.MAX_HEALTH, 18.0
+                        )
                 )
-        ));
+                .overrideAbilities(
+                        List.of(
+                                CSCItems.BLOODY_LARYNX
+                        )
+                )
+        );
     }
 
     @Override
@@ -66,18 +74,6 @@ public class BerserkCharacter extends Character implements OnPlayerHealthChangeC
         textConsumer.accept(Component.translatable("shard.csc.berserk.description.1").withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("shard.csc.berserk.description.2", CSCItems.BLOODY_LARYNX.getDefaultInstance().getItemName()).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("shard.csc.berserk.description.3").withStyle(ChatFormatting.GRAY));
-    }
-
-    @Override
-    public Map<Holder<Attribute>, AttributeModifier> getAttributeModifiers() {
-        return Map.of();
-    }
-
-    @Override
-    public Map<Item, Integer> getAbilities() {
-        return Map.of(
-                CSCItems.BLOODY_LARYNX, 0
-        );
     }
 
     @Override
@@ -130,7 +126,7 @@ public class BerserkCharacter extends Character implements OnPlayerHealthChangeC
 
     private void updatePassiveAbilityBonus(Player player, Holder<Attribute> attribute, double value) {
         AttributeModifier modifier = new AttributeModifier(
-                getKey(),
+                getModifierKey(key),
                 value,
                 AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
         );
@@ -139,7 +135,7 @@ public class BerserkCharacter extends Character implements OnPlayerHealthChangeC
 
         if (value <= 0) return;
 
-        AttributeHandler.addTransientModifier(player, attribute, modifier);
+        AttributeHandler.addPermanentModifier(player, attribute, modifier);
     }
 
     private void triggerFirstAbility(Player player) {

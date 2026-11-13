@@ -7,6 +7,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,6 +32,15 @@ public final class AttributeHandler {
         instance.addTransientModifier(modifier);
     }
 
+    public static void addPermanentModifier(Player player, Holder<Attribute> attribute, AttributeModifier modifier) {
+        AttributeInstance instance = player.getAttribute(attribute);
+
+        if (instance == null) return;
+        if (instance.hasModifier(modifier.id())) return;
+
+        instance.addPermanentModifier(modifier);
+    }
+
     public static void removeModifier(Player player, Holder<Attribute> attribute, AttributeModifier modifier) {
         AttributeInstance instance = player.getAttribute(attribute);
 
@@ -52,12 +62,17 @@ public final class AttributeHandler {
                 addTransientModifier(player, attribute, modifier));
     }
 
+    public static void addPermanentModifiers(Player player, Map<Holder<Attribute>, AttributeModifier> modifiers) {
+        modifiers.forEach((attribute, modifier) ->
+                addPermanentModifier(player, attribute, modifier));
+    }
+
     public static void removeModifiers(Player player, Map<Holder<Attribute>, AttributeModifier> modifiers) {
         modifiers.forEach((attribute, modifier) ->
                 removeModifier(player, attribute, modifier));
     }
 
-    public static void removeAllModifiersFromNamespace(Player player, String namespace) {
+    public static void removeAllModifiersFrom(Player player, String namespace, @Nullable String prefix) {
         Collection<AttributeInstance> attributes = player.getAttributes().getSyncableAttributes();
 
         for (AttributeInstance instance : attributes) {
@@ -66,9 +81,13 @@ public final class AttributeHandler {
             Set<AttributeModifier> toRemove = new HashSet<>();
 
             for (AttributeModifier modifier : instance.getModifiers()) {
-                String modifierNamespace = modifier.id().getNamespace();
+                Identifier id = modifier.id();
+
+                String modifierNamespace = id.getNamespace();
+                String modifierPath = id.getPath();
 
                 if (!modifierNamespace.equals(namespace)) continue;
+                if (prefix != null && !modifierPath.startsWith(prefix)) continue;
 
                 toRemove.add(modifier);
             }

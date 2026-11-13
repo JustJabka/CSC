@@ -43,26 +43,32 @@ public abstract class Character {
 
     protected static final String ABILITY_SLOT_ID = "offhand/ability";
 
+    protected final Identifier key;
     protected final String descriptionId;
     protected final Identifier icon;
+    protected final List<Item> abilities;
     protected final Map<Holder<Attribute>, Double> baseAttributes;
+    protected final Map<Holder<Attribute>, AttributeModifier> attributeModifiers;
 
     public Character(final Character.Properties properties) {
+        this.key = properties.id.identifier();
         this.descriptionId = properties.effectiveDescriptionId();
         this.icon = properties.effectiveIcon();
+        this.abilities = properties.effectiveAbilities();
         this.baseAttributes = properties.effectiveBaseAttributes();
+        this.attributeModifiers = properties.effectiveAttributeModifiers();
     }
 
-    public Identifier getKey() {
-        return Identifier.parse(descriptionId);
+    public Component getDisplayName() {
+        return Component.translatable(this.descriptionId);
     }
 
     public Identifier getDisplayIcon() {
         return this.icon;
     }
 
-    public Component getDisplayName() {
-        return Component.translatable(this.descriptionId);
+    public static Identifier getModifierKey(Identifier id) {
+        return id.withPrefix("character.");
     }
 
     // Shard
@@ -74,30 +80,22 @@ public abstract class Character {
         textConsumer.accept(Component.translatable("item.csc.shard.description").withStyle(ChatFormatting.GRAY));
     }
 
-    // Attributes
-    // TODO: move to properties
-    public abstract Map<Holder<Attribute>, AttributeModifier> getAttributeModifiers();
-
     // Abilities
-    // TODO: move to properties
-    public abstract Map<Item, Integer> getAbilities();
-
     private void updateAbilities(Player player) {
-        final Map<Item, Integer> abilities = getAbilities();
-
         TrinketAttachment trinketAttachment = TrinketsApi.getAttachment(player);
 
         clearAbilities(trinketAttachment);
-        setAbilities(player, abilities, trinketAttachment);
+        setAbilities(player, trinketAttachment);
     }
 
-    private static void setAbilities(Player player, Map<Item, Integer> abilities, TrinketAttachment trinketAttachment) {
-        abilities.forEach((ability, index) -> {
-            TrinketSlotAccess slotAccess = trinketAttachment.getSlotAccess(ABILITY_SLOT_ID, index);
+    private void setAbilities(Player player, TrinketAttachment trinketAttachment) {
+        for (int i = 0; i < abilities.size(); i++) {
+            TrinketSlotAccess slotAccess = trinketAttachment.getSlotAccess(ABILITY_SLOT_ID, i);
 
             if (slotAccess == null) return;
             if (!slotAccess.isValid()) return;
 
+            Item ability = abilities.get(i);
             ItemStack abilityStack = ability.getDefaultInstance();
 
             // Get shit
@@ -113,7 +111,7 @@ public abstract class Character {
             abilityStack.set(DataComponents.TOOLTIP_DISPLAY, new TooltipDisplay(false, hiddenComponents));
 
             slotAccess.set(abilityStack);
-        });
+        }
     }
 
     private static void clearAbilities(TrinketAttachment trinketAttachment) {
@@ -130,10 +128,8 @@ public abstract class Character {
     }
 
     private void applyAttributeModifiers(Player player) {
-        Map<Holder<Attribute>, AttributeModifier> modifiers = getAttributeModifiers();
-
-        AttributeHandler.removeAllModifiersFromNamespace(player, CSC.MOD_ID);
-        AttributeHandler.addTransientModifiers(player, modifiers);
+        AttributeHandler.removeAllModifiersFrom(player, CSC.MOD_ID, "character");
+        AttributeHandler.addPermanentModifiers(player, attributeModifiers);
     }
 
     // Shard
@@ -163,6 +159,10 @@ public abstract class Character {
         private ResourceKey<Character> id;
         private DependantName<Character, String> descriptionId = CHARACTER_DESCRIPTION_ID;
         private DependantName<Character, Identifier> icon = CHARACTER_ICON;
+
+        private List<Item> abilities = Collections.emptyList();
+
+        private Map<Holder<Attribute>, AttributeModifier> attributeModifiers = Collections.emptyMap();
         private Map<Holder<Attribute>, Double> baseAttributes = Collections.emptyMap();
 
         public ResourceKey<Character> getId() {
@@ -184,8 +184,18 @@ public abstract class Character {
             return this;
         }
 
+        public Character.Properties overrideAbilities(List<Item> abilities) {
+            this.abilities = abilities;
+            return this;
+        }
+
         public Character.Properties overrideBaseAttributes(Map<Holder<Attribute>, Double> baseAttributes) {
             this.baseAttributes = baseAttributes;
+            return this;
+        }
+
+        public Character.Properties overrideAttributeModifiers(Map<Holder<Attribute>, AttributeModifier> attributeModifiers) {
+            this.attributeModifiers = attributeModifiers;
             return this;
         }
 
@@ -201,8 +211,16 @@ public abstract class Character {
             return this.icon.get(this.characterIdOrThrow());
         }
 
+        public List<Item> effectiveAbilities() {
+            return this.abilities;
+        }
+
         public Map<Holder<Attribute>, Double> effectiveBaseAttributes() {
             return this.baseAttributes;
+        }
+
+        public Map<Holder<Attribute>, AttributeModifier> effectiveAttributeModifiers() {
+            return this.attributeModifiers;
         }
     }
 }

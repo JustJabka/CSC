@@ -3,16 +3,15 @@ package justjabka.csc.contents.character;
 import justjabka.csc.contents.item.ability.SpinningSwords;
 import justjabka.csc.registries.CSCItems;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -22,12 +21,29 @@ import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 public class SwordsmanCharacter extends Character {
 
     public SwordsmanCharacter(Properties properties) {
-        super(properties.overrideBaseAttributes(
-                Map.of(
-                        Attributes.MAX_HEALTH, 22.0,
-                        Attributes.ATTACK_DAMAGE, 1.0
+        super(properties
+                .overrideAbilities(
+                        List.of(
+                                CSCItems.SPINNING_SWORDS
+                        )
                 )
-        ));
+                .overrideBaseAttributes(
+                        Map.of(
+                                Attributes.MAX_HEALTH, 22.0,
+                                Attributes.ATTACK_DAMAGE, 1.0
+                        )
+                )
+                .overrideAttributeModifiers(
+                        Map.of(
+                                Attributes.ATTACK_DAMAGE,
+                                new AttributeModifier(
+                                        getModifierKey(properties.characterIdOrThrow().identifier()),
+                                        0.16,
+                                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                                )
+                        )
+                )
+        );
     }
 
     @Override
@@ -53,19 +69,5 @@ public class SwordsmanCharacter extends Character {
                 wrapDecimalAsPercent(SpinningSwords.DAMAGE_PERCENT),
                 wrapDecimalAsPercent(SpinningSwords.DAMAGE_PERCENT + SpinningSwords.DAMAGE_PERCENT_SHARD_BONUS)
         ).withStyle(ChatFormatting.GRAY));
-    }
-
-    @Override
-    public Map<Holder<Attribute>, AttributeModifier> getAttributeModifiers() {
-        return Map.of(
-                Attributes.ATTACK_DAMAGE, new AttributeModifier(getKey(), 0.16, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
-        );
-    }
-
-    @Override
-    public Map<Item, Integer> getAbilities() {
-        return Map.of(
-                CSCItems.SPINNING_SWORDS, 0
-        );
     }
 }
