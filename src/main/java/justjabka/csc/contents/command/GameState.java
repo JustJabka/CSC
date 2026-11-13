@@ -2,6 +2,7 @@ package justjabka.csc.contents.command;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import justjabka.csc.handlers.GameStateHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -20,6 +21,16 @@ public class GameState {
                                     GameStateHandler.startActive(server);
                                     return Command.SINGLE_SUCCESS;
                                 })
+                                .then(Commands.argument("wave", IntegerArgumentType.integer(1))
+                                        .executes(context -> {
+                                            MinecraftServer server = context.getSource().getServer();
+                                            final int wave = IntegerArgumentType.getInteger(context, "wave");
+
+                                            GameStateHandler.startActive(server);
+                                            GameStateHandler.setWave(wave);
+                                            return Command.SINGLE_SUCCESS;
+                                        })
+                                )
                         )
                 )
                 .then(Commands.literal("reset")

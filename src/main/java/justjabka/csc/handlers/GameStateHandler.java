@@ -35,6 +35,10 @@ public final class GameStateHandler {
         return wave;
     }
 
+    public static void setWave(int newWave) {
+        wave = newWave;
+    }
+
     public static void startHub(MinecraftServer server) {
         state = GameState.HUB;
         hubTimer = HUB_DURATION;
