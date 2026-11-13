@@ -2,7 +2,7 @@ package justjabka.csc.contents.item;
 
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import justjabka.csc.contents.attachement.PlayerData;
-import justjabka.csc.contents.character.generic.BaseCharacter;
+import justjabka.csc.contents.character.Character;
 import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.contents.component.ShardComponent;
 import justjabka.csc.contents.component.ShopItemComponent;
@@ -49,11 +49,7 @@ public class Shard extends BaseActiveTrinketItem {
     private void updateShardData(Player player, ItemStack item) {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
 
-        BaseCharacter character = data.getCharacter();
-        if (character == null) {
-            item.set(CSCComponents.ABILITY, DEFAULT_SHARD_DATA);
-            return;
-        }
+        Character character = data.getCharacter();
 
         Identifier ability = character.getShardAbility();
         int cooldown = character.getShardCooldown();
@@ -68,11 +64,7 @@ public class Shard extends BaseActiveTrinketItem {
 
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
 
-        BaseCharacter character = data.getCharacter();
-        if (character == null) {
-            setDefaultShardData(itemStack);
-            return;
-        }
+        Character character = data.getCharacter();
 
         AbilityComponent ability = itemStack.get(CSCComponents.ABILITY);
         if (ability == null) {

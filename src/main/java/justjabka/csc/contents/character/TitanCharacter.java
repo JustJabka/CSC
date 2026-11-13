@@ -1,7 +1,5 @@
 package justjabka.csc.contents.character;
 
-import justjabka.csc.CSC;
-import justjabka.csc.contents.character.generic.BaseCharacter;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCItems;
 import net.minecraft.ChatFormatting;
@@ -18,10 +16,9 @@ import net.minecraft.world.item.TooltipFlag;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class TitanCharacter extends BaseCharacter {
-    @Override
-    public Identifier getKey() {
-        return CSC.id("titan");
+public class TitanCharacter extends Character {
+    public TitanCharacter(Properties properties) {
+        super(properties);
     }
 
     @Override

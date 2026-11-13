@@ -2,7 +2,7 @@ package justjabka.csc.contents.component;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import justjabka.csc.contents.character.generic.BaseCharacter;
+import justjabka.csc.contents.character.Character;
 import justjabka.csc.handlers.CharacterHandler;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCComponents;
@@ -23,8 +23,7 @@ public record ShardComponent() implements TooltipProvider {
 
     @Override
     public void addToTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
-        BaseCharacter character = CharacterHandler.getClientCharacter();
-        if (character == null) return;
+        Character character = CharacterHandler.getClientCharacter();
 
         UseCooldown useCooldown = components.get(DataComponents.USE_COOLDOWN);
         AbilityComponent ability = components.get(CSCComponents.ABILITY);

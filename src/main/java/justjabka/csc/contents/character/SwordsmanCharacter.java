@@ -1,7 +1,6 @@
 package justjabka.csc.contents.character;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.character.generic.BaseCharacter;
 import justjabka.csc.contents.item.ability.SpinningSwords;
 import justjabka.csc.registries.CSCItems;
 import net.minecraft.ChatFormatting;
@@ -21,10 +20,10 @@ import java.util.function.Consumer;
 import static justjabka.csc.handlers.DescriptionHandler.MAGICAL_DAMAGE;
 import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 
-public class SwordsmanCharacter extends BaseCharacter {
-    @Override
-    public Identifier getKey() {
-        return CSC.id("swordsman");
+public class SwordsmanCharacter extends Character {
+
+    public SwordsmanCharacter(Properties properties) {
+        super(properties);
     }
 
     @Override

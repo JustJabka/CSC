@@ -1,8 +1,6 @@
 package justjabka.csc.contents.character;
 
-import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.generic.BaseActiveAbility;
-import justjabka.csc.contents.character.generic.BaseCharacter;
 import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
@@ -35,14 +33,13 @@ import org.jspecify.annotations.NonNull;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class BerserkCharacter extends BaseCharacter implements OnPlayerHealthChangeCallback, ServerLivingEntityEvents.AllowDeath {
+public class BerserkCharacter extends Character implements OnPlayerHealthChangeCallback, ServerLivingEntityEvents.AllowDeath {
     private static final int LOST_HEALTH_BONUS_PERCENT_STEP = 10;
     private static final double LOST_HEALTH_ATTACK_DAMAGE_BONUS_PERCENT = 0.03;
     private static final double LOST_HEALTH_ATTACK_SPEED_BONUS_PERCENT = 0.02;
 
-    @Override
-    public Identifier getKey() {
-        return CSC.id("berserk");
+    public BerserkCharacter(Properties properties) {
+        super(properties);
     }
 
     @Override

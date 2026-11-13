@@ -1,7 +1,6 @@
 package justjabka.csc.mixin;
 
-import justjabka.csc.CSC;
-import justjabka.csc.contents.character.generic.BaseCharacter;
+import justjabka.csc.contents.character.Character;
 import justjabka.csc.handlers.CharacterHandler;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -37,12 +36,9 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
 
     @Unique
     private WidgetSprites getCharacterSprite() {
-        BaseCharacter character = CharacterHandler.getClientCharacter();
+        Character character = CharacterHandler.getClientCharacter();
 
-        Identifier icon = CSC.id("character/missingno");
-        if (character != null) {
-            icon = character.getDisplayIcon();
-        }
+        Identifier icon = character.getDisplayIcon();
 
         return new WidgetSprites(icon);
     }

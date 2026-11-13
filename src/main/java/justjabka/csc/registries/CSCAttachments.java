@@ -13,7 +13,7 @@ public class CSCAttachments {
             builder -> builder
                     .initializer(() -> PlayerData.DEFAULT)
                     .persistent(PlayerData.CODEC)
-                    .syncWith(PlayerData.PACKET_CODEC, AttachmentSyncPredicate.targetOnly())
+                    .syncWith(PlayerData.STREAM_CODEC, AttachmentSyncPredicate.targetOnly())
                     .copyOnDeath()
     );
 

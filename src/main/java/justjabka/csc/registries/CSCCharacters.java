@@ -1,62 +1,44 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.character.BerserkCharacter;
-import justjabka.csc.contents.character.SwordsmanCharacter;
-import justjabka.csc.contents.character.TitanCharacter;
-import justjabka.csc.contents.character.generic.BaseCharacter;
+import justjabka.csc.contents.character.*;
+import justjabka.csc.contents.character.Character;
 import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.CharacterHandler;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.minecraft.resources.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.function.Function;
 
+@SuppressWarnings("unused")
 public class CSCCharacters {
-    private static final Map<Identifier, BaseCharacter> CHARACTERS = new HashMap<>();
+    public static final Character NONE = register(CSCCharacterIds.NONE, NoneCharacter::new);
 
-    public static final SwordsmanCharacter SWORDSMAN = new SwordsmanCharacter();
-    public static final TitanCharacter TITAN = new TitanCharacter();
-    public static final BerserkCharacter BERSERK = new BerserkCharacter();
+    public static final Character SWORDSMAN = register(CSCCharacterIds.SWORDSMAN, SwordsmanCharacter::new);
+    public static final Character TITAN = register(CSCCharacterIds.TITAN, TitanCharacter::new);
+    public static final Character BERSERK = register(CSCCharacterIds.BERSERK, BerserkCharacter::new);
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Characters");
-
-        registerCharacter(SWORDSMAN);
-        registerCharacter(TITAN);
-        registerCharacter(BERSERK);
     }
 
-    public static void registerCharacter(BaseCharacter character) {
-        CHARACTERS.put(character.getKey(), character);
-        registerCharactersEvents(character);
+    public static Character register(ResourceKey<Character> characterKey, Function<Character.Properties, Character> characterFactory) {
+        return register(characterKey, characterFactory, new Character.Properties());
     }
 
-    public static Map<Identifier, BaseCharacter> getCharacters() {
-        return Collections.unmodifiableMap(CHARACTERS);
-    }
+    public static Character register(ResourceKey<Character> characterKey, Function<Character.Properties, Character> characterFactory, Character.Properties settings) {
+        Character character = characterFactory.apply(settings.setId(characterKey));
 
-    public static @Nullable BaseCharacter get(Identifier key) {
-        return CHARACTERS.get(key);
-    }
+        Registry.register(CSCBuiltInRegistries.CHARACTER, characterKey, character);
 
-    public static @NonNull BaseCharacter getOrThrow(Identifier key) {
-        BaseCharacter character = get(key);
-
-        if (character == null) {
-            throw new NoSuchElementException("Character with %s doesn't exist".formatted(key));
-        }
-
+//        registerCharactersEvents(character);
         return character;
     }
 
-    private static void registerCharactersEvents(BaseCharacter character) {
+    // TODO: replace character events with separate passive abilities
+    private static void registerCharactersEvents(Character character) {
         if (character instanceof OnPlayerHealthChangeCallback listener) {
             OnPlayerHealthChangeCallback.EVENT.register((player, oldHealth, newHealth) -> {
                 if (!CharacterHandler.isCurrentCharacter(player, character)) return;
