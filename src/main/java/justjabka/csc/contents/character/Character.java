@@ -34,10 +34,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.SequencedSet;
+import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class Character {
@@ -48,10 +45,12 @@ public abstract class Character {
 
     protected final String descriptionId;
     protected final Identifier icon;
+    protected final Map<Holder<Attribute>, Double> baseAttributes;
 
     public Character(final Character.Properties properties) {
         this.descriptionId = properties.effectiveDescriptionId();
         this.icon = properties.effectiveIcon();
+        this.baseAttributes = properties.effectiveBaseAttributes();
     }
 
     public Identifier getKey() {
@@ -77,7 +76,6 @@ public abstract class Character {
 
     // Attributes
     // TODO: move to properties
-    public abstract Map<Holder<Attribute>, Double> getBaseAttributes();
     public abstract Map<Holder<Attribute>, AttributeModifier> getAttributeModifiers();
 
     // Abilities
@@ -128,7 +126,7 @@ public abstract class Character {
     // Attributes
     private void setBaseAttributes(Player player) {
         AttributeHandler.resetBaseValues(player);
-        AttributeHandler.setBaseValues(player, getBaseAttributes());
+        AttributeHandler.setBaseValues(player, this.baseAttributes);
     }
 
     private void applyAttributeModifiers(Player player) {
@@ -165,9 +163,10 @@ public abstract class Character {
         private ResourceKey<Character> id;
         private DependantName<Character, String> descriptionId = CHARACTER_DESCRIPTION_ID;
         private DependantName<Character, Identifier> icon = CHARACTER_ICON;
+        private Map<Holder<Attribute>, Double> baseAttributes = Collections.emptyMap();
 
         public ResourceKey<Character> getId() {
-            return id;
+            return this.id;
         }
 
         public Character.Properties setId(final ResourceKey<Character> id) {
@@ -185,6 +184,11 @@ public abstract class Character {
             return this;
         }
 
+        public Character.Properties overrideBaseAttributes(Map<Holder<Attribute>, Double> baseAttributes) {
+            this.baseAttributes = baseAttributes;
+            return this;
+        }
+
         public final ResourceKey<Character> characterIdOrThrow() {
             return Objects.requireNonNull(this.id, "Character id not set");
         }
@@ -195,6 +199,10 @@ public abstract class Character {
 
         public Identifier effectiveIcon() {
             return this.icon.get(this.characterIdOrThrow());
+        }
+
+        public Map<Holder<Attribute>, Double> effectiveBaseAttributes() {
+            return this.baseAttributes;
         }
     }
 }

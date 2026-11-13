@@ -18,7 +18,12 @@ import java.util.function.Consumer;
 
 public class TitanCharacter extends Character {
     public TitanCharacter(Properties properties) {
-        super(properties);
+        super(properties.overrideBaseAttributes(
+                Map.of(
+                        Attributes.MAX_HEALTH, 40.0,
+                        CSCAttributes.HEALTH_BOOK_BONUS, 2.0
+                )
+        ));
     }
 
     @Override
@@ -40,14 +45,6 @@ public class TitanCharacter extends Character {
     public void getShardDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("shard.csc.titan.description.1").withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("shard.csc.titan.description.2", CSCItems.REDOUBT.getDefaultInstance().getItemName()).withStyle(ChatFormatting.GRAY));
-    }
-
-    @Override
-    public Map<Holder<Attribute>, Double> getBaseAttributes() {
-        return Map.of(
-                Attributes.MAX_HEALTH, 40.0,
-                CSCAttributes.HEALTH_BOOK_BONUS, 2.0
-        );
     }
 
     @Override

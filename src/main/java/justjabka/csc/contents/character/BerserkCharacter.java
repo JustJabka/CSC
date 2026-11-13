@@ -39,7 +39,11 @@ public class BerserkCharacter extends Character implements OnPlayerHealthChangeC
     private static final double LOST_HEALTH_ATTACK_SPEED_BONUS_PERCENT = 0.02;
 
     public BerserkCharacter(Properties properties) {
-        super(properties);
+        super(properties.overrideBaseAttributes(
+                Map.of(
+                        Attributes.MAX_HEALTH, 18.0
+                )
+        ));
     }
 
     @Override
@@ -62,13 +66,6 @@ public class BerserkCharacter extends Character implements OnPlayerHealthChangeC
         textConsumer.accept(Component.translatable("shard.csc.berserk.description.1").withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("shard.csc.berserk.description.2", CSCItems.BLOODY_LARYNX.getDefaultInstance().getItemName()).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("shard.csc.berserk.description.3").withStyle(ChatFormatting.GRAY));
-    }
-
-    @Override
-    public Map<Holder<Attribute>, Double> getBaseAttributes() {
-        return Map.of(
-                Attributes.MAX_HEALTH, 18.0
-        );
     }
 
     @Override

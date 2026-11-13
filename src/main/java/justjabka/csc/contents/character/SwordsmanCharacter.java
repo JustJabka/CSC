@@ -1,6 +1,5 @@
 package justjabka.csc.contents.character;
 
-import justjabka.csc.CSC;
 import justjabka.csc.contents.item.ability.SpinningSwords;
 import justjabka.csc.registries.CSCItems;
 import net.minecraft.ChatFormatting;
@@ -23,7 +22,12 @@ import static justjabka.csc.handlers.DescriptionHandler.wrapDecimalAsPercent;
 public class SwordsmanCharacter extends Character {
 
     public SwordsmanCharacter(Properties properties) {
-        super(properties);
+        super(properties.overrideBaseAttributes(
+                Map.of(
+                        Attributes.MAX_HEALTH, 22.0,
+                        Attributes.ATTACK_DAMAGE, 1.0
+                )
+        ));
     }
 
     @Override
@@ -49,14 +53,6 @@ public class SwordsmanCharacter extends Character {
                 wrapDecimalAsPercent(SpinningSwords.DAMAGE_PERCENT),
                 wrapDecimalAsPercent(SpinningSwords.DAMAGE_PERCENT + SpinningSwords.DAMAGE_PERCENT_SHARD_BONUS)
         ).withStyle(ChatFormatting.GRAY));
-    }
-
-    @Override
-    public Map<Holder<Attribute>, Double> getBaseAttributes() {
-        return Map.of(
-                Attributes.MAX_HEALTH, 22.0,
-                Attributes.ATTACK_DAMAGE, 1.0
-        );
     }
 
     @Override

@@ -30,11 +30,6 @@ public class NoneCharacter extends Character {
     }
 
     @Override
-    public Map<Holder<Attribute>, Double> getBaseAttributes() {
-        return Map.of();
-    }
-
-    @Override
     public Map<Holder<Attribute>, AttributeModifier> getAttributeModifiers() {
         return Map.of();
     }
