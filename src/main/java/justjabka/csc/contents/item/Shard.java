@@ -31,7 +31,7 @@ public class Shard extends BaseActiveTrinketItem {
 
     public Shard(Properties properties) {
         super(properties.component(CSCComponents.ABILITY, DEFAULT_SHARD_DATA)
-                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(2300, ShopCategory.MAGIC))
+                .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(2300, ShopCategory.MAGIC, 10))
                 .component(CSCComponents.SHARD, ShardComponent.INSTANCE)
         );
     }

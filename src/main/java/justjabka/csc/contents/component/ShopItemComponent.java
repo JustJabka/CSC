@@ -14,26 +14,38 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipProvider;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
-public record ShopItemComponent(int price, ShopCategory category) implements TooltipProvider {
-    public static final Codec<ShopItemComponent> CODEC = RecordCodecBuilder.create(builder -> {
-        return builder.group(
-                Codec.INT.fieldOf("price").forGetter(ShopItemComponent::price),
-                ShopCategory.CODEC.fieldOf("category").forGetter(ShopItemComponent::category)
-        ).apply(builder, ShopItemComponent::new);
-    });
+public record ShopItemComponent(int price, ShopCategory category, int waveReq) implements TooltipProvider {
+    public static final Codec<ShopItemComponent> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+            Codec.INT.fieldOf("price").forGetter(ShopItemComponent::price),
+            ShopCategory.CODEC.fieldOf("category").forGetter(ShopItemComponent::category),
+            Codec.INT.fieldOf("wave_req").forGetter(ShopItemComponent::waveReq)
+    ).apply(builder, ShopItemComponent::new));
+
+    public ShopItemComponent(int price, ShopCategory category) {
+        this(price, category, 0);
+    }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void addToTooltip(Item.TooltipContext tooltip, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+    public void addToTooltip(
+            Item.@NonNull TooltipContext tooltip,
+            @NonNull Consumer<Component> textConsumer,
+            @NonNull TooltipFlag type,
+            @NonNull DataComponentGetter components
+    ) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
 
         if (player == null) return;
         if (!(player.containerMenu instanceof ShopMenu)) return;
 
-        textConsumer.accept(Component.translatable("other.csc.price", this.price).withStyle(ChatFormatting.GOLD));
+        textConsumer.accept(Component.translatable("other.csc.shop_item.price", this.price).withStyle(ChatFormatting.GOLD));
+        if (this.waveReq > 0) {
+            textConsumer.accept(Component.translatable("other.csc.shop_item.wave_req", this.waveReq).withStyle(ChatFormatting.RED));
+        }
     }
 }

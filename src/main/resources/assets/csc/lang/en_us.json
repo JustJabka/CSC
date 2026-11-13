@@ -98,13 +98,16 @@
     "key.csc.ability_activation.0": "Use Ability 1",
     "key.csc.ability_activation.1": "Use Ability 2",
 
-    "other.csc.price": "$ Price: %s",
     "other.csc.cooldown": "⌛ Cooldown: %s",
     "other.csc.duration": "⌚ Duration: %s",
     "other.csc.reveal_details": "ⓘ Hold %s to reveal details",
     "other.csc.time.seconds": "%s sec.",
     "other.csc.time.minutes": "%s min.",
     "other.csc.time.hours": "%s h.",
+
+    "other.csc.shop_item.price": "$ Price: %s",
+    "other.csc.shop_item.wave_req": "⚠ Can only be purchased starting from the wave: %s",
+
     "other.csc.upgradable.level": "Level %s/%s",
     "other.csc.upgradable.price": "Upgrade price %s",
     "other.csc.book.description": "When used, increases %s by %s for the end of the game",

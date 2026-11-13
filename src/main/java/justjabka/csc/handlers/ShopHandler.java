@@ -23,6 +23,8 @@ public final class ShopHandler {
     private static final Map<ShopCategory, List<ItemStack>> CATEGORY_CACHE = new EnumMap<>(ShopCategory.class);
     private static final List<ItemStack> ALL_SHOP_ITEMS = new ArrayList<>();
 
+    private static final int USED_ITEM_PENALTY = 2;
+
     public static void initCache() {
         ALL_SHOP_ITEMS.clear();
         for (ShopCategory cat : ShopCategory.values()) {
@@ -53,15 +55,21 @@ public final class ShopHandler {
 
     public static void tryPurchase(Player player, ItemStack item) {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
-
         int currentGold = data.gold();
+
+        int currentWave = GameStateHandler.getWave();
+
         ShopItemComponent shopItemComponent = item.getOrDefault(CSCComponents.SHOP_ITEM, new ShopItemComponent(0, ShopCategory.DAMAGE));
         int price = shopItemComponent.price();
+        int waveReq = shopItemComponent.waveReq();
 
-        boolean notEnoughGold = currentGold < price;
-        boolean inventoryFull = player.getInventory().getFreeSlot() == -1;
+        boolean hasEnoughGold = currentGold >= price;
+        boolean hasFreeSlot = player.getInventory().getFreeSlot() != -1;
+        boolean isRequiredWave = currentWave >= waveReq;
 
-        if (notEnoughGold || inventoryFull) {
+        boolean canPurchase = hasEnoughGold && hasFreeSlot && isRequiredWave;
+
+        if (!canPurchase) {
             player.level().playSound(
                     null,
                     player.getX(),
@@ -72,6 +80,7 @@ public final class ShopHandler {
                     0.5f,
                     1
             );
+
             return;
         }
 
@@ -97,9 +106,8 @@ public final class ShopHandler {
     public static void trySell(Player player, ItemStack item) {
         PlayerData data = player.getAttachedOrCreate(CSCAttachments.PLAYER_DATA);
 
-        int usedItemPenalty = 2;
         ShopItemComponent shopItemComponent = item.getOrDefault(CSCComponents.SHOP_ITEM, new ShopItemComponent(0, ShopCategory.DAMAGE));
-        int price = shopItemComponent.price() / usedItemPenalty;
+        int price = shopItemComponent.price() / USED_ITEM_PENALTY;
 
         player.setAttached(
                 CSCAttachments.PLAYER_DATA,
