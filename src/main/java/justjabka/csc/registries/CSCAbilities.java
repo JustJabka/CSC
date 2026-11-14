@@ -4,7 +4,7 @@ import justjabka.csc.CSC;
 import justjabka.csc.contents.ability.BloodyLarynxAbility;
 import justjabka.csc.contents.ability.RedoubtAbility;
 import justjabka.csc.contents.ability.SpinningSwordsAbility;
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.contents.ability.item.*;
 import justjabka.csc.contents.ability.shard.BerserkShardAbility;
 import justjabka.csc.types.AbilityType;
@@ -43,7 +43,7 @@ public class CSCAbilities {
         CSC.LOGGER.info("Initializing Abilities");
     }
 
-    public static <T extends BaseActiveAbility> AbilityType<T> register(
+    public static <T extends ActiveAbility> AbilityType<T> register(
             String name,
             AbilityType.AbilityFactory<T> factory
     ) {

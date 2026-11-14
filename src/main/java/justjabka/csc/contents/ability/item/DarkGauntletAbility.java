@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
+import justjabka.csc.contents.ability.generic.TogglableActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.registries.CSCAttributes;
@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class DarkGauntletAbility extends BaseTogglableActiveAbility {
+public class DarkGauntletAbility extends TogglableActiveAbility {
     private static final double TICKING_DAMAGE = 0.01;
 
     private static final double DAMAGE_MODIFIER = 7;

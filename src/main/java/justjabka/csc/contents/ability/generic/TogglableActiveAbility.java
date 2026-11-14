@@ -3,9 +3,9 @@ package justjabka.csc.contents.ability.generic;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.resources.Identifier;
 
-public abstract class BaseTogglableActiveAbility extends BaseActiveAbility {
+public abstract class TogglableActiveAbility extends ActiveAbility {
 
-    public BaseTogglableActiveAbility(Identifier id, int duration, AbilityContext ctx) {
+    public TogglableActiveAbility(Identifier id, int duration, AbilityContext ctx) {
         super(id, duration, ctx);
     }
 

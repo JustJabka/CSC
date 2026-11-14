@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TeamHandler;
 import justjabka.csc.types.AbilityContext;
@@ -19,7 +19,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -35,7 +34,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class BloodyLarynxAbility extends BaseActiveAbility {
+public class BloodyLarynxAbility extends ActiveAbility {
     private static final double DAMAGE_MULTIPLIER = 2;
     private static final double MIN_RADIUS = 3;
     private static final double MAX_RADIUS = 15;

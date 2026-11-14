@@ -13,14 +13,14 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.function.Consumer;
 
-public abstract class BaseActiveAbility {
+public abstract class ActiveAbility {
     protected final Identifier id;
     protected int duration;
     protected final int maxDuration;
     protected final AbilityContext ctx;
     protected boolean ended = false;
 
-    public BaseActiveAbility(Identifier id, int duration, AbilityContext ctx) {
+    public ActiveAbility(Identifier id, int duration, AbilityContext ctx) {
         this.id = id;
         this.duration = duration;
         this.maxDuration = duration;
@@ -63,7 +63,7 @@ public abstract class BaseActiveAbility {
     }
 
     // Time
-    public void refresh(BaseActiveAbility ability) {
+    public void refresh(ActiveAbility ability) {
         this.duration = ability.duration;
         saveAbilitiesData();
     }

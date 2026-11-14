@@ -1,6 +1,6 @@
 package justjabka.csc.contents.character;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
@@ -151,7 +151,7 @@ public class BerserkCharacter extends Character implements OnPlayerHealthChangeC
 
     private void triggerInvulnerability(Player player, ItemStack shardStack) {
         AbilityContext ctx = new AbilityContext(player, shardStack);
-        BaseActiveAbility ability = CSCAbilities.BERSERK_SHARD.createInstance(getShardDuration(), ctx);
+        ActiveAbility ability = CSCAbilities.BERSERK_SHARD.createInstance(getShardDuration(), ctx);
 
         AbilityHandler.addAbility(player, ability);
     }

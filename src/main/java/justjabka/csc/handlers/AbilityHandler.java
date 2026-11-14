@@ -1,7 +1,7 @@
 package justjabka.csc.handlers;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
-import justjabka.csc.contents.ability.generic.BaseTogglableActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.generic.TogglableActiveAbility;
 import net.minecraft.world.entity.player.Player;
 import org.jspecify.annotations.Nullable;
 
@@ -12,13 +12,13 @@ public final class AbilityHandler {
 
     private AbilityHandler() {}
 
-    private static final Map<Player, List<BaseActiveAbility>> ACTIVE_ABILITIES = new WeakHashMap<>();
+    private static final Map<Player, List<ActiveAbility>> ACTIVE_ABILITIES = new WeakHashMap<>();
 
-    public static void addAbility(Player player, @Nullable BaseActiveAbility ability) {
+    public static void addAbility(Player player, @Nullable ActiveAbility ability) {
         if (ability == null) return;
 
-        List<BaseActiveAbility> playerAbilities = ACTIVE_ABILITIES.computeIfAbsent(player, _ -> new ArrayList<>());
-        BaseActiveAbility existing = getAbilityInstance(player, ability.getClass());
+        List<ActiveAbility> playerAbilities = ACTIVE_ABILITIES.computeIfAbsent(player, _ -> new ArrayList<>());
+        ActiveAbility existing = getAbilityInstance(player, ability.getClass());
 
         if (existing == null) {
             ability.start();
@@ -26,7 +26,7 @@ public final class AbilityHandler {
             return;
         }
 
-        if (ability instanceof BaseTogglableActiveAbility) {
+        if (ability instanceof TogglableActiveAbility) {
             existing.end();
             playerAbilities.remove(existing);
             return;
@@ -35,11 +35,11 @@ public final class AbilityHandler {
         existing.refresh(ability);
     }
 
-    public static <T extends BaseActiveAbility> T getAbilityInstance(Player player, Class<T> type) {
-        List<BaseActiveAbility> abilities = getPlayerAbilities(player);
+    public static <T extends ActiveAbility> T getAbilityInstance(Player player, Class<T> type) {
+        List<ActiveAbility> abilities = getPlayerAbilities(player);
         if (abilities == null) return null;
 
-        for (BaseActiveAbility ability : abilities) {
+        for (ActiveAbility ability : abilities) {
             if (!type.isInstance(ability)) continue;
             return type.cast(ability);
         }
@@ -47,7 +47,7 @@ public final class AbilityHandler {
         return null;
     }
 
-    public static @Nullable List<BaseActiveAbility> getPlayerAbilities(Player player) {
+    public static @Nullable List<ActiveAbility> getPlayerAbilities(Player player) {
         if (ACTIVE_ABILITIES.isEmpty()) return null;
         if (!ACTIVE_ABILITIES.containsKey(player)) return null;
 
@@ -55,13 +55,13 @@ public final class AbilityHandler {
     }
 
     public static void tick(Player player) {
-        List<BaseActiveAbility> abilities = getPlayerAbilities(player);
+        List<ActiveAbility> abilities = getPlayerAbilities(player);
         if (abilities == null) return;
 
-        Iterator<BaseActiveAbility> iterator = abilities.iterator();
+        Iterator<ActiveAbility> iterator = abilities.iterator();
 
         while (iterator.hasNext()) {
-            BaseActiveAbility ability = iterator.next();
+            ActiveAbility ability = iterator.next();
 
             if (!ability.isPlayerValid()) {
                 ability.end();
@@ -83,11 +83,11 @@ public final class AbilityHandler {
         }
     }
 
-    public static void stopAbility(Player player, Class<? extends BaseActiveAbility> type) {
-        List<BaseActiveAbility> abilities = getPlayerAbilities(player);
+    public static void stopAbility(Player player, Class<? extends ActiveAbility> type) {
+        List<ActiveAbility> abilities = getPlayerAbilities(player);
         if (abilities == null) return;
 
-        for (BaseActiveAbility ability : abilities) {
+        for (ActiveAbility ability : abilities) {
             if (!type.isInstance(ability)) continue;
             ability.forceEnd();
         }

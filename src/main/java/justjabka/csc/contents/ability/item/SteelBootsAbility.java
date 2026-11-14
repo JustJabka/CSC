@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.types.AbilityContext;
@@ -23,7 +23,7 @@ import net.minecraft.world.item.TooltipFlag;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class SteelBootsAbility extends BaseActiveAbility {
+public class SteelBootsAbility extends ActiveAbility {
     private static final double GRAVITY_MODIFIER = Integer.MAX_VALUE;
     private static final double KNOCKBACK_RESISTANCE_MODIFIER = Integer.MAX_VALUE;
     private static final double JUMP_STRENGTH_MODIFIER = Integer.MIN_VALUE;

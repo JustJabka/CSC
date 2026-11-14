@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.BaseInstantAbility;
+import justjabka.csc.contents.ability.generic.InstantAbility;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Consumer;
 
-public class PhoenixFeatherAbility extends BaseInstantAbility {
+public class PhoenixFeatherAbility extends InstantAbility {
     private static final double HORIZONTAL_STRENGTH = 1.6;
     private static final double VERTICAL_STRENGTH = 0.6;
 

@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.contents.ability.generic.ShardAffectedAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
@@ -25,7 +25,7 @@ import net.minecraft.world.item.TooltipFlag;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class RedoubtAbility extends BaseActiveAbility implements ShardAffectedAbility {
+public class RedoubtAbility extends ActiveAbility implements ShardAffectedAbility {
 
     private static final double INCOMING_DAMAGE_MULTIPLIER_MODIFIER = -0.35;
     private static final double KNOCKBACK_RESISTANCE_MODIFIER = 1;

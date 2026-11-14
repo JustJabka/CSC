@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.contents.ability.generic.ShardAffectedAbility;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TeamHandler;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class SpinningSwordsAbility extends BaseActiveAbility implements ShardAffectedAbility {
+public class SpinningSwordsAbility extends ActiveAbility implements ShardAffectedAbility {
     private final List<Display.ItemDisplay> swords = new ArrayList<>();
 
     private static final ItemStack SWORD_ITEM = new ItemStack(Items.IRON_SWORD);

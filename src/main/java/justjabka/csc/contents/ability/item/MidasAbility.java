@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.BaseInstantAbility;
+import justjabka.csc.contents.ability.generic.InstantAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
 import justjabka.csc.registries.CSCAttachments;
@@ -20,7 +20,7 @@ import net.minecraft.world.item.TooltipFlag;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class MidasAbility extends BaseInstantAbility {
+public class MidasAbility extends InstantAbility {
     private static final int GOLD_REWARD = 250;
 
     public MidasAbility(Identifier id, int duration, AbilityContext ctx) {

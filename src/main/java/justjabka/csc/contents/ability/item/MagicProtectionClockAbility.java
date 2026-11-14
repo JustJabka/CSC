@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.registries.CSCAttributes;
@@ -19,11 +19,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class MagicProtectionClockAbility extends BaseActiveAbility {
+public class MagicProtectionClockAbility extends ActiveAbility {
     private final AttributeModifier MAGIC_RESISTANCE_MODIFIER = new AttributeModifier(
             getId(),
             1,

@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TeamHandler;
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class LifeShieldAbility extends BaseActiveAbility {
+public class LifeShieldAbility extends ActiveAbility {
     private final List<UUID> BUFFED_PLAYERS = new ArrayList<>();
 
     private static final double DAMAGE_MULTIPLIER_MODIFIER = -0.05;

@@ -3,8 +3,8 @@ package justjabka.csc.contents.ability.generic;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.resources.Identifier;
 
-public abstract class BaseInstantAbility extends BaseActiveAbility {
-    public BaseInstantAbility(Identifier id, int duration, AbilityContext ctx) {
+public abstract class InstantAbility extends ActiveAbility {
+    public InstantAbility(Identifier id, int duration, AbilityContext ctx) {
         super(id, duration, ctx);
     }
 

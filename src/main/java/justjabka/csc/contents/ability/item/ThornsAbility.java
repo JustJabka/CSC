@@ -1,6 +1,6 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.BaseActiveAbility;
+import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.registries.CSCAttributes;
@@ -20,7 +20,7 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.function.Consumer;
 
-public class ThornsAbility extends BaseActiveAbility {
+public class ThornsAbility extends ActiveAbility {
     private final AttributeModifier DAMAGE_REFLECTION_MODIFIER = new AttributeModifier(
             getId(),
             0.5,
