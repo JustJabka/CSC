@@ -1,7 +1,8 @@
 package justjabka.csc.rendering;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.attachement.AbilitiesData;
+import justjabka.csc.contents.ability.AbilityInstance;
+import justjabka.csc.contents.attachement.AbilityData;
 import justjabka.csc.handlers.TimeHandler;
 import justjabka.csc.registries.CSCAttachments;
 import net.minecraft.ChatFormatting;
@@ -13,30 +14,28 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class CSCAbilityRendering {
     private static final Identifier ABILITY_BAR_BACKGROUND = CSC.id("hud/ability_bar_background");
     private static final Identifier ABILITY_BAR_PROGRESS = CSC.id("hud/ability_bar_progress");
 
     public static void render(GuiGraphicsExtractor graphics, Font font, Player player, int sw, int sh) {
-        AbilitiesData data = player.getAttachedOrCreate(CSCAttachments.ABILITIES_DATA);
+        AbilityData data = player.getAttachedOrCreate(CSCAttachments.ABILITY_DATA);
 
-        AtomicInteger yOffset = new AtomicInteger(0);
+        int yOffset = 0;
         int yOffsetStep = 16;
 
-        data.abilities().forEach((key, abilityData) -> {
-            Identifier icon = abilityData.icon();
-            int duration = abilityData.duration();
-            int maxDuration = abilityData.maxDuration();
+        for (AbilityInstance ability : data.abilities().values()) {
+            Identifier icon = ability.getIcon();
+            int duration = ability.getDuration();
+            int maxDuration = ability.getMaxDuration();
 
             int remainingSeconds = TimeHandler.ticksToSeconds(duration);
             float progressPercent = maxDuration > 0 ? (float) duration / maxDuration : 1f;
 
-            renderAbility(graphics, font, player, sw, sh, icon, remainingSeconds, progressPercent, yOffset.get());
+            renderAbility(graphics, font, player, sw, sh, icon, remainingSeconds, progressPercent, yOffset);
 
-            yOffset.addAndGet(yOffsetStep);
-        });
+            yOffset += yOffsetStep;
+        }
     }
 
     public static void renderAbility(

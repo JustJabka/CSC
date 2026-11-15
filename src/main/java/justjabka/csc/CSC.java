@@ -13,6 +13,7 @@ public class CSC implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		CSCComponents.initialize();
+		CSCAbilities.initialize();
 
 		CSCItems.initialize();
 		CSCBlocks.initialize();
@@ -28,7 +29,6 @@ public class CSC implements ModInitializer {
 		CSCMenuTypes.initialize();
 		CSCLootTables.initialize();
 		CSCTooltipProviders.initialize();
-		CSCAbilities.initialize();
 	}
 
 	public static Identifier id(String path) {

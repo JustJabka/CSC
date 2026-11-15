@@ -31,7 +31,7 @@ public class HolyBlanket extends BaseActiveTrinketItem {
                 .useCooldown(42)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.HOLY_BLANKET.getId(), TimeHandler.secondsToTicks(1), Set.of(ActivationType.TRINKET, ActivationType.PASSIVE))
+                        new AbilityComponent(CSCAbilities.HOLY_BLANKET, TimeHandler.secondsToTicks(1), Set.of(ActivationType.TRINKET, ActivationType.PASSIVE))
                 )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3800, ShopCategory.TACTIC))
         );

@@ -1,9 +1,10 @@
-package justjabka.csc.contents.ability.generic;
+package justjabka.csc.contents.ability;
 
 import justjabka.csc.handlers.TrinketHandler;
 import net.minecraft.world.entity.player.Player;
 
-public interface ShardAffectedAbility {
+public interface ShardAffected {
+
     default boolean hasShard(Player player) {
         return TrinketHandler.hasShard(player);
     }

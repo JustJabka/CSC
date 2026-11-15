@@ -1,95 +1,97 @@
 package justjabka.csc.handlers;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
-import justjabka.csc.contents.ability.generic.TogglableActiveAbility;
+import justjabka.csc.contents.ability.Ability;
+import justjabka.csc.contents.ability.AbilityInstance;
+import justjabka.csc.contents.ability.TogglableAbility;
+import justjabka.csc.contents.attachement.AbilityData;
+import justjabka.csc.registries.CSCAttachments;
+import justjabka.csc.types.AbilityContext;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-
+@NullMarked
 public final class AbilityHandler {
 
     private AbilityHandler() {}
 
-    private static final Map<Player, List<ActiveAbility>> ACTIVE_ABILITIES = new WeakHashMap<>();
+    private static AbilityData getActiveAbilities(Player player) {
+        return player.getAttachedOrCreate(CSCAttachments.ABILITY_DATA);
+    }
 
-    public static void addAbility(Player player, @Nullable ActiveAbility ability) {
+    public static void startAbility(Player player, @Nullable AbilityInstance ability, AbilityContext ctx) {
         if (ability == null) return;
 
-        List<ActiveAbility> playerAbilities = ACTIVE_ABILITIES.computeIfAbsent(player, _ -> new ArrayList<>());
-        ActiveAbility existing = getAbilityInstance(player, ability.getClass());
+        AbilityData abilities = getActiveAbilities(player);
+
+        Holder<Ability> type = ability.getAbility();
+        AbilityInstance existing = abilities.abilities().get(type);
 
         if (existing == null) {
-            ability.start();
-            playerAbilities.add(ability);
+            ability.start(ctx);
+            player.setAttached(CSCAttachments.ABILITY_DATA, abilities.addAbility(ability));
             return;
         }
 
-        if (ability instanceof TogglableActiveAbility) {
+        if (type.value() instanceof TogglableAbility) {
             existing.end();
-            playerAbilities.remove(existing);
+            player.setAttached(CSCAttachments.ABILITY_DATA, abilities.removeAbility(ability));
             return;
         }
 
-        existing.refresh(ability);
+        existing.update(ability);
     }
 
-    public static <T extends ActiveAbility> T getAbilityInstance(Player player, Class<T> type) {
-        List<ActiveAbility> abilities = getPlayerAbilities(player);
-        if (abilities == null) return null;
-
-        for (ActiveAbility ability : abilities) {
-            if (!type.isInstance(ability)) continue;
-            return type.cast(ability);
-        }
-
-        return null;
+    public static void stopAbility(Player player, @Nullable AbilityInstance ability) {
+        if (ability == null) return;
+        stopAbility(player, ability.getAbility());
     }
 
-    public static @Nullable List<ActiveAbility> getPlayerAbilities(Player player) {
-        if (ACTIVE_ABILITIES.isEmpty()) return null;
-        if (!ACTIVE_ABILITIES.containsKey(player)) return null;
+    public static void stopAbility(Player player, @Nullable Holder<Ability> type) {
+        if (type == null) return;
 
-        return ACTIVE_ABILITIES.get(player);
+        AbilityData abilities = getActiveAbilities(player);
+
+        AbilityInstance existing = abilities.abilities().get(type);
+
+        if (existing == null) return;
+
+        existing.end();
+        player.setAttached(CSCAttachments.ABILITY_DATA, abilities.removeAbility(type));
     }
 
-    public static void tick(Player player) {
-        List<ActiveAbility> abilities = getPlayerAbilities(player);
-        if (abilities == null) return;
+    public static @Nullable AbilityInstance getAbility(Player player, @Nullable Holder<Ability> type) {
+        if (type == null) return null;
+        return getActiveAbilities(player).abilities().get(type);
+    }
 
-        Iterator<ActiveAbility> iterator = abilities.iterator();
+    public static void tick(ServerPlayer player) {
+        AbilityData data = getActiveAbilities(player);
+        Map<Holder<Ability>, AbilityInstance> abilities = data.abilities();
 
+        if (abilities.isEmpty()) return;
+
+        Map<Holder<Ability>, AbilityInstance> newAbilities = new HashMap<>(abilities);
+
+        var iterator = newAbilities.entrySet().iterator();
         while (iterator.hasNext()) {
-            ActiveAbility ability = iterator.next();
+            AbilityInstance ability = iterator.next().getValue();
 
-            if (!ability.isPlayerValid()) {
-                ability.end();
-                iterator.remove();
+            if (ability.tick()) {
+                newAbilities.put(ability.getAbility(), new AbilityInstance(ability));
                 continue;
             }
 
-            ability.tick();
-
-            boolean isEnded = ability.isEnded() || ability.shouldEnd();
-            if (isEnded) {
-                ability.end();
-                iterator.remove();
-            }
+            ability.end();
+            iterator.remove();
         }
 
-        if (abilities.isEmpty()) {
-            ACTIVE_ABILITIES.remove(player);
-        }
-    }
-
-    public static void stopAbility(Player player, Class<? extends ActiveAbility> type) {
-        List<ActiveAbility> abilities = getPlayerAbilities(player);
-        if (abilities == null) return;
-
-        for (ActiveAbility ability : abilities) {
-            if (!type.isInstance(ability)) continue;
-            ability.forceEnd();
-        }
+        player.setAttached(CSCAttachments.ABILITY_DATA, new AbilityData(newAbilities));
     }
 }

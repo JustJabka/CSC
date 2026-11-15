@@ -1,6 +1,7 @@
 package justjabka.csc.contents.item;
 
 import eu.pb4.trinkets.api.TrinketSlotAccess;
+import justjabka.csc.contents.ability.Ability;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.contents.character.Character;
 import justjabka.csc.contents.component.AbilityComponent;
@@ -13,8 +14,8 @@ import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.types.ActivationType;
 import justjabka.csc.types.ShopCategory;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -27,7 +28,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.Set;
 
 public class Shard extends BaseActiveTrinketItem {
-    private static final AbilityComponent DEFAULT_SHARD_DATA = new AbilityComponent(CSCAbilities.EMPTY_ABILITY_ID, 0, Set.of(ActivationType.PASSIVE));
+    private static final AbilityComponent DEFAULT_SHARD_DATA = new AbilityComponent(CSCAbilities.EMPTY, 0, Set.of(ActivationType.PASSIVE));
 
     public Shard(Properties properties) {
         super(properties.component(CSCComponents.ABILITY, DEFAULT_SHARD_DATA)
@@ -51,7 +52,7 @@ public class Shard extends BaseActiveTrinketItem {
 
         Character character = data.getCharacter();
 
-        Identifier ability = character.getShardAbility();
+        Holder<Ability> ability = character.getShardAbility();
         int cooldown = character.getShardCooldown();
         int duration = character.getShardDuration();
 
@@ -72,13 +73,13 @@ public class Shard extends BaseActiveTrinketItem {
             return;
         }
 
-        Identifier characterAbility = character.getShardAbility();
+        Holder<Ability> characterAbility = character.getShardAbility();
         if (characterAbility == null) {
             setDefaultShardData(itemStack);
             return;
         }
 
-        Identifier shardAbility = ability.id();
+        Holder<Ability> shardAbility = ability.ability();
 
         if (shardAbility.equals(characterAbility)) return;
         updateShardData(player, itemStack);

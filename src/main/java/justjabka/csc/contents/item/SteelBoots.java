@@ -29,7 +29,7 @@ public class SteelBoots extends BaseActiveTrinketItem {
         super(properties.useCooldown(45)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.STEEL_BOOTS.getId(), TimeHandler.secondsToTicks(10), Set.of(ActivationType.TRINKET))
+                        new AbilityComponent(CSCAbilities.STEEL_BOOTS, TimeHandler.secondsToTicks(10), Set.of(ActivationType.TRINKET))
                 )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3500, ShopCategory.TACTIC))
         );

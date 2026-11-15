@@ -1,15 +1,15 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.InstantAbility;
+import justjabka.csc.contents.ability.InstantAbility;
 import justjabka.csc.contents.attachement.PlayerData;
 import justjabka.csc.data.CSCEntityTypeTagProvider;
 import justjabka.csc.registries.CSCAttachments;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityCategory;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,12 +23,12 @@ import java.util.function.Consumer;
 public class MidasAbility extends InstantAbility {
     private static final int GOLD_REWARD = 250;
 
-    public MidasAbility(Identifier id, int duration, AbilityContext ctx) {
-        super(id, duration, ctx);
+    public MidasAbility(AbilityCategory category) {
+        super(category);
     }
 
     @Override
-    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+    public void displayDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("item.csc.midas.description.1").withStyle(ChatFormatting.GRAY));
 
         Component goldReward = Component.literal(String.valueOf(GOLD_REWARD)).withStyle(ChatFormatting.YELLOW);
@@ -38,7 +38,7 @@ public class MidasAbility extends InstantAbility {
     }
 
     @Override
-    public void onStart() {
+    public void onStart(AbilityContext ctx) {
         if (ctx.getTarget().isEmpty()) return;
 
         Player player = ctx.player;

@@ -15,7 +15,7 @@ public class Midas extends BaseActiveItem {
     public Midas(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON)
                 .useCooldown(100)
-                .component(CSCComponents.ABILITY, new AbilityComponent(CSCAbilities.MIDAS.getId(), 0, Set.of(ActivationType.INTERACTION)))
+                .component(CSCComponents.ABILITY, new AbilityComponent(CSCAbilities.MIDAS, 0, Set.of(ActivationType.INTERACTION)))
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(1250, ShopCategory.MAGIC))
         );
     }

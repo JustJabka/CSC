@@ -18,7 +18,7 @@ public class Thorns extends BaseActiveTrinketItem {
                 .useCooldown(45)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.THORNS.getId(), TimeHandler.secondsToTicks(5), Set.of(ActivationType.TRINKET))
+                        new AbilityComponent(CSCAbilities.THORNS, TimeHandler.secondsToTicks(5), Set.of(ActivationType.TRINKET))
                 )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(2800, ShopCategory.MAGIC))
         );

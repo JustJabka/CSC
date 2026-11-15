@@ -1,74 +1,58 @@
 package justjabka.csc.contents.ability;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
-import justjabka.csc.contents.ability.generic.ShardAffectedAbility;
+import justjabka.csc.CSC;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityCategory;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
-public class RedoubtAbility extends ActiveAbility implements ShardAffectedAbility {
+public class RedoubtAbility extends Ability implements ShardAffected {
 
     private static final double INCOMING_DAMAGE_MULTIPLIER_MODIFIER = -0.35;
     private static final double KNOCKBACK_RESISTANCE_MODIFIER = 1;
     private static final float ABSORPTION_AMOUNT_SHARD_BONUS = 0.1f;
 
-    private final Map<Holder<Attribute>, AttributeModifier> ACTIVE_MODIFIERS = Map.of(
-            CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, new AttributeModifier(
-                    getId(),
-                    INCOMING_DAMAGE_MULTIPLIER_MODIFIER,
-                    AttributeModifier.Operation.ADD_VALUE
-            ),
-            Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(
-                    getId(),
-                    KNOCKBACK_RESISTANCE_MODIFIER,
-                    AttributeModifier.Operation.ADD_VALUE
-            )
-    );
-
-    public RedoubtAbility(Identifier id, int duration, AbilityContext ctx) {
-        super(id, duration, ctx);
+    public RedoubtAbility(AbilityCategory category) {
+        super(category);
+        addAttributeModifier(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, INCOMING_DAMAGE_MULTIPLIER_MODIFIER, AttributeModifier.Operation.ADD_VALUE);
+        addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE_MODIFIER, AttributeModifier.Operation.ADD_VALUE);
     }
 
     @Override
-    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+    public void displayDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("item.csc.redoubt.description.1", DescriptionHandler.wrapDecimalAsPercent(INCOMING_DAMAGE_MULTIPLIER_MODIFIER)).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("item.csc.redoubt.description.2", DescriptionHandler.wrapDecimalAsPercent(KNOCKBACK_RESISTANCE_MODIFIER)).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
-    public void onStart() {
+    public void onStart(AbilityContext ctx) {
         Player player = ctx.player;
 
         if (hasShard(player)) giveShardBonus(player);
-        AttributeHandler.addTransientModifiers(player, ACTIVE_MODIFIERS);
 
         ctx.level.playSound(null, player.blockPosition(), CSCSounds.ABILITY_REDOUBT, SoundSource.PLAYERS, 1f, 1f);
     }
 
     @Override
-    public void onTick() {
+    public boolean onTick(AbilityContext ctx) {
         Player player = ctx.player;
 
-        if (!(ctx.level instanceof ServerLevel serverLevel)) return;
+        if (!(ctx.level instanceof ServerLevel serverLevel)) return true;
 
         serverLevel.sendParticles(
                 ParticleTypes.POOF,
@@ -79,14 +63,13 @@ public class RedoubtAbility extends ActiveAbility implements ShardAffectedAbilit
                 0.25, 0.5, 0.25,
                 0
         );
+
+        return true;
     }
 
     @Override
-    public void onEnd() {
-        Player player = ctx.player;
-
-        if (hasShard(player)) clearShardBonus(player);
-        AttributeHandler.removeModifiers(player, ACTIVE_MODIFIERS);
+    public void onEnd(AbilityContext ctx) {
+        AttributeHandler.removeModifier(ctx.player, Attributes.MAX_ABSORPTION, CSC.id(getDescriptionId()));
     }
 
     private void giveShardBonus(Player player) {
@@ -94,14 +77,11 @@ public class RedoubtAbility extends ActiveAbility implements ShardAffectedAbilit
         float bonusAmount = player.getMaxHealth() * ABSORPTION_AMOUNT_SHARD_BONUS;
 
         AttributeHandler.addTransientModifier(player, Attributes.MAX_ABSORPTION, new AttributeModifier(
-                getId(),
+                CSC.id(getDescriptionId()),
                 bonusAmount,
                 AttributeModifier.Operation.ADD_VALUE
         ));
-        player.setAbsorptionAmount(currentAmount + bonusAmount);
-    }
 
-    private void clearShardBonus(Player player) {
-        AttributeHandler.removeModifier(player, Attributes.MAX_ABSORPTION, getId());
+        player.setAbsorptionAmount(currentAmount + bonusAmount);
     }
 }

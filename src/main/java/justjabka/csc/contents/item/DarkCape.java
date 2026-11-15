@@ -30,7 +30,7 @@ public class DarkCape extends BaseActiveTrinketItem {
         super(properties.rarity(Rarity.EPIC).useCooldown(45)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.DARK_CAPE.getId(), TimeHandler.secondsToTicks(12), Set.of(ActivationType.TRINKET))
+                        new AbilityComponent(CSCAbilities.DARK_CAPE, TimeHandler.secondsToTicks(12), Set.of(ActivationType.TRINKET))
                 )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(3800, ShopCategory.DAMAGE))
         );

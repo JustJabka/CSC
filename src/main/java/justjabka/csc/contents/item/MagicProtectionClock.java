@@ -32,7 +32,7 @@ public class MagicProtectionClock extends BaseActiveTrinketItem {
                 .useCooldown(60)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.MAGIC_PROTECTION_CLOCK.getId(), TimeHandler.secondsToTicks(10), Set.of(ActivationType.TRINKET))
+                        new AbilityComponent(CSCAbilities.MAGIC_PROTECTION_CLOCK, TimeHandler.secondsToTicks(10), Set.of(ActivationType.TRINKET))
                 )
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(4200, ShopCategory.ANTI_MAGE))
         );

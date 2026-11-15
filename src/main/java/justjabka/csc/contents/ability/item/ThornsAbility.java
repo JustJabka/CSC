@@ -1,16 +1,15 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
-import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.contents.ability.Ability;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityCategory;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -20,39 +19,30 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.function.Consumer;
 
-public class ThornsAbility extends ActiveAbility {
-    private final AttributeModifier DAMAGE_REFLECTION_MODIFIER = new AttributeModifier(
-            getId(),
-            0.5,
-            AttributeModifier.Operation.ADD_VALUE
-    );
+public class ThornsAbility extends Ability {
+    private static final double DAMAGE_REFLECTION_AMOUNT = 0.5;
 
-    public ThornsAbility(Identifier id, int duration, AbilityContext ctx) {
-        super(id, duration, ctx);
+    public ThornsAbility(AbilityCategory category) {
+        super(category);
+        addAttributeModifier(CSCAttributes.DAMAGE_REFLECTION_PERCENT, DAMAGE_REFLECTION_AMOUNT, AttributeModifier.Operation.ADD_VALUE);
     }
 
     @Override
-    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
-        String reflectionPercent = DescriptionHandler.wrapDecimalAsPercent(DAMAGE_REFLECTION_MODIFIER.amount());
+    public void displayDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+        String reflectionPercent = DescriptionHandler.wrapDecimalAsPercent(DAMAGE_REFLECTION_AMOUNT);
         textConsumer.accept(Component.translatable("item.csc.thorns.description", reflectionPercent, DescriptionHandler.MAGICAL_DAMAGE).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
-    public void onStart() {
+    public void onStart(AbilityContext ctx) {
         Player player = ctx.player;
-
-        AttributeHandler.addTransientModifier(
-                player,
-                CSCAttributes.DAMAGE_REFLECTION_PERCENT,
-                DAMAGE_REFLECTION_MODIFIER
-        );
 
         player.level().playSound(null, player.blockPosition(), CSCSounds.ITEM_THORNS, SoundSource.PLAYERS, 1f, 1f);
     }
 
     @Override
-    public void onTick() {
-        if (!(ctx.player instanceof ServerPlayer serverPlayer)) return;
+    public boolean onTick(AbilityContext ctx) {
+        if (!(ctx.player instanceof ServerPlayer serverPlayer)) return true;
 
         serverPlayer.level().sendParticles (
                 ParticleTypes.WITCH,
@@ -63,14 +53,7 @@ public class ThornsAbility extends ActiveAbility {
                 0.1, 0.5, 0.1,
                 1
         );
-    }
 
-    @Override
-    public void onEnd() {
-        AttributeHandler.removeModifier(
-                ctx.player,
-                CSCAttributes.DAMAGE_REFLECTION_PERCENT,
-                DAMAGE_REFLECTION_MODIFIER
-        );
+        return true;
     }
 }

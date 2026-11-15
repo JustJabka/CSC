@@ -13,7 +13,7 @@ public class BloodyLarynx extends BaseActiveTrinketItem {
         super(properties.useCooldown(60)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.BLOODY_LARYNX.getId(), 15, Set.of(ActivationType.TRINKET, ActivationType.PASSIVE))
+                        new AbilityComponent(CSCAbilities.BLOODY_LARYNX, 15, Set.of(ActivationType.TRINKET, ActivationType.PASSIVE))
                 )
         );
     }

@@ -17,7 +17,7 @@ public class SpinningSwords extends BaseActiveTrinketItem {
         super(properties.useCooldown(32)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.SPINNING_SWORDS.getId(), TimeHandler.secondsToTicks(5), Set.of(ActivationType.TRINKET))
+                        new AbilityComponent(CSCAbilities.SPINNING_SWORDS, TimeHandler.secondsToTicks(5), Set.of(ActivationType.TRINKET))
                 )
         );
     }

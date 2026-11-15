@@ -1,11 +1,12 @@
 package justjabka.csc.contents.character;
 
+import justjabka.csc.contents.ability.Ability;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCItems;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
@@ -43,7 +44,7 @@ public class TitanCharacter extends Character {
     }
 
     @Override
-    public Identifier getShardAbility() {
+    public Holder<Ability> getShardAbility() {
         return null;
     }
 

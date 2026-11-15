@@ -1,16 +1,14 @@
 package justjabka.csc.contents.ability;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
-import justjabka.csc.contents.ability.generic.ShardAffectedAbility;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TeamHandler;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityCategory;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -32,21 +30,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class SpinningSwordsAbility extends ActiveAbility implements ShardAffectedAbility {
+public class SpinningSwordsAbility extends Ability implements ShardAffected {
     private final List<Display.ItemDisplay> swords = new ArrayList<>();
-
-    private static final ItemStack SWORD_ITEM = new ItemStack(Items.IRON_SWORD);
 
     private static final double RADIUS = 1.5;
     private static final double DAMAGE_PERCENT = 0.08;
     private static final double DAMAGE_PERCENT_SHARD_BONUS = 0.02;
 
-    public SpinningSwordsAbility(Identifier id, int duration, AbilityContext ctx) {
-        super(id, duration, ctx);
+    public SpinningSwordsAbility(AbilityCategory category) {
+        super(category);
     }
 
     @Override
-    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+    public void displayDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("item.csc.spinning_swords.description.1").withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable(
                 "item.csc.spinning_swords.description.2",
@@ -58,7 +54,7 @@ public class SpinningSwordsAbility extends ActiveAbility implements ShardAffecte
     }
 
     @Override
-    public void onStart() {
+    public void onStart(AbilityContext ctx) {
         Player player = ctx.player;
         Level level = ctx.level;
 
@@ -72,19 +68,21 @@ public class SpinningSwordsAbility extends ActiveAbility implements ShardAffecte
     }
 
     @Override
-    public void onTick() {
+    public boolean onTick(AbilityContext ctx) {
         Player player = ctx.player;
         Level level = ctx.level;
 
         updateSwordsDisplay(player, level);
 
-        if (player.tickCount % 20 != 0) return;
+        if (player.tickCount % 20 != 0) return true;
         damageEntities(player, level);
+
+        return true;
     }
 
     private void spawnSword(Level level, Player player) {
         Display.ItemDisplay sword = new Display.ItemDisplay(EntityTypes.ITEM_DISPLAY, level);
-        sword.setItemStack(SWORD_ITEM);
+        sword.setItemStack(getSwordItem());
         sword.setPosRotInterpolationDuration(1);
 
         sword.setPos(player.position());
@@ -94,6 +92,10 @@ public class SpinningSwordsAbility extends ActiveAbility implements ShardAffecte
         }
 
         swords.add(sword);
+    }
+
+    private static ItemStack getSwordItem() {
+        return new ItemStack(Items.IRON_SWORD);
     }
 
     private void updateSwordsDisplay(Player player, Level level) {
@@ -153,7 +155,7 @@ public class SpinningSwordsAbility extends ActiveAbility implements ShardAffecte
     }
 
     @Override
-    public void onEnd() {
+    public void onEnd(AbilityContext ctx) {
         swords.forEach(Entity::discard);
     }
 }

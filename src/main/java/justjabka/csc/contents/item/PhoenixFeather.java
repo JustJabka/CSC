@@ -15,7 +15,7 @@ public class PhoenixFeather extends BaseActiveTrinketItem {
     public PhoenixFeather(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON)
                 .useCooldown(35)
-                .component(CSCComponents.ABILITY, new AbilityComponent(CSCAbilities.PHOENIX_FEATHER.getId(), 0, Set.of(ActivationType.TRINKET)))
+                .component(CSCComponents.ABILITY, new AbilityComponent(CSCAbilities.PHOENIX_FEATHER, 0, Set.of(ActivationType.TRINKET)))
                 .component(CSCComponents.SHOP_ITEM, new ShopItemComponent(1500, ShopCategory.TACTIC))
         );
     }

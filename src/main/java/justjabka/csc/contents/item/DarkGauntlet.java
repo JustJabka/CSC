@@ -21,7 +21,7 @@ public class DarkGauntlet extends BaseActiveItem {
                 .useCooldown(1)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.DARK_GAUNTLET.getId(), 0)
+                        new AbilityComponent(CSCAbilities.DARK_GAUNTLET, 0)
                 )
                 .attributes(ItemAttributeModifiers.builder()
                     .add(

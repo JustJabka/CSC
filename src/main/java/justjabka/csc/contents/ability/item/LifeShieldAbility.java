@@ -1,17 +1,14 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
-import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.contents.ability.Ability;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TeamHandler;
 import justjabka.csc.registries.CSCAttributes;
+import justjabka.csc.types.AbilityCategory;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -20,11 +17,10 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class LifeShieldAbility extends ActiveAbility {
+public class LifeShieldAbility extends Ability {
     private final List<UUID> BUFFED_PLAYERS = new ArrayList<>();
 
     private static final double DAMAGE_MULTIPLIER_MODIFIER = -0.05;
@@ -32,64 +28,50 @@ public class LifeShieldAbility extends ActiveAbility {
     private static final float ABSORPTION_AMOUNT = 8;
     private static final double RADIUS = 10;
 
-    private final Map<Holder<Attribute>, AttributeModifier> ACTIVE_MODIFIERS = Map.of(
-            CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, new AttributeModifier(
-                    getId(),
-                    DAMAGE_MULTIPLIER_MODIFIER,
-                    AttributeModifier.Operation.ADD_VALUE
-            ),
-            Attributes.MAX_ABSORPTION, new AttributeModifier(
-                    getId(),
-                    ABSORPTION_AMOUNT,
-                    AttributeModifier.Operation.ADD_VALUE
-            )
-    );
-
-    public LifeShieldAbility(Identifier id, int duration, AbilityContext ctx) {
-        super(id, duration, ctx);
+    public LifeShieldAbility(AbilityCategory category) {
+        super(category);
+        addAttributeModifier(CSCAttributes.INCOMING_DAMAGE_MULTIPLIER, DAMAGE_MULTIPLIER_MODIFIER, AttributeModifier.Operation.ADD_VALUE);
+        addAttributeModifier(Attributes.MAX_ABSORPTION, ABSORPTION_AMOUNT, AttributeModifier.Operation.ADD_VALUE);
     }
 
     @Override
-    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+    public void displayDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("item.csc.life_shield.description.1", HEAL_AMOUNT).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("item.csc.life_shield.description.2", ABSORPTION_AMOUNT).withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("item.csc.life_shield.description.3", DescriptionHandler.wrapDecimalAsPercent(DAMAGE_MULTIPLIER_MODIFIER)).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
-    public void onStart() {
-        giveEffects();
+    public void onStart(AbilityContext ctx) {
+        giveEffects(ctx);
     }
 
     @Override
-    public void onTick() {}
-
-    @Override
-    public void onEnd() {
-        clearEffects();
+    public void onEnd(AbilityContext ctx) {
+        clearEffects(ctx);
     }
     
-    private void giveEffects() {
+    private void giveEffects(AbilityContext ctx) {
         List<Player> teammates = TeamHandler.getPlayerTeammatesInRadius(ctx.player, RADIUS);
 
         for (Player player : teammates) {
             BUFFED_PLAYERS.add(player.getUUID());
 
-            AttributeHandler.addTransientModifiers(player, ACTIVE_MODIFIERS);
+            addAttributeModifiers(player.getAttributes());
 
             player.heal(HEAL_AMOUNT);
             player.setAbsorptionAmount(player.getAbsorptionAmount() + ABSORPTION_AMOUNT);
         }
     }
     
-    private void clearEffects() {
+    private void clearEffects(AbilityContext ctx) {
         for (UUID pid : BUFFED_PLAYERS) {
             if (pid == null) continue;
 
             Player player = ctx.level.getPlayerByUUID(pid);
             if (player == null) continue;
 
-            AttributeHandler.removeModifiers(player, ACTIVE_MODIFIERS);
+            removeAttributeModifiers(player.getAttributes());
         }
 
         BUFFED_PLAYERS.clear();

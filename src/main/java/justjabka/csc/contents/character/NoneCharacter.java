@@ -1,6 +1,7 @@
 package justjabka.csc.contents.character;
 
-import net.minecraft.resources.Identifier;
+import justjabka.csc.contents.ability.Ability;
+import net.minecraft.core.Holder;
 
 public class NoneCharacter extends Character {
 
@@ -9,7 +10,7 @@ public class NoneCharacter extends Character {
     }
 
     @Override
-    public Identifier getShardAbility() {
+    public Holder<Ability> getShardAbility() {
         return null;
     }
 

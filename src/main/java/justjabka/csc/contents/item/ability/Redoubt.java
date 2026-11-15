@@ -14,7 +14,7 @@ public class Redoubt extends BaseActiveTrinketItem {
         super(properties.useCooldown(45)
                 .component(
                         CSCComponents.ABILITY,
-                        new AbilityComponent(CSCAbilities.REDOUBT.getId(), TimeHandler.secondsToTicks(7), Set.of(ActivationType.TRINKET))
+                        new AbilityComponent(CSCAbilities.REDOUBT, TimeHandler.secondsToTicks(7), Set.of(ActivationType.TRINKET))
                 )
         );
     }
