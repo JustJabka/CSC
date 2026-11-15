@@ -88,7 +88,7 @@ public class AbilityInstance {
         Ability type = this.ability.value();
 
         type.onStart(this.ctx);
-        type.addAttributeModifiers(ctx.player.getAttributes());
+        type.addAttributeModifiers(this.ctx.player.getAttributes());
     }
 
     public boolean tick() {

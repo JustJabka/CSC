@@ -1,5 +1,7 @@
 package justjabka.csc.contents.ability;
 
+import justjabka.csc.CSC;
+import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.registries.CSCAttributes;
 import justjabka.csc.registries.CSCSounds;
@@ -65,11 +67,20 @@ public class RedoubtAbility extends Ability implements ShardAffected {
         return true;
     }
 
+    @Override
+    public void onEnd(AbilityContext ctx) {
+        AttributeHandler.removeModifier(ctx.player, Attributes.MAX_ABSORPTION, CSC.id(getDescriptionId()));
+    }
+
     private void giveShardBonus(Player player) {
         float currentAmount = player.getAbsorptionAmount();
         float bonusAmount = player.getMaxHealth() * ABSORPTION_AMOUNT_SHARD_BONUS;
 
-        addAttributeModifier(Attributes.MAX_ABSORPTION, bonusAmount, AttributeModifier.Operation.ADD_VALUE);
+        AttributeHandler.addTransientModifier(player, Attributes.MAX_ABSORPTION, new AttributeModifier(
+                CSC.id(getDescriptionId()),
+                bonusAmount,
+                AttributeModifier.Operation.ADD_VALUE
+        ));
 
         player.setAbsorptionAmount(currentAmount + bonusAmount);
     }
