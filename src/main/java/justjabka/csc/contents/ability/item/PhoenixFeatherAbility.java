@@ -1,13 +1,13 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.InstantAbility;
+import justjabka.csc.contents.ability.InstantAbility;
 import justjabka.csc.registries.CSCSounds;
+import justjabka.csc.types.AbilityCategory;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -21,17 +21,17 @@ public class PhoenixFeatherAbility extends InstantAbility {
     private static final double HORIZONTAL_STRENGTH = 1.6;
     private static final double VERTICAL_STRENGTH = 0.6;
 
-    public PhoenixFeatherAbility(Identifier id, int duration, AbilityContext ctx) {
-        super(id, duration, ctx);
+    public PhoenixFeatherAbility(AbilityCategory category) {
+        super(category);
     }
 
     @Override
-    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+    public void displayDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("item.csc.phoenix_feather.description").withStyle(ChatFormatting.GRAY));
     }
 
     @Override
-    public void onStart() {
+    public void onStart(AbilityContext ctx) {
         Player player = ctx.player;
         if (!(player instanceof ServerPlayer serverPlayer)) return;
 

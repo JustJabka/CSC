@@ -2,22 +2,23 @@ package justjabka.csc.contents.component;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.Ability;
+import justjabka.csc.contents.ability.AbilityInstance;
 import justjabka.csc.handlers.AbilityHandler;
 import justjabka.csc.handlers.TimeHandler;
-import justjabka.csc.registries.CSCAbilities;
 import justjabka.csc.registries.CSCComponents;
 import justjabka.csc.registries.CSCSounds;
 import justjabka.csc.types.AbilityContext;
-import justjabka.csc.types.AbilityType;
 import justjabka.csc.types.ActivationType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
@@ -37,23 +38,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public record AbilityComponent(Identifier id, int duration, Set<ActivationType> activationTypes) implements TooltipProvider {
+public record AbilityComponent(Holder<Ability> ability, int duration, Set<ActivationType> activationTypes) implements TooltipProvider {
     public static final Codec<Set<ActivationType>> SET_CODEC = ActivationType.CODEC.listOf().xmap(
         Set::copyOf,
         List::copyOf
     );
 
-    public AbilityComponent(Identifier id, int duration) {
-        this(id, duration, Set.of(ActivationType.GENERIC));
+    public AbilityComponent(Holder<Ability> ability, int duration) {
+        this(ability, duration, Set.of(ActivationType.GENERIC));
     }
 
-    public static final Codec<AbilityComponent> CODEC = RecordCodecBuilder.create(builder -> {
-        return builder.group(
-                Identifier.CODEC.fieldOf("id").forGetter(AbilityComponent::id),
-                Codec.INT.fieldOf("duration").forGetter(AbilityComponent::duration),
-                SET_CODEC.optionalFieldOf("activation_types", Set.of(ActivationType.GENERIC)).forGetter(AbilityComponent::activationTypes)
-        ).apply(builder, AbilityComponent::new);
-    });
+    public static final Codec<AbilityComponent> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+            Ability.CODEC.fieldOf("ability").forGetter(AbilityComponent::ability),
+            Codec.INT.fieldOf("duration").forGetter(AbilityComponent::duration),
+            SET_CODEC.optionalFieldOf("activation_types", Set.of(ActivationType.GENERIC)).forGetter(AbilityComponent::activationTypes)
+    ).apply(builder, AbilityComponent::new));
 
     @Override
     @Environment(EnvType.CLIENT)
@@ -79,10 +78,7 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
         LocalPlayer player = mc.player;
         if (player == null) return;
 
-        ActiveAbility abilityInstance = createInstance(new AbilityContext(player, ItemStack.EMPTY));
-        if (abilityInstance == null) return;
-
-        abilityInstance.getDescription(context, textConsumer, type, components);
+        ability.value().displayDescription(context, textConsumer, type, components);
     }
 
     public InteractionResult onUse(Level level, Player player, InteractionHand hand) {
@@ -111,15 +107,12 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
         Level level = ctx.level;
         ItemStack item = ctx.getItem();
 
-        ActiveAbility abilityInstance = createInstance(ctx);
-
         if (level.isClientSide()) return InteractionResult.PASS;
-        if (abilityInstance == null) return InteractionResult.PASS;
         if (isOnCooldown(player, item)) {
             level.playSound(null, player.blockPosition(), CSCSounds.ITEM_IN_COOLDOWN, SoundSource.PLAYERS, 1f, 1f);
             return InteractionResult.FAIL;
         }
-        if (!abilityInstance.canActivate(ctx)) return InteractionResult.FAIL;
+        if (!ability.value().canActivate(ctx)) return InteractionResult.FAIL;
 
         applyCooldown(player, item);
         activate(ctx);
@@ -132,19 +125,9 @@ public record AbilityComponent(Identifier id, int duration, Set<ActivationType> 
     }
 
     public void activate(AbilityContext ctx) {
-        ActiveAbility abilityInstance = createInstance(ctx);
+        AbilityInstance instance = new AbilityInstance(this.ability, this.duration, this.duration, AbilityInstance.createIcon(ctx.getItem()));
 
-        if (abilityInstance == null) return;
-
-        AbilityHandler.addAbility(ctx.player, abilityInstance);
-    }
-
-    private ActiveAbility createInstance(AbilityContext ctx) {
-        AbilityType<?> abilityType = CSCAbilities.getByKey(this.id);
-
-        if (abilityType == null) return null;
-
-        return abilityType.createInstance(this.duration, ctx);
+        AbilityHandler.startAbility(ctx.player, instance, ctx);
     }
 
     public void forceActivate(AbilityContext ctx) {

@@ -1,63 +1,40 @@
 package justjabka.csc.contents.ability.item;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
-import justjabka.csc.handlers.AttributeHandler;
+import justjabka.csc.contents.ability.Ability;
 import justjabka.csc.handlers.DescriptionHandler;
+import justjabka.csc.types.AbilityCategory;
 import justjabka.csc.types.AbilityContext;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
-public class SteelBootsAbility extends ActiveAbility {
+public class SteelBootsAbility extends Ability {
     private static final double GRAVITY_MODIFIER = Integer.MAX_VALUE;
     private static final double KNOCKBACK_RESISTANCE_MODIFIER = Integer.MAX_VALUE;
     private static final double JUMP_STRENGTH_MODIFIER = Integer.MIN_VALUE;
     private static final double MOVEMENT_SPEED_MODIFIER = 0.25;
 
-    private final Map<Holder<Attribute>, AttributeModifier> ACTIVE_MODIFIERS = Map.of(
-            Attributes.GRAVITY, new AttributeModifier(
-                    getId(),
-                    GRAVITY_MODIFIER,
-                    AttributeModifier.Operation.ADD_VALUE
-            ),
-            Attributes.JUMP_STRENGTH, new AttributeModifier(
-                    getId(),
-                    JUMP_STRENGTH_MODIFIER,
-                    AttributeModifier.Operation.ADD_VALUE
-            ),
-            Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(
-                    getId(),
-                    KNOCKBACK_RESISTANCE_MODIFIER,
-                    AttributeModifier.Operation.ADD_VALUE
-            ),
-            Attributes.MOVEMENT_SPEED, new AttributeModifier(
-                    getId(),
-                    MOVEMENT_SPEED_MODIFIER,
-                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-            )
-    );
-
-    public SteelBootsAbility(Identifier id, int duration, AbilityContext ctx) {
-        super(id, duration, ctx);
+    public SteelBootsAbility(AbilityCategory category) {
+        super(category);
+        addAttributeModifier(Attributes.GRAVITY, GRAVITY_MODIFIER, AttributeModifier.Operation.ADD_VALUE);
+        addAttributeModifier(Attributes.JUMP_STRENGTH, JUMP_STRENGTH_MODIFIER, AttributeModifier.Operation.ADD_VALUE);
+        addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE_MODIFIER, AttributeModifier.Operation.ADD_VALUE);
+        addAttributeModifier(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED_MODIFIER, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 
     @Override
-    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+    public void displayDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         textConsumer.accept(Component.translatable("item.csc.steel_boots.description.1").withStyle(ChatFormatting.GRAY));
         textConsumer.accept(Component.translatable("item.csc.steel_boots.description.2",
                 Component.translatable("attribute.name.movement_speed"),
@@ -67,24 +44,23 @@ public class SteelBootsAbility extends ActiveAbility {
     }
 
     @Override
-    public void onStart() {
+    public void onStart(AbilityContext ctx) {
         Player player = ctx.player;
 
-        AttributeHandler.addTransientModifiers(player, ACTIVE_MODIFIERS);
         player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 1f, 1.25f);
     }
 
     @Override
-    public void onTick() {
+    public boolean onTick(AbilityContext ctx) {
         Player player = ctx.player;
 
-        if (player.tickCount % 5 != 0) return;
-        if (!(player instanceof ServerPlayer serverPlayer)) return;
+        if (player.tickCount % 5 != 0) return true;
+        if (!(player instanceof ServerPlayer serverPlayer)) return true;
 
         double movementLatency = 0.01;
         boolean isMoving = serverPlayer.getKnownMovement().lengthSqr() > movementLatency;
 
-        if (!isMoving) return;
+        if (!isMoving) return true;
 
         serverPlayer.level().sendParticles (
                 ParticleTypes.CAMPFIRE_COSY_SMOKE,
@@ -95,12 +71,7 @@ public class SteelBootsAbility extends ActiveAbility {
                 0.15, 0.1, 0.15,
                 0.01
         );
-    }
 
-    @Override
-    public void onEnd() {
-        Player player = ctx.player;
-
-        AttributeHandler.removeModifiers(player, ACTIVE_MODIFIERS);
+        return true;
     }
 }

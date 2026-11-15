@@ -1,64 +1,44 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
+import justjabka.csc.contents.ability.Ability;
 import justjabka.csc.contents.ability.BloodyLarynxAbility;
 import justjabka.csc.contents.ability.RedoubtAbility;
 import justjabka.csc.contents.ability.SpinningSwordsAbility;
-import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.contents.ability.item.*;
 import justjabka.csc.contents.ability.shard.BerserkShardAbility;
-import justjabka.csc.types.AbilityType;
-import net.minecraft.resources.Identifier;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import justjabka.csc.types.AbilityCategory;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 
 public class CSCAbilities {
-    private static final Map<Identifier, AbilityType<?>> ABILITY_TYPES = new HashMap<>();
-
-    public static final Identifier EMPTY_ABILITY_ID = CSC.id("empty");
+    public static final Holder<Ability> EMPTY = register("empty", new Ability(AbilityCategory.NEUTRAL));
 
     // Generic Abilities
-    public static final AbilityType<RedoubtAbility> REDOUBT = register("redoubt", RedoubtAbility::new);
-    public static final AbilityType<SpinningSwordsAbility> SPINNING_SWORDS = register("spinning_swords", SpinningSwordsAbility::new);
-    public static final AbilityType<BloodyLarynxAbility> BLOODY_LARYNX = register("bloody_larynx", BloodyLarynxAbility::new);
+    public static final Holder<Ability> REDOUBT = register("redoubt", new RedoubtAbility(AbilityCategory.BENEFICIAL));
+    public static final Holder<Ability> SPINNING_SWORDS = register("spinning_swords", new SpinningSwordsAbility(AbilityCategory.BENEFICIAL));
+    public static final Holder<Ability> BLOODY_LARYNX = register("bloody_larynx", new BloodyLarynxAbility(AbilityCategory.BENEFICIAL));
 
     // Item Abilities
-    public static final AbilityType<DarkCapeAbility> DARK_CAPE = register("dark_cape", DarkCapeAbility::new);
-    public static final AbilityType<DarkGauntletAbility> DARK_GAUNTLET = register("dark_gauntlet", DarkGauntletAbility::new);
-    public static final AbilityType<HolyBlanketAbility> HOLY_BLANKET = register("holy_blanket", HolyBlanketAbility::new);
-    public static final AbilityType<LifeShieldAbility> LIFE_SHIELD = register("life_shield", LifeShieldAbility::new);
-    public static final AbilityType<MagicProtectionClockAbility> MAGIC_PROTECTION_CLOCK = register("magic_protection_clock", MagicProtectionClockAbility::new);
-    public static final AbilityType<SteelBootsAbility> STEEL_BOOTS = register("steel_boots", SteelBootsAbility::new);
-    public static final AbilityType<ThornsAbility> THORNS = register("thorns", ThornsAbility::new);
+    public static final Holder<Ability> DARK_CAPE = register("dark_cape", new DarkCapeAbility(AbilityCategory.NEUTRAL));
+    public static final Holder<Ability> DARK_GAUNTLET = register("dark_gauntlet", new DarkGauntletAbility(AbilityCategory.NEUTRAL));
+    public static final Holder<Ability> HOLY_BLANKET = register("holy_blanket", new HolyBlanketAbility(AbilityCategory.BENEFICIAL));
+    public static final Holder<Ability> LIFE_SHIELD = register("life_shield", new LifeShieldAbility(AbilityCategory.BENEFICIAL));
+    public static final Holder<Ability> MAGIC_PROTECTION_CLOCK = register("magic_protection_clock", new MagicProtectionClockAbility(AbilityCategory.BENEFICIAL));
+    public static final Holder<Ability> STEEL_BOOTS = register("steel_boots", new SteelBootsAbility(AbilityCategory.BENEFICIAL));
+    public static final Holder<Ability> THORNS = register("thorns", new ThornsAbility(AbilityCategory.BENEFICIAL));
 
-    public static final AbilityType<MidasAbility> MIDAS = register("midas", MidasAbility::new);
-    public static final AbilityType<PhoenixFeatherAbility> PHOENIX_FEATHER = register("phoenix_feather", PhoenixFeatherAbility::new);
+    public static final Holder<Ability> MIDAS = register("midas", new MidasAbility(AbilityCategory.BENEFICIAL));
+    public static final Holder<Ability> PHOENIX_FEATHER = register("phoenix_feather", new PhoenixFeatherAbility(AbilityCategory.BENEFICIAL));
 
     // Shard Abilities
-    public static final AbilityType<BerserkShardAbility> BERSERK_SHARD = register("berserk_shard", BerserkShardAbility::new);
+    public static final Holder<Ability> BERSERK_SHARD = register("berserk_shard", new BerserkShardAbility(AbilityCategory.BENEFICIAL));
 
     public static void initialize() {
         CSC.LOGGER.info("Initializing Abilities");
     }
 
-    public static <T extends ActiveAbility> AbilityType<T> register(
-            String name,
-            AbilityType.AbilityFactory<T> factory
-    ) {
-        Identifier key = CSC.id(name);
-        AbilityType<T> type = new AbilityType<>(key, factory);
-
-        ABILITY_TYPES.put(key, type);
-        return type;
-    }
-
-    public static AbilityType<?> getByKey(Identifier key) {
-        return ABILITY_TYPES.get(key);
-    }
-
-    public static Map<Identifier, AbilityType<?>> getAbilityTypes() {
-        return Collections.unmodifiableMap(ABILITY_TYPES);
+    private static Holder<Ability> register(final String name, final Ability ability) {
+        return Registry.registerForHolder(CSCBuiltInRegistries.ABILITY, CSC.id(name), ability);
     }
 }

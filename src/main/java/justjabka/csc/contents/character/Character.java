@@ -6,6 +6,7 @@ import eu.pb4.trinkets.api.TrinketInventory;
 import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.TrinketsApi;
 import justjabka.csc.CSC;
+import justjabka.csc.contents.ability.Ability;
 import justjabka.csc.handlers.AttributeHandler;
 import justjabka.csc.registries.CSCBuiltInRegistries;
 import justjabka.csc.registries.CSCRegistries;
@@ -73,7 +74,7 @@ public abstract class Character {
 
     // Shard
     // TODO: move shard to a separate passive ability
-    public abstract Identifier getShardAbility();
+    public abstract Holder<Ability> getShardAbility();
     public abstract int getShardCooldown();
     public abstract int getShardDuration();
     public void getShardDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {

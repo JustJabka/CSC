@@ -1,7 +1,8 @@
 package justjabka.csc.registries;
 
 import justjabka.csc.CSC;
-import justjabka.csc.contents.attachement.AbilitiesData;
+import justjabka.csc.contents.ability.Ability;
+import justjabka.csc.contents.attachement.AbilityData;
 import justjabka.csc.contents.attachement.PlayerData;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
@@ -17,11 +18,11 @@ public class CSCAttachments {
                     .copyOnDeath()
     );
 
-    public static final AttachmentType<AbilitiesData> ABILITIES_DATA = AttachmentRegistry.create(
-            CSC.id("abilities_data"),
+    public static final AttachmentType<AbilityData> ABILITY_DATA = AttachmentRegistry.create(
+            CSC.id("ability_data"),
             builder -> builder
-                    .initializer(() -> AbilitiesData.DEFAULT)
-                    .syncWith(AbilitiesData.STREAM_CODEC, AttachmentSyncPredicate.targetOnly())
+                    .initializer(() -> AbilityData.DEFAULT)
+                    .syncWith(AbilityData.STREAM_CODEC, AttachmentSyncPredicate.targetOnly())
     );
 
     public static void initialize() {

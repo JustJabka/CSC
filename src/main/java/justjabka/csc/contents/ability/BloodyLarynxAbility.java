@@ -1,11 +1,9 @@
 package justjabka.csc.contents.ability;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
 import justjabka.csc.handlers.DescriptionHandler;
 import justjabka.csc.handlers.TeamHandler;
+import justjabka.csc.types.AbilityCategory;
 import justjabka.csc.types.AbilityContext;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -13,7 +11,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -34,7 +31,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class BloodyLarynxAbility extends ActiveAbility {
+public class BloodyLarynxAbility extends Ability {
     private static final double DAMAGE_MULTIPLIER = 2;
     private static final double MIN_RADIUS = 3;
     private static final double MAX_RADIUS = 15;
@@ -47,13 +44,12 @@ public class BloodyLarynxAbility extends ActiveAbility {
     private int currentRadius = 0;
     private final Set<UUID> damagedEntities = new HashSet<>();
 
-    public BloodyLarynxAbility(Identifier id, int duration, AbilityContext ctx) {
-        super(id, duration, ctx);
+    public BloodyLarynxAbility(AbilityCategory category) {
+        super(category);
     }
 
     @Override
-    @Environment(EnvType.CLIENT)
-    public void getDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
+    public void displayDescription(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag type, DataComponentGetter components) {
         double attackDamage = 1;
         int lostHealth = 0;
 
@@ -90,7 +86,7 @@ public class BloodyLarynxAbility extends ActiveAbility {
     }
 
     @Override
-    public void onStart() {
+    public void onStart(AbilityContext ctx) {
         Player player = ctx.player;
         Level level = ctx.level;
 
@@ -110,19 +106,20 @@ public class BloodyLarynxAbility extends ActiveAbility {
     }
 
     @Override
-    public void onTick() {
+    public boolean onTick(AbilityContext ctx) {
         Player player = ctx.player;
-        if (!(ctx.level instanceof ServerLevel serverLevel)) return;
+        if (!(ctx.level instanceof ServerLevel serverLevel)) return true;
 
         if (currentRadius > maxCalculatedRadius) {
-            forceEnd();
-            return;
+            return false;
         }
 
         displayWaveParticles(serverLevel, player);
         damageEntities(serverLevel, player);
 
         currentRadius++;
+
+        return true;
     }
 
     private void displayWaveParticles(ServerLevel serverLevel, Player player) {
@@ -162,9 +159,6 @@ public class BloodyLarynxAbility extends ActiveAbility {
             }
         }
     }
-
-    @Override
-    public void onEnd() {}
 
     private static double getLostHealth(Player player) {
         double currentHealth = player.getHealth();

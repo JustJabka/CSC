@@ -1,6 +1,7 @@
 package justjabka.csc.contents.character;
 
-import justjabka.csc.contents.ability.generic.ActiveAbility;
+import justjabka.csc.contents.ability.Ability;
+import justjabka.csc.contents.ability.AbilityInstance;
 import justjabka.csc.contents.component.AbilityComponent;
 import justjabka.csc.events.OnPlayerHealthChangeCallback;
 import justjabka.csc.handlers.AbilityHandler;
@@ -17,7 +18,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -55,8 +55,8 @@ public class BerserkCharacter extends Character implements OnPlayerHealthChangeC
     }
 
     @Override
-    public Identifier getShardAbility() {
-        return CSCAbilities.BERSERK_SHARD.getId();
+    public Holder<Ability> getShardAbility() {
+        return CSCAbilities.BERSERK_SHARD;
     }
 
     @Override
@@ -151,8 +151,8 @@ public class BerserkCharacter extends Character implements OnPlayerHealthChangeC
 
     private void triggerInvulnerability(Player player, ItemStack shardStack) {
         AbilityContext ctx = new AbilityContext(player, shardStack);
-        ActiveAbility ability = CSCAbilities.BERSERK_SHARD.createInstance(getShardDuration(), ctx);
+        AbilityInstance instance = new AbilityInstance(CSCAbilities.BERSERK_SHARD, getShardDuration(), getShardDuration(), AbilityInstance.createIcon(ctx.getItem()));
 
-        AbilityHandler.addAbility(player, ability);
+        AbilityHandler.startAbility(player, instance, ctx);
     }
 }
